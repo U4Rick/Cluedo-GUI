@@ -1,12 +1,10 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
+package Tiles;/*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.30.0.5099.60569f335 modeling language!*/
 
 
-import Tiles.Tile;
-
-// line 14 "model.ump"
-// line 107 "model.ump"
-public class Board {
+// line 50 "model.ump"
+// line 129 "model.ump"
+public class AccessibleTile implements Tile {
 
     //------------------------
     // MEMBER VARIABLES
@@ -16,7 +14,7 @@ public class Board {
     // CONSTRUCTOR
     //------------------------
 
-    public Board() {
+    public AccessibleTile() {
     }
 
     //------------------------
@@ -26,19 +24,9 @@ public class Board {
     public void delete() {
     }
 
-
-    /**
-     * Tiles.Tile[][] tiles;
-     * Creates list.
-     */
-    // line 19 "model.ump"
+    @Override
     public void draw() {
-
-    }
-
-    // line 20 "model.ump"
-    public Tile getTileAt(int x, int y) {
-        return null;
+        return;
     }
 
 }
