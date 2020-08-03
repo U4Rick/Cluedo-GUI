@@ -1,4 +1,4 @@
-import Tiles.Tile;
+import Tiles.*;
 
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
@@ -21,19 +21,23 @@ public class BoardParser {
                 String token = scan.next();
                 if (token.matches("~")) {
                     //inaccessible tile
+                    board[row][col] = new InaccessibleTile();
                     scan.next();
                 }
                 else if (token.matches("_")) {
                     //hallway tile
+                    board[row][col] = new HallwayTile();
                     scan.next();
                 }
                 else if (token.matches("[A-Z]")) {
-                    //room entry tile
+                    //room entry tile or player start tile
                     token = token.concat(scan.next());
-
+                    Tile temp = parseInitials(token);
+                    if (temp instanceof AccessibleTile) { board[row][col] = temp; }
                 }
                 else if (token.matches("\\|")) {
                     //room tile
+                    board[row][col] = new RoomTile();
                     continue;
                 }
                 scan.next();
@@ -42,8 +46,8 @@ public class BoardParser {
     }
 
 
-    private void parseInitials(String token) {
-
+    private Tile parseInitials(String token) {
+        return null;
     }
 
     private void parseRoom(String token) {
