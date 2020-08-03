@@ -25,10 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="101010c2-8f19-4a46-bab4-1e49cc4687a4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cards/CharacterCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cards/CharacterCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cards/RoomCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cards/RoomCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cards/WeaponCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cards/WeaponCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +82,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596415946021</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added enums for cards, and moved gitignore">
+      <created>1596417694405</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1596417694405</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -102,20 +106,25 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Changed directories." />
     <MESSAGE value="added return statement" />
-    <option name="LAST_COMMIT_MESSAGE" value="added return statement" />
+    <MESSAGE value="added enums for cards, and moved gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="added enums for cards, and moved gitignore" />
   </component>
   <component name="WindowStateProjectService">
     <state x="409" y="180" key="#Notifications" timestamp="1596417322816">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="409" y="180" key="#Notifications/0.0.1280.720@0.0.1280.720" timestamp="1596417322816" />
-    <state x="236" y="0" key="CommitChangelistDialog2" timestamp="1596415944717">
+    <state x="236" y="0" key="CommitChangelistDialog2" timestamp="1596417692468">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="236" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1596415944717" />
+    <state x="236" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1596417692468" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1596417109301">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="121" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1596417109301" />
+    <state x="233" y="93" key="Vcs.Push.Dialog.v2" timestamp="1596417792828">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="233" y="93" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1596417792828" />
   </component>
 </project>
