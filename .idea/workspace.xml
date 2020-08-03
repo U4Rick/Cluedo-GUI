@@ -24,10 +24,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="101010c2-8f19-4a46-bab4-1e49cc4687a4" name="Default Changelist" comment="added .idea folder to gitignore">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="101010c2-8f19-4a46-bab4-1e49cc4687a4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/BoardParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BoardParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tiles/HallwayTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiles/HallwayTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiles/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tiles/AccessibleTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiles/AccessibleTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tiles/InaccessibleTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiles/InaccessibleTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tiles/RoomTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiles/RoomTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tiles/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiles/Tile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596423113321</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Started to build the parser, added initial phases of sorted the cell contents. &#10;Added some base functionality to the hallway tiles which will be needed by the parser.">
+      <created>1596426705418</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1596426705418</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -148,25 +158,26 @@
     <MESSAGE value="workspace.xml changed itself" />
     <MESSAGE value="added .idea folder to gitignore" />
     <MESSAGE value="test commit for parser branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="test commit for parser branch" />
+    <MESSAGE value="Started to build the parser, added initial phases of sorted the cell contents. &#10;Added some base functionality to the hallway tiles which will be needed by the parser." />
+    <option name="LAST_COMMIT_MESSAGE" value="Started to build the parser, added initial phases of sorted the cell contents. &#10;Added some base functionality to the hallway tiles which will be needed by the parser." />
   </component>
   <component name="WindowStateProjectService">
     <state x="409" y="180" key="#Notifications" timestamp="1596419812000">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="409" y="180" key="#Notifications/0.0.1280.720@0.0.1280.720" timestamp="1596419812000" />
-    <state x="236" y="0" key="CommitChangelistDialog2" timestamp="1596419380534">
+    <state x="236" y="0" key="CommitChangelistDialog2" timestamp="1596426703451">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="236" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1596419380534" />
+    <state x="236" y="0" key="CommitChangelistDialog2/0.0.1280.720@0.0.1280.720" timestamp="1596426703451" />
     <state x="121" y="0" key="SettingsEditor" timestamp="1596419834486">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="121" y="0" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1596419834486" />
-    <state x="233" y="93" key="Vcs.Push.Dialog.v2" timestamp="1596417792828">
+    <state x="233" y="93" key="Vcs.Push.Dialog.v2" timestamp="1596426720162">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="233" y="93" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1596417792828" />
+    <state x="233" y="93" key="Vcs.Push.Dialog.v2/0.0.1280.720@0.0.1280.720" timestamp="1596426720162" />
     <state x="578" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596422353765">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

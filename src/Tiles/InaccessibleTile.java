@@ -1,6 +1,6 @@
 package Tiles;
 
-public class InaccessibleTile implements Tile {
+public class InaccessibleTile extends Tile {
 
     public InaccessibleTile() {
     }
