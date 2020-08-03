@@ -1,25 +1,9 @@
-package Cards;/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5099.60569f335 modeling language!*/
+package Cards;
 
-
-// line 79 "model.ump"
-// line 154 "model.ump"
 public class CharacterCard implements Card {
-
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
-
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
 
     public CharacterCard() {
     }
-
-    //------------------------
-    // INTERFACE
-    //------------------------
 
     public void delete() {
     }

@@ -1,55 +1,37 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5099.60569f335 modeling language!*/
-
-
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
 
-// line 84 "model.ump"
-// line 119 "model.ump"
 public class Hypothesis {
-
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
 
     //Hypothesis Attributes
     private WeaponCard weapon;
     private RoomCard room;
     private CharacterCard character;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public Hypothesis(WeaponCard aWeapon, RoomCard aRoom, CharacterCard aCharacter) {
-        weapon = aWeapon;
-        room = aRoom;
-        character = aCharacter;
+    public Hypothesis(WeaponCard weapon, RoomCard room, CharacterCard character) {
+        this.weapon = weapon;
+        this.room = room;
+        this.character = character;
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public boolean setWeapon(WeaponCard aWeapon) {
+    public boolean setWeapon(WeaponCard weapon) {
         boolean wasSet = false;
-        weapon = aWeapon;
+        this.weapon = weapon;
         wasSet = true;
         return wasSet;
     }
 
-    public boolean setRoom(RoomCard aRoom) {
+    public boolean setRoom(RoomCard room) {
         boolean wasSet = false;
-        room = aRoom;
+        this.room = room;
         wasSet = true;
         return wasSet;
     }
 
-    public boolean setCharacter(CharacterCard aCharacter) {
+    public boolean setCharacter(CharacterCard character) {
         boolean wasSet = false;
-        character = aCharacter;
+        this.character = character;
         wasSet = true;
         return wasSet;
     }
@@ -68,7 +50,6 @@ public class Hypothesis {
 
     public void delete() {
     }
-
 
     public String toString() {
         return super.toString() + "[" + "]" + System.getProperties().getProperty("line.separator") +

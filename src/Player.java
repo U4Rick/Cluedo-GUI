@@ -1,20 +1,10 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5099.60569f335 modeling language!*/
-
-
 import Cards.Card;
 import Cards.CharacterCard;
 import Tiles.Tile;
 
 import java.util.*;
 
-// line 23 "model.ump"
-// line 112 "model.ump"
 public class Player {
-
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
 
     //Player Attributes
     private CharacterCard character;
@@ -24,38 +14,30 @@ public class Player {
     //Player Associations
     private List<Card> hand;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public Player(CharacterCard aCharacter, Tile aPosition, boolean aMadeFalseAccusation) {
-        character = aCharacter;
-        position = aPosition;
-        madeFalseAccusation = aMadeFalseAccusation;
+    public Player(CharacterCard character, Tile position, boolean madeFalseAccusation) {
+        this.character = character;
+        this.position = position;
+        this.madeFalseAccusation = madeFalseAccusation;
         hand = new ArrayList<Card>();
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public boolean setCharacter(CharacterCard aCharacter) {
+    public boolean setCharacter(CharacterCard character) {
         boolean wasSet = false;
-        character = aCharacter;
+        this.character = character;
         wasSet = true;
         return wasSet;
     }
 
-    public boolean setPosition(Tile aPosition) {
+    public boolean setPosition(Tile position) {
         boolean wasSet = false;
-        position = aPosition;
+        this.position = position;
         wasSet = true;
         return wasSet;
     }
 
-    public boolean setMadeFalseAccusation(boolean aMadeFalseAccusation) {
+    public boolean setMadeFalseAccusation(boolean madeFalseAccusation) {
         boolean wasSet = false;
-        madeFalseAccusation = aMadeFalseAccusation;
+        this.madeFalseAccusation = madeFalseAccusation;
         wasSet = true;
         return wasSet;
     }
@@ -72,10 +54,15 @@ public class Player {
         return madeFalseAccusation;
     }
 
-    /* Code from template association_GetMany */
+    /**
+     * TODO: This isn't right, needs to return some kind of collection. should be get card?
+     *
+     * @param index
+     * @return
+     */
     public Card getHand(int index) {
-        Card aHand = hand.get(index);
-        return aHand;
+        Card hand = this.hand.get(index);
+        return hand;
     }
 
     /**
@@ -83,31 +70,32 @@ public class Player {
      * Just creates list instead of arraylist.
      */
     public List<Card> getHand() {
-        List<Card> newHand = Collections.unmodifiableList(hand);
-        return newHand;
+        List<Card> hand = Collections.unmodifiableList(this.hand);
+        return hand;
     }
 
+    //TODO: size of hand?
     public int numberOfHand() {
         int number = hand.size();
         return number;
     }
 
     public boolean hasHand() {
-        boolean has = hand.size() > 0;
-        return has;
+        boolean hasHand = hand.size() > 0;
+        return hasHand;
     }
 
+    //TODO ?????
     public int indexOfHand(Card aHand) {
         int index = hand.indexOf(aHand);
         return index;
     }
 
-    /* Code from template association_MinimumNumberOfMethod */
     public static int minimumNumberOfHand() {
         return 0;
     }
 
-    /* Code from template association_AddUnidirectionalMany */
+    //TODO naming, what are these?
     public boolean addHand(Card aHand) {
         boolean wasAdded = false;
         if (hand.contains(aHand)) {
@@ -118,6 +106,7 @@ public class Player {
         return wasAdded;
     }
 
+    //TODO remove card from hand?
     public boolean removeHand(Card aHand) {
         boolean wasRemoved = false;
         if (hand.contains(aHand)) {
@@ -127,7 +116,7 @@ public class Player {
         return wasRemoved;
     }
 
-    /* Code from template association_AddIndexControlFunctions */
+    //TODO lul
     public boolean addHandAt(Card aHand, int index) {
         boolean wasAdded = false;
         if (addHand(aHand)) {
@@ -144,6 +133,7 @@ public class Player {
         return wasAdded;
     }
 
+    //TODO stop
     public boolean addOrMoveHandAt(Card aHand, int index) {
         boolean wasAdded = false;
         if (hand.contains(aHand)) {
@@ -166,27 +156,22 @@ public class Player {
         hand.clear();
     }
 
-    // line 31 "model.ump"
     public void move() {
 
     }
 
-    // line 32 "model.ump"
     public boolean canRefute() {
         return false;
     }
 
-    // line 33 "model.ump"
     public void suggest() {
 
     }
 
-    // line 34 "model.ump"
     public void accuse() {
 
     }
 
-    // line 35 "model.ump"
     public void refute() {
 
     }

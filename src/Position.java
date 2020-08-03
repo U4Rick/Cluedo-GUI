@@ -1,42 +1,24 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5099.60569f335 modeling language!*/
-
-
-// line 91 "model.ump"
-// line 159 "model.ump"
 public class Position {
-
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
 
     //Position Attributes
     private int x;
     private int y;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public Position(int aX, int aY) {
-        x = aX;
-        y = aY;
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public boolean setX(int aX) {
+    public boolean setX(int x) {
         boolean wasSet = false;
-        x = aX;
+        this.x = x;
         wasSet = true;
         return wasSet;
     }
 
-    public boolean setY(int aY) {
+    public boolean setY(int y) {
         boolean wasSet = false;
-        y = aY;
+        this.y = y;
         wasSet = true;
         return wasSet;
     }

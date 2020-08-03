@@ -1,22 +1,8 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.30.0.5099.60569f335 modeling language!*/
-
-
 import java.util.*;
 
-// line 2 "model.ump"
-// line 100 "model.ump"
 public class Game {
 
-    //------------------------
-    // ENUMERATIONS
-    //------------------------
-
     public enum TurnState {Playing, Finished}
-
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
 
     //Game Attributes
     private Hypothesis solution;
@@ -26,14 +12,10 @@ public class Game {
     private Board board;
     private List<Player> players;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public Game(Hypothesis aSolution, Player aCurrentPlayer, Board aBoard, Player... allPlayers) {
-        solution = aSolution;
-        currentPlayer = aCurrentPlayer;
-        if (!setBoard(aBoard)) {
+    public Game(Hypothesis solution, Player currentPlayer, Board board, Player... allPlayers) {
+        this.solution = solution;
+        this.currentPlayer = currentPlayer;
+        if (!setBoard(board)) {
             throw new RuntimeException("Unable to create Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
         }
         players = new ArrayList<Player>();
@@ -43,20 +25,16 @@ public class Game {
         }
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public boolean setSolution(Hypothesis aSolution) {
+    public boolean setSolution(Hypothesis solution) {
         boolean wasSet = false;
-        solution = aSolution;
+        this.solution = solution;
         wasSet = true;
         return wasSet;
     }
 
-    public boolean setCurrentPlayer(Player aCurrentPlayer) {
+    public boolean setCurrentPlayer(Player currentPlayer) {
         boolean wasSet = false;
-        currentPlayer = aCurrentPlayer;
+        this.currentPlayer = currentPlayer;
         wasSet = true;
         return wasSet;
     }
@@ -69,20 +47,18 @@ public class Game {
         return currentPlayer;
     }
 
-    /* Code from template association_GetOne */
     public Board getBoard() {
         return board;
     }
 
-    /* Code from template association_GetMany */
     public Player getPlayer(int index) {
-        Player aPlayer = players.get(index);
-        return aPlayer;
+        Player player = players.get(index);
+        return player;
     }
 
     public List<Player> getPlayers() {
-        List<Player> newPlayers = Collections.unmodifiableList(players);
-        return newPlayers;
+        List<Player> players = Collections.unmodifiableList(this.players);
+        return players;
     }
 
     public int numberOfPlayers() {
@@ -95,47 +71,43 @@ public class Game {
         return has;
     }
 
-    public int indexOfPlayer(Player aPlayer) {
-        int index = players.indexOf(aPlayer);
+    public int indexOfPlayer(Player player) {
+        int index = players.indexOf(player);
         return index;
     }
 
-    /* Code from template association_SetUnidirectionalOne */
-    public boolean setBoard(Board aNewBoard) {
+    public boolean setBoard(Board newBoard) {
         boolean wasSet = false;
-        if (aNewBoard != null) {
-            board = aNewBoard;
+        if (newBoard != null) {
+            this.board = newBoard;
             wasSet = true;
         }
         return wasSet;
     }
 
-    /* Code from template association_MinimumNumberOfMethod */
     public static int minimumNumberOfPlayers() {
         return 3;
     }
 
-    /* Code from template association_MaximumNumberOfMethod */
     public static int maximumNumberOfPlayers() {
         return 6;
     }
 
-    /* Code from template association_AddUnidirectionalMN */
-    public boolean addPlayer(Player aPlayer) {
+    public boolean addPlayer(Player player) {
         boolean wasAdded = false;
-        if (players.contains(aPlayer)) {
+        if (players.contains(player)) {
             return false;
         }
         if (numberOfPlayers() < maximumNumberOfPlayers()) {
-            players.add(aPlayer);
+            players.add(player);
             wasAdded = true;
         }
         return wasAdded;
     }
 
-    public boolean removePlayer(Player aPlayer) {
+    public boolean removePlayer(Player player) {
         boolean wasRemoved = false;
-        if (!players.contains(aPlayer)) {
+        if (!players.contains(player)) {
             return wasRemoved;
         }
 
@@ -143,20 +115,19 @@ public class Game {
             return wasRemoved;
         }
 
-        players.remove(aPlayer);
+        players.remove(player);
         wasRemoved = true;
         return wasRemoved;
     }
 
-    /* Code from template association_SetUnidirectionalMN */
     public boolean setPlayers(Player... newPlayers) {
         boolean wasSet = false;
         ArrayList<Player> verifiedPlayers = new ArrayList<Player>();
-        for (Player aPlayer : newPlayers) {
-            if (verifiedPlayers.contains(aPlayer)) {
+        for (Player player : newPlayers) {
+            if (verifiedPlayers.contains(player)) {
                 continue;
             }
-            verifiedPlayers.add(aPlayer);
+            verifiedPlayers.add(player);
         }
 
         if (verifiedPlayers.size() != newPlayers.length || verifiedPlayers.size() < minimumNumberOfPlayers() || verifiedPlayers.size() > maximumNumberOfPlayers()) {
@@ -169,37 +140,36 @@ public class Game {
         return wasSet;
     }
 
-    /* Code from template association_AddIndexControlFunctions */
-    public boolean addPlayerAt(Player aPlayer, int index) {
+    public boolean addPlayerAt(Player player, int index) {
         boolean wasAdded = false;
-        if (addPlayer(aPlayer)) {
+        if (addPlayer(player)) {
             if (index < 0) {
                 index = 0;
             }
             if (index > numberOfPlayers()) {
                 index = numberOfPlayers() - 1;
             }
-            players.remove(aPlayer);
-            players.add(index, aPlayer);
+            players.remove(player);
+            players.add(index, player);
             wasAdded = true;
         }
         return wasAdded;
     }
 
-    public boolean addOrMovePlayerAt(Player aPlayer, int index) {
+    public boolean addOrMovePlayerAt(Player player, int index) {
         boolean wasAdded = false;
-        if (players.contains(aPlayer)) {
+        if (players.contains(player)) {
             if (index < 0) {
                 index = 0;
             }
             if (index > numberOfPlayers()) {
                 index = numberOfPlayers() - 1;
             }
-            players.remove(aPlayer);
-            players.add(index, aPlayer);
+            players.remove(player);
+            players.add(index, player);
             wasAdded = true;
         } else {
-            wasAdded = addPlayerAt(aPlayer, index);
+            wasAdded = addPlayerAt(player, index);
         }
         return wasAdded;
     }
@@ -209,11 +179,9 @@ public class Game {
         players.clear();
     }
 
-    // line 11 "model.ump"
     public boolean isOver() {
       return false;
     }
-
 
     public String toString() {
         return super.toString() + "[" + "]" + System.getProperties().getProperty("line.separator") +
