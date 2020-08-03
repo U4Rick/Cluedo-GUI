@@ -38,7 +38,7 @@ public class Board
 
   // line 20 "model.ump"
   public Tile getTileAt(int x, int y){
-    
+    return null;
   }
 
 }
