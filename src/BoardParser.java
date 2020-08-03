@@ -12,7 +12,7 @@ public class BoardParser {
         board = new Tile[24][25];
     }
 
-    private void parseBoard(String input) {
+    public Tile[][] parseBoard(String input) {
         Scanner scan = new Scanner(input);
         for (int row = 0; row < board.length; row++) {
             if (!scan.next().matches("\\|")) { throw new InputMismatchException("Should be a | here"); }
@@ -34,15 +34,17 @@ public class BoardParser {
                     token = token.concat(scan.next());
                     Tile temp = parseInitials(token);
                     if (temp instanceof AccessibleTile) { board[row][col] = temp; }
+                    else { throw new InputMismatchException("No valid letter sequence was found"); }
                 }
                 else if (token.matches("\\|")) {
                     //room tile
                     board[row][col] = new RoomTile();
-                    continue;
+                    continue; //don't need to skip the | character if we already hit it.
                 }
                 scan.next();
             }
         }
+        return board;
     }
 
 

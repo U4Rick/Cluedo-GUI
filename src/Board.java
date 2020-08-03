@@ -2,7 +2,7 @@ import Tiles.Tile;
 
 public class Board {
 
-
+    Tile[][] board;
     public Board() {
         //board
         String boardText =
@@ -31,6 +31,9 @@ public class Board {
                 "|  |  |  |  |  |  |  |__|__|  |  |  |  |  |  |__|__|  |  |  |  |  |  |  |\n" +
                 "|  |  |  |  |  |  |  |__|__|  |  |  |  |  |  |__|__|  |  |  |  |  |  |  |\n" +
                 "|  |  |  |  |  |  |~~|SC|~~|  |  |  |  |  |  |~~|__|~~|  |  |  |  |  |  |";
+
+
+        board = new BoardParser().parseBoard(boardText);
     }
 
     public void delete() {
