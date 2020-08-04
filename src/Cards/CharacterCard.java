@@ -18,4 +18,5 @@ public class CharacterCard implements Card {
     public void delete() {
     }
 
+    public characters getCharacter() { return character; }
 }

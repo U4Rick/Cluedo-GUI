@@ -1,11 +1,12 @@
 package Tiles;
 
 import Cards.RoomCard;
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 
 public class RoomTile extends AccessibleTile {
 
-    boolean isEntrance;
-    RoomCard.rooms room;
+    private boolean isEntrance;
+    private RoomCard.rooms room;
 
     public RoomTile(Position pos) {
         super(pos);
@@ -20,4 +21,37 @@ public class RoomTile extends AccessibleTile {
         super.delete();
     }
 
+    public boolean isEntrance() {
+        return isEntrance;
+    }
+
+    @Override
+    public String toString() {
+        if (isEntrance) {
+            switch (room) {
+                case HALL:
+                    return "HL";
+                case STUDY:
+                    return "ST";
+                case LOUNGE:
+                    return "LG";
+                case KITCHEN:
+                    return "KT";
+                case LIBRARY:
+                    return "LB";
+                case BALLROOM:
+                    return "BR";
+                case DININGROOM:
+                    return "DR";
+                case BILLIARDROOM:
+                    return  "BL";
+                case CONSERVATORY:
+                    return "CT";
+
+                default:
+                    return "  ";
+            }
+        }
+        else { return  "  "; }
+    }
 }

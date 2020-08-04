@@ -1,3 +1,5 @@
+package GameMechanics;
+
 import Cards.Card;
 import Cards.CharacterCard;
 import Tiles.Tile;
@@ -6,12 +8,12 @@ import java.util.*;
 
 public class Player {
 
-    //Player Attributes
+    //GameMechanics.Player Attributes
     private CharacterCard character;
     private Tile position;
     private boolean madeFalseAccusation = false;
 
-    //Player Associations
+    //GameMechanics.Player Associations
     private List<Card> hand;
 
     public Player(CharacterCard character, Tile position) {
@@ -177,9 +179,21 @@ public class Player {
 
 
     public String toString() {
-        return super.toString() + "[" +
-                "madeFalseAccusation" + ":" + getMadeFalseAccusation() + "]" + System.getProperties().getProperty("line.separator") +
-                "  " + "character" + "=" + (getCharacter() != null ? !getCharacter().equals(this) ? getCharacter().toString().replaceAll("  ", "    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-                "  " + "position" + "=" + (getPosition() != null ? !getPosition().equals(this) ? getPosition().toString().replaceAll("  ", "    ") : "this" : "null");
+        switch(character.getCharacter()) {
+            case PEACOCK:
+                return "PC";
+            case MUSTARD:
+                return "MU";
+            case PLUM:
+                return "PL";
+            case GREEN:
+                return "GR";
+            case WHITE:
+                return "WH";
+            case SCARLETT:
+                return "SC";
+            default:
+                return "";
+        }
     }
 }

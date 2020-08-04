@@ -14,4 +14,8 @@ public class InaccessibleTile extends Tile {
         return;
     }
 
+    @Override
+    public String toString() {
+        return "~~";
+    }
 }

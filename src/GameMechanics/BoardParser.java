@@ -1,3 +1,5 @@
+package GameMechanics;
+
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Tiles.*;

@@ -1,10 +1,12 @@
+package GameMechanics;
+
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
 
 public class Hypothesis {
 
-    //Hypothesis Attributes
+    //GameMechanics.Hypothesis Attributes
     private WeaponCard weapon;
     private RoomCard room;
     private CharacterCard character;

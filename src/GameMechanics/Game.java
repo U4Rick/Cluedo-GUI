@@ -1,3 +1,5 @@
+package GameMechanics;
+
 import Cards.Card;
 import Cards.CharacterCard;
 import Cards.RoomCard;
@@ -13,11 +15,11 @@ public class Game {
 
     public enum TurnState {Playing, Finished}
 
-    //Game Attributes
+    //GameMechanics.Game Attributes
     private Hypothesis solution;
     private Player currentPlayer;
 
-    //Game Associations
+    //GameMechanics.Game Associations
     private Board board;
     private List<Player> players = new ArrayList<>();
     private int numPlayers;
@@ -25,17 +27,17 @@ public class Game {
     public Game() {
         initialise();
 
-        //Hypothesis solution, Player currentPlayer, Board board, Player... allPlayers
+        //GameMechanics.Hypothesis solution, GameMechanics.Player currentPlayer, GameMechanics.Board board, GameMechanics.Player... allPlayers
 
         /*this.solution = solution;
         this.currentPlayer = currentPlayer;
         if (!setBoard(board)) {
-            throw new RuntimeException("Unable to create Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+            throw new RuntimeException("Unable to create GameMechanics.Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
         }
-        players = new ArrayList<Player>();
+        players = new ArrayList<GameMechanics.Player>();
         boolean didAddPlayers = setPlayers(allPlayers);
         if (!didAddPlayers) {
-            throw new RuntimeException("Unable to create Game, must have 3 to 6 players. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+            throw new RuntimeException("Unable to create GameMechanics.Game, must have 3 to 6 players. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
         }*/
     }
 
