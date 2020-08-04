@@ -1,6 +1,8 @@
+package Tiles;
+
 public class Position {
 
-    //Position Attributes
+    //Tiles.Position Attributes
     private int x;
     private int y;
 

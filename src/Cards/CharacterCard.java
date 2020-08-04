@@ -2,10 +2,12 @@ package Cards;
 
 public class CharacterCard implements Card {
 
-    public CharacterCard() {
+    characters character;
+    public CharacterCard(characters c) {
+        character = c;
     }
 
-    private enum characters {
+    public enum characters {
         SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
     }
 

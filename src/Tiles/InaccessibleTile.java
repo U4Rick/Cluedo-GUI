@@ -1,8 +1,9 @@
 package Tiles;
 
-public class InaccessibleTile implements Tile {
+public class InaccessibleTile extends Tile {
 
-    public InaccessibleTile() {
+    public InaccessibleTile(Position pos) {
+        super(pos);
     }
 
     public void delete() {

@@ -1,6 +1,12 @@
 package Tiles;
 
-public interface Tile {
+public class Tile {
 
-    public void draw();
+    Position p;
+
+    public Tile(Position pos) {
+        p = pos;
+    }
+
+    public void draw(){}
 }
