@@ -2,10 +2,12 @@ package Cards;
 
 public class WeaponCard implements Card {
 
-    public WeaponCard() {
+    weapons weapon;
+    public WeaponCard(weapons weapon) {
+        this.weapon = weapon;
     }
 
-    private enum weapons {
+    public enum weapons {
         CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER
     }
 

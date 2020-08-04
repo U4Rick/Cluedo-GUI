@@ -28,7 +28,8 @@ public class BoardParser {
         Scanner scan = new Scanner(input);
 
         for (int row = 0; row < board.length; row++) {
-            if (!scan.next().matches("\\|")) { throw new InputMismatchException("Should be a | here"); }
+
+            if (!scan.next().matches("\\\\|")) { throw new InputMismatchException("Should be a | here"); }
 
             for (int col = 0; col < board[row].length; col++) {
                 if (!scan.hasNext()) { throw new NoSuchElementException("Input wrong size"); }

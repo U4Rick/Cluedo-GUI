@@ -2,7 +2,9 @@ package Cards;
 
 public class RoomCard implements Card {
 
-    public RoomCard() {
+    rooms room;
+    public RoomCard(rooms room) {
+        this.room = room;
     }
 
     public enum rooms {

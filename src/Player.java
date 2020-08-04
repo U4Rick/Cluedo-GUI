@@ -9,15 +9,14 @@ public class Player {
     //Player Attributes
     private CharacterCard character;
     private Tile position;
-    private boolean madeFalseAccusation;
+    private boolean madeFalseAccusation = false;
 
     //Player Associations
     private List<Card> hand;
 
-    public Player(CharacterCard character, Tile position, boolean madeFalseAccusation) {
+    public Player(CharacterCard character, Tile position) {
         this.character = character;
         this.position = position;
-        this.madeFalseAccusation = madeFalseAccusation;
         hand = new ArrayList<Card>();
     }
 
