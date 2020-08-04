@@ -2,8 +2,10 @@ package Tiles;
 
 public class Tile {
 
-    public Tile(Position pos) {
+    Position p;
 
+    public Tile(Position pos) {
+        p = pos;
     }
 
     public void draw(){}

@@ -6,7 +6,7 @@ public class RoomCard implements Card {
     }
 
     public enum rooms {
-        KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLARDROOM, LIBRARY, STUDY, HALL, LOUNGE
+        KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLIARDROOM, LIBRARY, STUDY, HALL, LOUNGE
     }
 
     //------------------------

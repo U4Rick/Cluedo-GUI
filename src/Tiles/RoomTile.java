@@ -7,12 +7,12 @@ public class RoomTile extends AccessibleTile {
     boolean isEntrance;
     RoomCard.rooms room;
 
-    public RoomTile() {
-        super();
+    public RoomTile(Position pos) {
+        super(pos);
     }
 
-    public RoomTile(RoomCard.rooms r) {
-        super();
+    public RoomTile(RoomCard.rooms r, Position pos) {
+        super(pos);
         room = r;
     }
 
