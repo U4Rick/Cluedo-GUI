@@ -14,7 +14,7 @@ public class BoardParser {
     Tile[][] board;
 
     public BoardParser() {
-        board = new Tile[24][25];
+        board = new Tile[24][24];
     }
 
     /**
@@ -26,40 +26,35 @@ public class BoardParser {
      */
     public Tile[][] parseBoard(String input) throws InputMismatchException, NoSuchElementException{
         Scanner scan = new Scanner(input);
-
+        scan.useDelimiter("\\|");
         for (int row = 0; row < board.length; row++) {
-
-            if (!scan.next().matches("\\\\|")) { throw new InputMismatchException("Should be a | here"); }
 
             for (int col = 0; col < board[row].length; col++) {
                 if (!scan.hasNext()) { throw new NoSuchElementException("Input wrong size"); }
 
                 String token = scan.next();
-                if (token.matches("~")) {
+                if (token.matches("~~")) {
                     //inaccessible tile
                     board[row][col] = new InaccessibleTile(new Position(col, row));
-                    scan.next();
                 }
-                else if (token.matches("_")) {
+                else if (token.matches("__")) {
                     //hallway tile
                     board[row][col] = new HallwayTile(new Position(col, row));
-                    scan.next();
                 }
-                else if (token.matches("[A-Z]")) {
+                else if (token.matches("[A-Z]{2}")) {
                     //room entry tile or player start tile
-                    token = token.concat(scan.next());
                     board[row][col] = parseInitials(token, col, row);
                 }
-                else if (token.matches("\\|")) {
+                else if (token.matches("\\s\\s")) {
                     //room tile
                     board[row][col] = new RoomTile(new Position(col, row));
-                    continue; //don't need to skip the | character if we already hit it.
                 }
-                scan.next();
+                else {
+                    System.out.println("no matching regex " + col + " " + row + " " + token);
+                }
             }
+            scan.next(); //dispose of the \n char
         }
-
-        //TODO: need to sort the blank room tiles into their specific rooms here?
         return board;
     }
 
