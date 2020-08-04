@@ -11,6 +11,13 @@ public class HallwayTile extends AccessibleTile {
 
     public HallwayTile() {
         super();
+        startingTile = false;
+    }
+
+    public HallwayTile(CharacterCard c) {
+        super();
+        startingTile = true;
+        startingCharacter = c;
     }
 
     public void delete() {

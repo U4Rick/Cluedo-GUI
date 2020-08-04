@@ -1,3 +1,5 @@
+import Cards.CharacterCard;
+import Cards.RoomCard;
 import Tiles.*;
 
 import java.util.InputMismatchException;
@@ -14,10 +16,13 @@ public class BoardParser {
 
     public Tile[][] parseBoard(String input) {
         Scanner scan = new Scanner(input);
+
         for (int row = 0; row < board.length; row++) {
             if (!scan.next().matches("\\|")) { throw new InputMismatchException("Should be a | here"); }
+
             for (int col = 0; col < board[row].length; col++) {
                 if (!scan.hasNext()) { throw new NoSuchElementException("Input wrong size"); }
+
                 String token = scan.next();
                 if (token.matches("~")) {
                     //inaccessible tile
@@ -32,9 +37,7 @@ public class BoardParser {
                 else if (token.matches("[A-Z]")) {
                     //room entry tile or player start tile
                     token = token.concat(scan.next());
-                    Tile temp = parseInitials(token);
-                    if (temp instanceof AccessibleTile) { board[row][col] = temp; }
-                    else { throw new InputMismatchException("No valid letter sequence was found"); }
+                    board[row][col] = parseInitials(token);
                 }
                 else if (token.matches("\\|")) {
                     //room tile
@@ -47,9 +50,71 @@ public class BoardParser {
         return board;
     }
 
-
+//TODO: pregenerate the character cards??? or leave as is? idk
     private Tile parseInitials(String token) {
-        return null;
+        if (token.equalsIgnoreCase("KT")) {
+            //kitchen
+            return new RoomTile(RoomCard.rooms.KITCHEN);
+        }
+        else if (token.equalsIgnoreCase("BR")) {
+            //ballroom
+            return new RoomTile(RoomCard.rooms.BALLROOM);
+        }
+        else if (token.equalsIgnoreCase("CT")) {
+            //conservatory
+            return new RoomTile(RoomCard.rooms.CONSERVATORY);
+        }
+        else if (token.equalsIgnoreCase("BL")) {
+            //billard room
+            return new RoomTile(RoomCard.rooms.BILLARDROOM);
+        }
+        else if (token.equalsIgnoreCase("LB")) {
+            //library
+            return new RoomTile(RoomCard.rooms.LIBRARY);
+        }
+        else if (token.equalsIgnoreCase("ST")) {
+            //study
+            return new RoomTile(RoomCard.rooms.STUDY);
+        }
+        else if (token.equalsIgnoreCase("HL")) {
+            //hall
+            return new RoomTile(RoomCard.rooms.HALL);
+        }
+        else if (token.equalsIgnoreCase("LG")) {
+            //lounge
+            return new RoomTile(RoomCard.rooms.LOUNGE);
+        }
+        else if (token.equalsIgnoreCase("DR")) {
+            //dining room
+            return new RoomTile(RoomCard.rooms.DININGROOM);
+        }
+        else if (token.equalsIgnoreCase("MU")) {
+            //Mustard
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.MUSTARD));
+        }
+        else if (token.equalsIgnoreCase("WH")) {
+            //white
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.WHITE));
+        }
+        else if (token.equalsIgnoreCase("GR")) {
+            //green
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.GREEN));
+        }
+        else if (token.equalsIgnoreCase("PC")) {
+            //peacock
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.PEACOCK));
+        }
+        else if (token.equalsIgnoreCase("PL")) {
+            //plum
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.PLUM));
+        }
+        else if (token.equalsIgnoreCase("SC")) {
+            //scarlett
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.SCARLETT));
+        }
+        else {
+            throw new InputMismatchException("No viable character value found.");
+        }
     }
 
     private void parseRoom(String token) {
