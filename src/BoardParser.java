@@ -47,10 +47,12 @@ public class BoardParser {
                 scan.next();
             }
         }
+
+        //TODO: need to sort the blank room tiles into their specific rooms here?
         return board;
     }
 
-//TODO: pregenerate the character cards??? or leave as is? idk
+//TODO: pregenerate the character cards??? or leave as is? idk maybe in game before board creation
     private Tile parseInitials(String token) {
         if (token.equalsIgnoreCase("KT")) {
             //kitchen
