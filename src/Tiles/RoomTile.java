@@ -1,7 +1,6 @@
 package Tiles;
 
 import Cards.RoomCard;
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 
 public class RoomTile extends AccessibleTile {
 
@@ -10,10 +9,12 @@ public class RoomTile extends AccessibleTile {
 
     public RoomTile(Position pos) {
         super(pos);
+        isEntrance = false;
     }
 
     public RoomTile(RoomCard.rooms r, Position pos) {
         super(pos);
+        isEntrance = true;
         room = r;
     }
 

@@ -44,9 +44,11 @@ public class Game {
     public void initialise() {
         setNumPlayers();
         setupPlayers();
+        //TODO: setup players being placed into starting tiles.
         setupCards();
         board = new Board();
         currentPlayer = players.get(0);
+        System.out.println(board.toString());
     }
 
     //TODO loop if incorrect input
