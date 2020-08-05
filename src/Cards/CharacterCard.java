@@ -11,8 +11,8 @@ public class CharacterCard implements Card {
         SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
     }
 
-    public String convertToFullName(characters c) {
-        switch (c) {
+    public String convertToFullName() {
+        switch (character) {
             case SCARLETT:
                 return "Miss Scarlett";
 

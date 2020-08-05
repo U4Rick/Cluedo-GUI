@@ -13,20 +13,22 @@ import static Cards.WeaponCard.*;
 
 public class Game {
 
-    public enum TurnState {Playing, Finished}
+
+
+    public enum TurnState {Playing, Finished;}
 
     //GameMechanics.Game Attributes
     private Hypothesis solution;
     private Player currentPlayer;
+    private int numPlayers;
 
     //GameMechanics.Game Associations
     private Board board;
     private List<Player> players = new ArrayList<>();
-    private int numPlayers;
 
     public Game() {
         initialise();
-
+        gameLoop();
         //GameMechanics.Hypothesis solution, GameMechanics.Player currentPlayer, GameMechanics.Board board, GameMechanics.Player... allPlayers
 
         /*this.solution = solution;
@@ -41,6 +43,67 @@ public class Game {
         }*/
     }
 
+    private void gameLoop() {
+        while (!isGameOver()) {
+            //show board
+            System.out.println(board.toString());
+
+            //print current player name
+            System.out.println(currentPlayer.getCharacter().convertToFullName());
+
+            //roll dice
+            int movementRange = rollDice();
+
+            //ask for tile to move to
+
+            //check if in room
+            /*if (currentPlayer.getPosition()) {
+            }*/
+
+            //opt. make suggestion/accusation
+
+            //update current player
+            updateCurrentPlayer();
+
+
+        }
+    }
+
+    /**
+     * Set currentPlayer to next player in turn order.
+     */
+    private void updateCurrentPlayer() {
+        int i = players.indexOf(currentPlayer);
+        if (i == players.size() - 1) {
+            currentPlayer = players.get(0);
+        } else {
+            currentPlayer = players.get(i + 1);
+        }
+    }
+
+    /**
+     * Check whether a player has won, or all players have made false accusations.
+     *
+     * @return True if game over, otherwise false.
+     */
+    private boolean isGameOver() {
+        return false;
+    }
+
+    /**
+     * Rolls two dice and returns the sum of them.
+     *
+     * @return Sum of two dice.
+     */
+    private int rollDice(){
+        int dice1 = (int) (Math.random() * 6 + 1);
+        int dice2 = (int) (Math.random() * 6 + 1);
+        return dice1 + dice2;
+    }
+
+    /**
+     * Setup the game.
+     */
     public void initialise() {
         setNumPlayers();
         setupPlayers();
@@ -48,11 +111,14 @@ public class Game {
         setupCards();
         board = new Board();
         currentPlayer = players.get(0);
-        System.out.println(board.toString());
+        //System.out.println(board.toString());
     }
 
     //TODO loop if incorrect input
 
+    /**
+     * Ask the player for amount of players, must be between 3-6
+     */
     public void setNumPlayers() {
         System.out.println("How many players?");
         Scanner scan = new Scanner(System.in);
@@ -64,6 +130,10 @@ public class Game {
             }
         }
     }
+
+    /**
+     * Create the players and add them to the list of players.
+     */
     private void setupPlayers() {
         characters[] values = characters.values();
         for (int i = 0; i < numPlayers; i++) {
@@ -73,6 +143,9 @@ public class Game {
         }
     }
 
+    /**
+     * Create all of the cards, select a solution, then deal the rest of the cards to the players.
+     */
     private void setupCards() {
         //Char cards
         ArrayList<Card> cards = new ArrayList<>();
@@ -116,6 +189,11 @@ public class Game {
         dealCards(cards);
     }
 
+    /**
+     * Deal the cards to the players.
+     *
+     * @param cards List of cards to deal to players.
+     */
     private void dealCards(ArrayList<Card> cards) {
         int player = 0;
         for (Card card : cards) {
@@ -280,10 +358,6 @@ public class Game {
     public void delete() {
         board = null;
         players.clear();
-    }
-
-    public boolean isOver() {
-      return false;
     }
 
     public String toString() {
