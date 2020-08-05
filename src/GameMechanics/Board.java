@@ -4,13 +4,14 @@ import Cards.CharacterCard;
 import Cards.RoomCard;
 import Tiles.*;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Board {
 
     Tile[][] board;
     public Map<CharacterCard.characters, Position> startingTiles;
-    public Map<RoomCard.rooms, Position> entrances;
+    public Map<RoomCard.rooms, ArrayList<Position>> entrances;
 
     public Board() {
         //board
@@ -78,7 +79,7 @@ public class Board {
 
     public Map<CharacterCard.characters, Position> getStartingTiles() { return startingTiles; }
 
-    public Map<RoomCard.rooms, Position> getEntrances() { return entrances; }
+    public Map<RoomCard.rooms, ArrayList<Position>> getEntrances() { return entrances; }
 
     @Override
     public String toString() {

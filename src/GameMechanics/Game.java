@@ -4,6 +4,8 @@ import Cards.Card;
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
+import Tiles.HallwayTile;
+import Tiles.Tile;
 
 import java.util.*;
 
@@ -29,18 +31,7 @@ public class Game {
     public Game() {
         initialise();
         gameLoop();
-        //GameMechanics.Hypothesis solution, GameMechanics.Player currentPlayer, GameMechanics.Board board, GameMechanics.Player... allPlayers
 
-        /*this.solution = solution;
-        this.currentPlayer = currentPlayer;
-        if (!setBoard(board)) {
-            throw new RuntimeException("Unable to create GameMechanics.Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-        }
-        players = new ArrayList<GameMechanics.Player>();
-        boolean didAddPlayers = setPlayers(allPlayers);
-        if (!didAddPlayers) {
-            throw new RuntimeException("Unable to create GameMechanics.Game, must have 3 to 6 players. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-        }*/
     }
 
     private void gameLoop() {
@@ -106,11 +97,10 @@ public class Game {
      * Setup the game.
      */
     public void initialise() {
+        board = new Board();
         setNumPlayers();
         setupPlayers();
-        //TODO: setup players being placed into starting tiles.
         setupCards();
-        board = new Board();
         currentPlayer = players.get(0);
         //System.out.println(board.toString());
     }
@@ -138,8 +128,10 @@ public class Game {
     private void setupPlayers() {
         characters[] values = characters.values();
         for (int i = 0; i < numPlayers; i++) {
-            //TODO tile
-            players.add(new Player(new CharacterCard(values[i]), null));
+            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])));
+            Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
+            if (startingTile instanceof HallwayTile) { ((HallwayTile) startingTile).setPlayerOnThisTile(p); }
+            players.add(p);
 
         }
     }
