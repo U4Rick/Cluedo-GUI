@@ -1,58 +1,13 @@
 package Tiles;
 
-import Cards.RoomCard;
-
-public class RoomTile extends AccessibleTile {
-
-    private boolean isEntrance;
-    private RoomCard.rooms room;
+public class RoomTile extends InaccessibleTile {
 
     public RoomTile(Position pos) {
         super(pos);
-        isEntrance = false;
-    }
-
-    public RoomTile(RoomCard.rooms r, Position pos) {
-        super(pos);
-        isEntrance = true;
-        room = r;
-    }
-
-    public void delete() {
-        super.delete();
-    }
-
-    public boolean isEntrance() {
-        return isEntrance;
     }
 
     @Override
     public String toString() {
-        if (isEntrance) {
-            switch (room) {
-                case HALL:
-                    return "HL";
-                case STUDY:
-                    return "ST";
-                case LOUNGE:
-                    return "LG";
-                case KITCHEN:
-                    return "KT";
-                case LIBRARY:
-                    return "LB";
-                case BALLROOM:
-                    return "BR";
-                case DININGROOM:
-                    return "DR";
-                case BILLIARDROOM:
-                    return  "BL";
-                case CONSERVATORY:
-                    return "CT";
-
-                default:
-                    return "  ";
-            }
-        }
-        else { return  "  "; }
+        return "  ";
     }
 }

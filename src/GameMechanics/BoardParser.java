@@ -4,19 +4,21 @@ import Cards.CharacterCard;
 import Cards.RoomCard;
 import Tiles.*;
 
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Parses an ascii board to create a functional game board for Cluedo.
  */
 public class BoardParser {
 
-    Tile[][] board;
+    public Tile[][] board;
+    public Map<CharacterCard.characters, Position> startingTiles;
+    public Map<RoomCard.rooms, Position> entrances;
 
     public BoardParser() {
         board = new Tile[25][24];
+        startingTiles = new HashMap<>();
+        entrances = new HashMap<>();
     }
 
     /**
@@ -75,63 +77,93 @@ public class BoardParser {
     private Tile parseInitials(String token, int x, int y) throws InputMismatchException {
         if (token.equalsIgnoreCase("KT")) {
             //kitchen
-            return new RoomTile(RoomCard.rooms.KITCHEN, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.KITCHEN, h);
+            return new EntranceTile(RoomCard.rooms.KITCHEN, h);
         }
         else if (token.equalsIgnoreCase("BR")) {
             //ballroom
-            return new RoomTile(RoomCard.rooms.BALLROOM, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.BALLROOM, h);
+            return new EntranceTile(RoomCard.rooms.BALLROOM, h);
         }
         else if (token.equalsIgnoreCase("CT")) {
             //conservatory
-            return new RoomTile(RoomCard.rooms.CONSERVATORY, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.CONSERVATORY, h);
+            return new EntranceTile(RoomCard.rooms.CONSERVATORY, h);
         }
         else if (token.equalsIgnoreCase("BL")) {
             //billiard room
-            return new RoomTile(RoomCard.rooms.BILLIARDROOM, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.BILLIARDROOM, h);
+            return new EntranceTile(RoomCard.rooms.BILLIARDROOM, h);
         }
         else if (token.equalsIgnoreCase("LB")) {
             //library
-            return new RoomTile(RoomCard.rooms.LIBRARY, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.LIBRARY, h);
+            return new EntranceTile(RoomCard.rooms.LIBRARY, h);
         }
         else if (token.equalsIgnoreCase("ST")) {
             //study
-            return new RoomTile(RoomCard.rooms.STUDY, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.STUDY, h);
+            return new EntranceTile(RoomCard.rooms.STUDY, h);
         }
         else if (token.equalsIgnoreCase("HL")) {
             //hall
-            return new RoomTile(RoomCard.rooms.HALL, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.HALL, h);
+            return new EntranceTile(RoomCard.rooms.HALL, h);
         }
         else if (token.equalsIgnoreCase("LG")) {
             //lounge
-            return new RoomTile(RoomCard.rooms.LOUNGE, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.LOUNGE, h);
+            return new EntranceTile(RoomCard.rooms.LOUNGE, h);
         }
         else if (token.equalsIgnoreCase("DR")) {
             //dining room
-            return new RoomTile(RoomCard.rooms.DININGROOM, new Position(x, y));
+            Position h = new Position(x, y);
+            entrances.put(RoomCard.rooms.DININGROOM, h);
+            return new EntranceTile(RoomCard.rooms.DININGROOM, h);
         }
         else if (token.equalsIgnoreCase("MU")) {
             //Mustard
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.MUSTARD), new Position(x, y));
+            Position h = new Position(x, y);
+            startingTiles.put(CharacterCard.characters.MUSTARD, h);
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.MUSTARD), h);
         }
         else if (token.equalsIgnoreCase("WH")) {
             //white
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.WHITE), new Position(x, y));
+            Position h = new Position(x, y);
+            startingTiles.put(CharacterCard.characters.MUSTARD, h);
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.WHITE), h);
         }
         else if (token.equalsIgnoreCase("GR")) {
             //green
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.GREEN), new Position(x, y));
+            Position h = new Position(x, y);
+            startingTiles.put(CharacterCard.characters.MUSTARD, h);
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.GREEN), h);
         }
         else if (token.equalsIgnoreCase("PC")) {
             //peacock
+            Position h = new Position(x, y);
+            startingTiles.put(CharacterCard.characters.MUSTARD, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.PEACOCK), new Position(x, y));
         }
         else if (token.equalsIgnoreCase("PL")) {
             //plum
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.PLUM), new Position(x, y));
+            Position h = new Position(x, y);
+            startingTiles.put(CharacterCard.characters.MUSTARD, h);
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.PLUM), h);
         }
         else if (token.equalsIgnoreCase("SC")) {
             //scarlett
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.SCARLETT), new Position(x, y));
+            Position h = new Position(x, y);
+            startingTiles.put(CharacterCard.characters.MUSTARD, h);
+            return new HallwayTile(new CharacterCard(CharacterCard.characters.SCARLETT), h);
         }
         else {
             throw new InputMismatchException("No viable character value found.");

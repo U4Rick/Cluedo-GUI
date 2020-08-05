@@ -1,13 +1,17 @@
 package GameMechanics;
 
-import Tiles.AccessibleTile;
-import Tiles.HallwayTile;
-import Tiles.RoomTile;
-import Tiles.Tile;
+import Cards.CharacterCard;
+import Cards.RoomCard;
+import Tiles.*;
+
+import java.util.Map;
 
 public class Board {
 
     Tile[][] board;
+    public Map<CharacterCard.characters, Position> startingTiles;
+    public Map<RoomCard.rooms, Position> entrances;
+
     public Board() {
         //board
         String boardText =
@@ -37,8 +41,10 @@ public class Board {
                 "|  |  |  |  |  |  |  |__|__|  |  |  |  |  |  |__|__|  |  |  |  |  |  |  |\n" +
                 "|  |  |  |  |  |  |~~|SC|~~|  |  |  |  |  |  |~~|__|~~|  |  |  |  |  |  |";
 
-
-        board = new BoardParser().parseBoard(boardText);
+        BoardParser b = new BoardParser();
+        board = b.parseBoard(boardText);
+        startingTiles = b.startingTiles;
+        entrances = b.entrances;
     }
 
     public void delete() {
@@ -54,22 +60,25 @@ public class Board {
 
     }
 
-    public Tile getTileAt(int col, int row) { return board[row][col]; }
+    public Tile getTileAt(Position p) { return board[p.getY()][p.getX()]; }
 
-    public boolean setTileAt(int col, int row, Player p) {
-        Tile temp = board[row][col];
+    public boolean setTileAt(Position pos, Player p) {
+        Tile temp = board[pos.getY()][pos.getX()];
         if (temp instanceof AccessibleTile) {
             if (temp instanceof HallwayTile) {
                 ((HallwayTile) temp).setPlayerOnThisTile(p);
-                board[row][col] = temp;
                 return true;
             }
-            else if (temp instanceof RoomTile && ((RoomTile) temp).isEntrance()) {
+            else if (temp instanceof EntranceTile) {
                 //TODO: set up room entry stuff here,
             }
         }
         return false;
     }
+
+    public Map<CharacterCard.characters, Position> getStartingTiles() { return startingTiles; }
+
+    public Map<RoomCard.rooms, Position> getEntrances() { return entrances; }
 
     @Override
     public String toString() {
