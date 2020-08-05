@@ -30,34 +30,56 @@ public class Game {
 
     public Game() {
         initialise();
-        gameLoop();
-
+        run();
     }
 
-    private void gameLoop() {
+    /**
+     * Main game loop, loops until a player has won or all players have made false accusations.
+     */
+    private void run() {
         while (!isGameOver()) {
-            //show board
-            System.out.println(board.toString());
+            printTurnInfo();
+            processPlayerTurn();
+            updateCurrentPlayer();
+        }
+    }
 
-            //print current player name
-            System.out.println(currentPlayer.getCharacter().convertToFullName());
+    /**
+     *
+     */
+    private void processPlayerTurn() {
+        playerMovement();
+        if (true) { //TODO if in room
 
-            //roll dice
-            int movementRange = rollDice();
+            playerHypothesis();
+        }
+    }
 
-            //ask for tile to move to
+    private void playerMovement() {
+        //roll dice
+        int movementRange = rollDice();
 
-            //check if in room
+        //ask for tile to move to
+
+        //check if in room
             /*if (currentPlayer.getPosition()) {
             }*/
 
-            //opt. make suggestion/accusation
+        //opt. make suggestion/accusation
 
-            //update current player
-            updateCurrentPlayer();
+        //update current player
+    }
 
+    private void playerHypothesis() {
 
-        }
+    }
+
+    /**
+     * Print current board and name of current player.
+     */
+    private void printTurnInfo() {
+        System.out.println(board.toString());
+        System.out.println(currentPlayer.getCharacter().convertToFullName());
     }
 
     /**
@@ -90,7 +112,6 @@ public class Game {
         int dice1 = (int) (Math.random() * 6 + 1);
         int dice2 = (int) (Math.random() * 6 + 1);
         return dice1 + dice2;
-
     }
 
     /**
@@ -191,10 +212,13 @@ public class Game {
         int player = 0;
         for (Card card : cards) {
             players.get(player).addHand(card);
-            if (player != numPlayers - 1) { player++; }
-            else { player = 0; }
 
-
+            //Roll back to first player
+            if (player != numPlayers - 1) {
+                player++; }
+            else {
+                player = 0;
+            }
         }
     }
 
@@ -361,6 +385,6 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game coolbeans = new Game();
+        Game game = new Game();
     }
 }
