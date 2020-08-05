@@ -36,10 +36,6 @@ public class CharacterCard implements Card {
         }
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
     public void delete() {
     }
 

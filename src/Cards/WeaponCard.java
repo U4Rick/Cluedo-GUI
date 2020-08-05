@@ -11,10 +11,6 @@ public class WeaponCard implements Card {
         CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
     public void delete() {
     }
 

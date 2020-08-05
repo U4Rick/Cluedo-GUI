@@ -11,10 +11,6 @@ public class RoomCard implements Card {
         KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLIARDROOM, LIBRARY, STUDY, HALL, LOUNGE
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
     public void delete() {
     }
 

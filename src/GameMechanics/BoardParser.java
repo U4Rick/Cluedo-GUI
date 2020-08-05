@@ -38,19 +38,19 @@ public class BoardParser {
 
                 String token = scan.next();
                 if (token.matches("~~")) {
-                    //inaccessible tile
+                    // Inaccessible tile
                     board[row][col] = new InaccessibleTile(new Position(col, row));
                 }
                 else if (token.matches("__")) {
-                    //hallway tile
+                    // Hallway tile
                     board[row][col] = new HallwayTile(new Position(col, row));
                 }
                 else if (token.matches("[A-Z]{2}")) {
-                    //room entry tile or player start tile
+                    // Room entry/player start tile
                     board[row][col] = parseInitials(token, col, row);
                 }
                 else if (token.matches("\\s\\s")) {
-                    //room tile
+                    // Room tile
                     board[row][col] = new RoomTile(new Position(col, row));
                 }
                 else {
@@ -58,7 +58,7 @@ public class BoardParser {
                 }
             }
             if (row != 24) {
-                scan.next(); //dispose of the \n char
+                scan.next(); // Dispose of the \n char
             }
         }
         return board;
@@ -76,7 +76,7 @@ public class BoardParser {
      */
     private Tile parseInitials(String token, int x, int y) throws InputMismatchException {
         if (token.equalsIgnoreCase("KT")) {
-            //kitchen
+            // Kitchen
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.KITCHEN)) {
                 entrances.put(RoomCard.rooms.KITCHEN, new ArrayList<>());
@@ -85,7 +85,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.KITCHEN, h);
         }
         else if (token.equalsIgnoreCase("BR")) {
-            //ballroom
+            // Ballroom
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.BALLROOM)) {
                 entrances.put(RoomCard.rooms.BALLROOM, new ArrayList<>());
@@ -94,7 +94,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.BALLROOM, h);
         }
         else if (token.equalsIgnoreCase("CT")) {
-            //conservatory
+            // Conservatory
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.CONSERVATORY)) {
                 entrances.put(RoomCard.rooms.CONSERVATORY, new ArrayList<>());
@@ -103,7 +103,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.CONSERVATORY, h);
         }
         else if (token.equalsIgnoreCase("BL")) {
-            //billiard room
+            // Billiard room
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.BILLIARDROOM)) {
                 entrances.put(RoomCard.rooms.BILLIARDROOM, new ArrayList<>());
@@ -112,7 +112,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.BILLIARDROOM, h);
         }
         else if (token.equalsIgnoreCase("LB")) {
-            //library
+            // Library
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.LIBRARY)) {
                 entrances.put(RoomCard.rooms.LIBRARY, new ArrayList<>());
@@ -121,7 +121,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.LIBRARY, h);
         }
         else if (token.equalsIgnoreCase("ST")) {
-            //study
+            // Study
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.STUDY)) {
                 entrances.put(RoomCard.rooms.STUDY, new ArrayList<>());
@@ -130,7 +130,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.STUDY, h);
         }
         else if (token.equalsIgnoreCase("HL")) {
-            //hall
+            // Hall
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.HALL)) {
                 entrances.put(RoomCard.rooms.HALL, new ArrayList<>());
@@ -139,7 +139,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.HALL, h);
         }
         else if (token.equalsIgnoreCase("LG")) {
-            //lounge
+            // Lounge
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.LOUNGE)) {
                 entrances.put(RoomCard.rooms.LOUNGE, new ArrayList<>());
@@ -148,7 +148,7 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.LOUNGE, h);
         }
         else if (token.equalsIgnoreCase("DR")) {
-            //dining room
+            // Dining room
             Position h = new Position(x, y);
             if (!entrances.containsKey(RoomCard.rooms.DININGROOM)) {
                 entrances.put(RoomCard.rooms.DININGROOM, new ArrayList<>());
@@ -157,37 +157,37 @@ public class BoardParser {
             return new EntranceTile(RoomCard.rooms.DININGROOM, h);
         }
         else if (token.equalsIgnoreCase("MU")) {
-            //Mustard
+            // Mustard
             Position h = new Position(x, y);
             startingTiles.put(CharacterCard.characters.MUSTARD, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.MUSTARD), h);
         }
         else if (token.equalsIgnoreCase("WH")) {
-            //white
+            // White
             Position h = new Position(x, y);
             startingTiles.put(CharacterCard.characters.WHITE, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.WHITE), h);
         }
         else if (token.equalsIgnoreCase("GR")) {
-            //green
+            // Green
             Position h = new Position(x, y);
             startingTiles.put(CharacterCard.characters.GREEN, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.GREEN), h);
         }
         else if (token.equalsIgnoreCase("PC")) {
-            //peacock
+            // Peacock
             Position h = new Position(x, y);
             startingTiles.put(CharacterCard.characters.PEACOCK, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.PEACOCK), new Position(x, y));
         }
         else if (token.equalsIgnoreCase("PL")) {
-            //plum
+            // Plum
             Position h = new Position(x, y);
             startingTiles.put(CharacterCard.characters.PLUM, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.PLUM), h);
         }
         else if (token.equalsIgnoreCase("SC")) {
-            //scarlett
+            // Scarlett
             Position h = new Position(x, y);
             startingTiles.put(CharacterCard.characters.SCARLETT, h);
             return new HallwayTile(new CharacterCard(CharacterCard.characters.SCARLETT), h);
