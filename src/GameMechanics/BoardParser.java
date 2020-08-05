@@ -16,7 +16,7 @@ public class BoardParser {
     Tile[][] board;
 
     public BoardParser() {
-        board = new Tile[24][24];
+        board = new Tile[25][24];
     }
 
     /**
@@ -55,7 +55,9 @@ public class BoardParser {
                     System.out.println("no matching regex " + col + " " + row + " " + token);
                 }
             }
-            scan.next(); //dispose of the \n char
+            if (row != 24) {
+                scan.next(); //dispose of the \n char
+            }
         }
         return board;
     }
