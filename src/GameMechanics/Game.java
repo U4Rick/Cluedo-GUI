@@ -4,6 +4,10 @@ import Cards.Card;
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
+import Tiles.InaccessibleTile;
+import Tiles.Position;
+import Tiles.RoomTile;
+import Tiles.Tile;
 
 import java.util.*;
 
@@ -21,6 +25,7 @@ public class Game {
     private Hypothesis solution;
     private Player currentPlayer;
     private int numPlayers;
+    public int movementRange;
 
     //GameMechanics.Game Associations
     private Board board;
@@ -52,9 +57,16 @@ public class Game {
             System.out.println(currentPlayer.getCharacter().convertToFullName());
 
             //roll dice
-            int movementRange = rollDice();
+            movementRange = rollDice();
+            System.out.println("You rolled a " + movementRange);
 
             //ask for tile to move to
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter a row to move to:");
+            int userRow = sc.nextInt();
+            System.out.println("Enter a column to move to:");
+            int userCol = sc.nextInt();
+            move(userRow, userCol);
 
             //check if in room
             /*if (currentPlayer.getPosition()) {
@@ -78,6 +90,48 @@ public class Game {
             currentPlayer = players.get(0);
         } else {
             currentPlayer = players.get(i + 1);
+        }
+    }
+
+    //TODO get movement working
+    public Boolean isValidMovement(int startX, int startY, int endX, int endY){
+
+        //if endtile == inaccessible
+        if(board.getTileAt(endX, endY) instanceof InaccessibleTile){
+            System.out.println("Inaccessible Tile");
+            return false;
+        }
+
+        else if(endX > 25 || endY > 24){
+            System.out.println("Invalid Coordinate");
+            return false;
+        }
+
+        else if((board.getTileAt(endX, endY).hasPlayer()) && !(board.getTileAt(endX, endY) instanceof RoomTile)){
+            System.out.println("Tile already has player on it");
+            return false;
+        }//else if endPos already has player && endPos is not entranceTile
+
+
+        else if(Math.abs((startX + endX) + (startY + endY)) > movementRange){
+            System.out.println("You can not move that far!");
+            return false;
+        }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
+
+        return true;
+    }
+    //TODO get movement working
+    public void move(int x, int y) {
+        Tile startTile = currentPlayer.getPosition();
+        if(currentPlayer.getPosition() == null){
+            currentPlayer.setPosition(new Tile(new Position(0,0)));
+        }
+        Tile endTile = new Tile(new Position(x,y)); // tile to move to
+        if(isValidMovement(currentPlayer.getPosition().getP().getX(), currentPlayer.getPosition().getP().getY(),
+                endTile.getP().getX(), endTile.getP().getY())){ //TODO unspaghetti this
+            board.setTileAt(x,y,currentPlayer);  //move current player to that tile
+            board.setTileAt(startTile.getP().getX(), startTile.getP().getY(),null);//set the start position to null
+            board.draw();
         }
     }
 
