@@ -2,10 +2,10 @@ package Tiles;
 
 public class Tile {
 
-    Position p;
+    private Position position;
 
-    public Tile(Position pos) {
-        p = pos;
+    public Tile(Position position) {
+        this.position = position;
     }
 
     public void draw(){}
@@ -15,7 +15,7 @@ public class Tile {
         return false;
     }
 
-    public Position getP() {
-        return this.p;
+    public Position getPosition() {
+        return this.position;
     }
 }

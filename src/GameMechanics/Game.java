@@ -51,20 +51,20 @@ public class Game {
      */
     private void processPlayerTurn() {
         playerMovement();
-        if (true) { //TODO if in room
-
+        if (currentPlayer.canHypothesise()) { //FIXME Does this need to be more restrictive? Is there a case where a player is in a room but shouldn't be allowed
+            currentPlayer.displayHand();
             playerHypothesis();
         }
     }
 
     private void playerMovement() {
+        System.out.println("Player movement called");
         //roll dice
         int movementRange = rollDice();
-
         //ask for tile to move to
 
         //check if in room
-            /*if (currentPlayer.getPosition()) {
+            /*if (currentPlayer.getTile()) {
             }*/
 
         //opt. make suggestion/accusation
@@ -73,7 +73,7 @@ public class Game {
     }
 
     private void playerHypothesis() {
-
+        System.out.println("player hypothesis called");
     }
 
     /**
@@ -180,10 +180,11 @@ public class Game {
     private void setupPlayers() {
         characters[] values = characters.values();
         for (int i = 0; i < numPlayers; i++) {
-            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])));
+            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])), board);
             Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
             if (startingTile instanceof HallwayTile) { ((HallwayTile) startingTile).setPlayerOnThisTile(p); }
             players.add(p);
+
         }
     }
 
