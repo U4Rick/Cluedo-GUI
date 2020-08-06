@@ -19,6 +19,8 @@ public class Player {
     private Board board;
     public int movementRange;
 
+
+
     public Player(CharacterCard character, Tile tile, Board board) {
         this.character = character;
         this.tile = tile;

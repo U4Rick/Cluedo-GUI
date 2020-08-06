@@ -2,11 +2,14 @@ package Tiles;
 
 public class Tile {
 
-    private Position position;
+    public Position position;
 
     public Tile(Position position) {
         this.position = position;
     }
+
+
+
 
     public void draw(){}
 
