@@ -102,7 +102,7 @@ public class Game {
             return false;
         }
 
-        else if(endX > 25 || endY > 24){
+        else if(endX > 25 || endY > 24){//these might not be the right values?
             System.out.println("Invalid Coordinate");
             return false;
         }
@@ -127,8 +127,9 @@ public class Game {
             currentPlayer.setPosition(new Tile(new Position(0,0)));
         }
         Tile endTile = new Tile(new Position(x,y)); // tile to move to
-        if(isValidMovement(currentPlayer.getPosition().getP().getX(), currentPlayer.getPosition().getP().getY(),
-                endTile.getP().getX(), endTile.getP().getY())){ //TODO unspaghetti this
+        int playerX = currentPlayer.getPosition().getP().getX();    //current X
+        int playerY = currentPlayer.getPosition().getP().getY();    //current Y
+        if(isValidMovement(playerX, playerY, endTile.getP().getX(), endTile.getP().getY())){
             board.setTileAt(x,y,currentPlayer);  //move current player to that tile
             board.setTileAt(startTile.getP().getX(), startTile.getP().getY(),null);//set the start position to null
             board.draw();
