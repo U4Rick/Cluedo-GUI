@@ -25,6 +25,7 @@ public class Game {
     private int numPlayers;
 
     private int turn = 0; //FIXME remove when implementing working gameover
+    private boolean playerHasWon = false;
 
     //GameMechanics.Game Associations
     private Board board;
@@ -102,14 +103,32 @@ public class Game {
      * @return True if game over, otherwise false.
      */
     private boolean isGameOver() {
+        //return playerHasWon || isGameInvalid(); //FIXME uncomment when game actually working
+        return tempGameOver();
+    }
 
-        //TODO actually write something
+    //temp method
+    private boolean tempGameOver() {
         if (turn >= 10) {
             return true;
         }
         turn++;
-
         return false;
+    }
+
+    /**
+     * Checks if all players have made a false accusation.
+     *
+     * @return True if all players have lost, otherwise false.
+     */
+    private boolean isGameInvalid() {
+        for (Player player : players) {
+            if (!player.getMadeFalseAccusation()) {
+                return false;                                                   //At least one player is still playing
+            }
+        }
+        System.out.println("The murderer got away with it! Everybody loses!");
+        return true;
     }
 
     /**
