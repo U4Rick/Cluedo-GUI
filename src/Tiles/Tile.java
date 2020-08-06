@@ -2,11 +2,20 @@ package Tiles;
 
 public class Tile {
 
-    Position p;
+    private Position position;
 
-    public Tile(Position pos) {
-        p = pos;
+    public Tile(Position position) {
+        this.position = position;
     }
 
     public void draw(){}
+
+    //todo implement
+    public boolean hasPlayer() {
+        return false;
+    }
+
+    public Position getPosition() {
+        return this.position;
+    }
 }

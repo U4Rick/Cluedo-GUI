@@ -2,6 +2,7 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.CharacterCard;
+import Tiles.Position;
 import Tiles.Tile;
 
 import java.util.*;
@@ -10,16 +11,19 @@ public class Player {
 
     //GameMechanics.Player Attributes
     private CharacterCard character;
-    private Tile position;
+    private Tile tile;
     private boolean madeFalseAccusation = false;
 
     //GameMechanics.Player Associations
     private List<Card> hand;
+    private Board board;
+    public int movementRange;
 
-    public Player(CharacterCard character, Tile position) {
+    public Player(CharacterCard character, Tile tile, Board board) {
         this.character = character;
-        this.position = position;
-        hand = new ArrayList<Card>();
+        this.tile = tile;
+        this.board = board;
+        hand = new ArrayList<>();
     }
 
     public boolean setCharacter(CharacterCard character) {
@@ -31,7 +35,7 @@ public class Player {
 
     public boolean setPosition(Tile position) {
         boolean wasSet = false;
-        this.position = position;
+        this.tile = position;
         wasSet = true;
         return wasSet;
     }
@@ -47,8 +51,8 @@ public class Player {
         return character;
     }
 
-    public Tile getPosition() {
-        return position;
+    public Tile getTile() {
+        return tile;
     }
 
     public boolean getMadeFalseAccusation() {
@@ -157,9 +161,7 @@ public class Player {
         hand.clear();
     }
 
-    public void move() {
 
-    }
 
     public boolean canRefute() {
         return false;
@@ -195,5 +197,40 @@ public class Player {
             default:
                 return "";
         }
+    }
+
+    public void displayHand() {
+        StringBuilder handAsText = new StringBuilder();
+
+        handAsText.append("Your hand: ");
+        for (Card card : hand) {
+            handAsText.append(card.toString()).append(", ");
+        }
+        handAsText.delete(handAsText.length() - 3, handAsText.length() - 1);    //TODO check range
+
+        System.out.println(handAsText);
+    }
+
+    /**
+     * Check if player is in a room.
+     *
+     * @return True if player is in a room, otherwise false.
+     */
+    public boolean isInRoom() {
+        for (Position entrance : board.startingTiles.values()) {
+            if (tile.getPosition().equals(entrance)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * A player can only hypothesise if they landed on a room entrance, and they have not made a false accusation.
+     *
+     * @return True if they can make hypothesis, otherwise false.
+     */
+    public boolean canHypothesise() {
+        return isInRoom() && !getMadeFalseAccusation();
     }
 }

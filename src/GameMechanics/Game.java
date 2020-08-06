@@ -16,7 +16,6 @@ import static Cards.WeaponCard.*;
 public class Game {
 
 
-
     public enum TurnState {Playing, Finished;}
 
     //GameMechanics.Game Attributes
@@ -25,6 +24,7 @@ public class Game {
     private int numPlayers;
 
     private int turn = 0; //FIXME remove when implementing working gameover
+    private boolean playerHasWon = false;
 
     //GameMechanics.Game Associations
     private Board board;
@@ -51,20 +51,20 @@ public class Game {
      */
     private void processPlayerTurn() {
         playerMovement();
-        if (true) { //TODO if in room
-
+        if (currentPlayer.canHypothesise()) { //FIXME Does this need to be more restrictive? Is there a case where a player is in a room but shouldn't be allowed
+            currentPlayer.displayHand();
             playerHypothesis();
         }
     }
 
     private void playerMovement() {
+        System.out.println("Player movement called");
         //roll dice
         int movementRange = rollDice();
-
         //ask for tile to move to
 
         //check if in room
-            /*if (currentPlayer.getPosition()) {
+            /*if (currentPlayer.getTile()) {
             }*/
 
         //opt. make suggestion/accusation
@@ -73,7 +73,7 @@ public class Game {
     }
 
     private void playerHypothesis() {
-
+        System.out.println("player hypothesis called");
     }
 
     /**
@@ -102,14 +102,32 @@ public class Game {
      * @return True if game over, otherwise false.
      */
     private boolean isGameOver() {
+        //return playerHasWon || isGameInvalid(); //FIXME uncomment when game actually working
+        return tempGameOver();
+    }
 
-        //TODO actually write something
+    //temp method
+    private boolean tempGameOver() {
         if (turn >= 10) {
             return true;
         }
         turn++;
-
         return false;
+    }
+
+    /**
+     * Checks if all players have made a false accusation.
+     *
+     * @return True if all players have lost, otherwise false.
+     */
+    private boolean isGameInvalid() {
+        for (Player player : players) {
+            if (!player.getMadeFalseAccusation()) {
+                return false;                                                   //At least one player is still playing
+            }
+        }
+        System.out.println("The murderer got away with it! Everybody loses!");
+        return true;
     }
 
     /**
@@ -162,10 +180,11 @@ public class Game {
     private void setupPlayers() {
         characters[] values = characters.values();
         for (int i = 0; i < numPlayers; i++) {
-            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])));
+            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])), board);
             Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
             if (startingTile instanceof HallwayTile) { ((HallwayTile) startingTile).setPlayerOnThisTile(p); }
             players.add(p);
+
         }
     }
 
