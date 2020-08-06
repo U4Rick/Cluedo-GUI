@@ -15,7 +15,7 @@ import static Cards.WeaponCard.*;
 
 public class Game {
 
-
+    //adding a comment here, these are the changes
 
     public enum TurnState {Playing, Finished;}
 
