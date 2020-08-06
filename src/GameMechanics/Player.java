@@ -2,6 +2,9 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.CharacterCard;
+import Tiles.InaccessibleTile;
+import Tiles.Position;
+import Tiles.RoomTile;
 import Tiles.Tile;
 
 import java.util.*;
@@ -15,11 +18,13 @@ public class Player {
 
     //GameMechanics.Player Associations
     private List<Card> hand;
+    private Board board ;
+    public int movementRange;
 
     public Player(CharacterCard character, Tile position) {
         this.character = character;
         this.position = position;
-        hand = new ArrayList<Card>();
+        hand = new ArrayList<>();
     }
 
     public boolean setCharacter(CharacterCard character) {
@@ -157,9 +162,7 @@ public class Player {
         hand.clear();
     }
 
-    public void move() {
 
-    }
 
     public boolean canRefute() {
         return false;
