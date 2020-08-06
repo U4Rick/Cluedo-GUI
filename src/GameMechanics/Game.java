@@ -4,9 +4,7 @@ import Cards.Card;
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
-import Tiles.InaccessibleTile;
-import Tiles.Position;
-import Tiles.RoomTile;
+import Tiles.HallwayTile;
 import Tiles.Tile;
 
 import java.util.*;
@@ -25,7 +23,9 @@ public class Game {
     private Hypothesis solution;
     private Player currentPlayer;
     private int numPlayers;
-    public int movementRange;
+
+    private int turn = 0; //FIXME remove when implementing working gameover
+    private boolean playerHasWon = false;
 
     //GameMechanics.Game Associations
     private Board board;
@@ -33,52 +33,56 @@ public class Game {
 
     public Game() {
         initialise();
-        gameLoop();
-        //GameMechanics.Hypothesis solution, GameMechanics.Player currentPlayer, GameMechanics.Board board, GameMechanics.Player... allPlayers
-
-        /*this.solution = solution;
-        this.currentPlayer = currentPlayer;
-        if (!setBoard(board)) {
-            throw new RuntimeException("Unable to create GameMechanics.Game due to aBoard. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-        }
-        players = new ArrayList<GameMechanics.Player>();
-        boolean didAddPlayers = setPlayers(allPlayers);
-        if (!didAddPlayers) {
-            throw new RuntimeException("Unable to create GameMechanics.Game, must have 3 to 6 players. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-        }*/
+        run();
     }
 
-    private void gameLoop() {
+    /**
+     * Main game loop, loops until a player has won or all players have made false accusations.
+     */
+    private void run() {
         while (!isGameOver()) {
-            //show board
-            System.out.println(board.toString());
+            printTurnInfo();
+            processPlayerTurn();
+            updateCurrentPlayer();
+        }
+    }
 
-            //print current player name
-            System.out.println(currentPlayer.getCharacter().convertToFullName());
+    /**
+     *
+     */
+    private void processPlayerTurn() {
+        playerMovement();
+        if (true) { //TODO if in room
 
-            //roll dice
-            movementRange = rollDice();
-            System.out.println("You rolled a " + movementRange);
+            playerHypothesis();
+        }
+    }
 
-            //ask for tile to move to
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Enter a row to move to:");
-            int userRow = sc.nextInt();
-            System.out.println("Enter a column to move to:");
-            int userCol = sc.nextInt();
-            move(userRow, userCol);
+    private void playerMovement() {
+        //roll dice
+        int movementRange = rollDice();
 
-            //check if in room
+        //ask for tile to move to
+
+        //check if in room
             /*if (currentPlayer.getPosition()) {
             }*/
 
-            //opt. make suggestion/accusation
+        //opt. make suggestion/accusation
 
-            //update current player
-            updateCurrentPlayer();
+        //update current player
+    }
 
+    private void playerHypothesis() {
 
-        }
+    }
+
+    /**
+     * Print current board and name of current player.
+     */
+    private void printTurnInfo() {
+        System.out.println(board.toString());
+        System.out.println(currentPlayer.getCharacter().convertToFullName());
     }
 
     /**
@@ -93,56 +97,38 @@ public class Game {
         }
     }
 
-    //TODO get movement working
-    public Boolean isValidMovement(int startX, int startY, int endX, int endY){
-
-        //if endtile == inaccessible
-        if(board.getTileAt(endX, endY) instanceof InaccessibleTile){
-            System.out.println("Inaccessible Tile");
-            return false;
-        }
-
-        else if(endX > 25 || endY > 24){//these might not be the right values?
-            System.out.println("Invalid Coordinate");
-            return false;
-        }
-
-        else if((board.getTileAt(endX, endY).hasPlayer()) && !(board.getTileAt(endX, endY) instanceof RoomTile)){
-            System.out.println("Tile already has player on it");
-            return false;
-        }//else if endPos already has player && endPos is not entranceTile
-
-
-        else if(Math.abs((startX + endX) + (startY + endY)) > movementRange){
-            System.out.println("You can not move that far!");
-            return false;
-        }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
-
-        return true;
-    }
-    //TODO get movement working
-    public void move(int x, int y) {
-        Tile startTile = currentPlayer.getPosition();
-        if(currentPlayer.getPosition() == null){
-            currentPlayer.setPosition(new Tile(new Position(0,0)));
-        }
-        Tile endTile = new Tile(new Position(x,y)); // tile to move to
-        int playerX = currentPlayer.getPosition().getP().getX();    //current X
-        int playerY = currentPlayer.getPosition().getP().getY();    //current Y
-        if(isValidMovement(playerX, playerY, endTile.getP().getX(), endTile.getP().getY())){
-            board.setTileAt(x,y,currentPlayer);  //move current player to that tile
-            board.setTileAt(startTile.getP().getX(), startTile.getP().getY(),null);//set the start position to null
-            board.draw();
-        }
-    }
-
     /**
      * Check whether a player has won, or all players have made false accusations.
      *
      * @return True if game over, otherwise false.
      */
     private boolean isGameOver() {
+        //return playerHasWon || isGameInvalid(); //FIXME uncomment when game actually working
+        return tempGameOver();
+    }
+
+    //temp method
+    private boolean tempGameOver() {
+        if (turn >= 10) {
+            return true;
+        }
+        turn++;
         return false;
+    }
+
+    /**
+     * Checks if all players have made a false accusation.
+     *
+     * @return True if all players have lost, otherwise false.
+     */
+    private boolean isGameInvalid() {
+        for (Player player : players) {
+            if (!player.getMadeFalseAccusation()) {
+                return false;                                                   //At least one player is still playing
+            }
+        }
+        System.out.println("The murderer got away with it! Everybody loses!");
+        return true;
     }
 
     /**
@@ -154,36 +140,38 @@ public class Game {
         int dice1 = (int) (Math.random() * 6 + 1);
         int dice2 = (int) (Math.random() * 6 + 1);
         return dice1 + dice2;
-
     }
 
     /**
      * Setup the game.
      */
     public void initialise() {
+        board = new Board();
         setNumPlayers();
         setupPlayers();
-        //TODO: setup players being placed into starting tiles.
         setupCards();
-        board = new Board();
         currentPlayer = players.get(0);
         //System.out.println(board.toString());
     }
-
-    //TODO loop if incorrect input
 
     /**
      * Ask the player for amount of players, must be between 3-6
      */
     public void setNumPlayers() {
         System.out.println("How many players?");
-        Scanner scan = new Scanner(System.in);
-        if (scan.hasNextInt()) {
-            int num = scan.nextInt();
-            //check within range
-            if (num >= 3 && num <= 6) {
-                numPlayers = num;
+
+        //Loop until number of player is set
+        while (true) {
+            Scanner scan = new Scanner(System.in);
+            if (scan.hasNextInt()) {
+                int num = scan.nextInt();
+                //check within range
+                if (num >= 3 && num <= 6) {
+                    numPlayers = num;
+                    break;
+                }
             }
+            System.out.println("Enter a number between 3 and 6");
         }
     }
 
@@ -193,9 +181,10 @@ public class Game {
     private void setupPlayers() {
         characters[] values = characters.values();
         for (int i = 0; i < numPlayers; i++) {
-            //TODO tile
-            players.add(new Player(new CharacterCard(values[i]), null));
-
+            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])));
+            Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
+            if (startingTile instanceof HallwayTile) { ((HallwayTile) startingTile).setPlayerOnThisTile(p); }
+            players.add(p);
         }
     }
 
@@ -203,46 +192,78 @@ public class Game {
      * Create all of the cards, select a solution, then deal the rest of the cards to the players.
      */
     private void setupCards() {
-        //Char cards
-        ArrayList<Card> cards = new ArrayList<>();
-        ArrayList<Card> solutionCards = new ArrayList<>();
         solution = new Hypothesis(null, null, null);
 
-        for (Player player : players) {
-            cards.add(player.getCharacter());
-            solutionCards.add(player.getCharacter());
-        }
-
-        Collections.shuffle(solutionCards);
-        solution.setCharacter((CharacterCard) solutionCards.get(0));
-        cards.remove(solutionCards.get(0));
-        solutionCards.clear();
-
-        //Weapon cards
-        for (weapons weapon : weapons.values()) {
-            WeaponCard weaponCard = new WeaponCard(weapon);
-            cards.add(weaponCard);
-            solutionCards.add(weaponCard);
-        }
-
-        Collections.shuffle(solutionCards);
-        solution.setWeapon((WeaponCard) solutionCards.get(0));
-        cards.remove(solutionCards.get(0));
-        solutionCards.clear();
-
-        //Room cards
-        for (rooms room : rooms.values()) {
-            RoomCard roomCard = new RoomCard(room);
-            cards.add(roomCard);
-            solutionCards.add(roomCard);
-        }
-
-        Collections.shuffle(solutionCards);
-        solution.setRoom((RoomCard) solutionCards.get(0));
-        cards.remove(solutionCards.get(0));
-        solutionCards.clear();
+        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
+        cards.addAll(setupWeaponCards());
+        cards.addAll(setupRoomCards());
 
         dealCards(cards);
+    }
+
+    /**
+     * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all active characterCards, with solution removed.
+     */
+    private ArrayList<? extends Card> setupCharacterCards() {
+        ArrayList<CharacterCard> characterCards = new ArrayList<>();
+
+        //Create all the cards representing current players
+        for (Player player : players) {
+            characterCards.add(player.getCharacter());
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(characterCards);
+        solution.setCharacter(characterCards.get(0));
+        characterCards.remove(0);
+
+        return characterCards;
+    }
+
+    /**
+     * Create a weaponCard for every weapon. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all weaponCards, with solution removed.
+     */
+    private Collection<? extends Card> setupWeaponCards() {
+        ArrayList<WeaponCard> weaponCards = new ArrayList<>();
+
+        //Create weapon cards for all weapons and add to collection
+        for (weapons weapon : weapons.values()) {
+            WeaponCard weaponCard = new WeaponCard(weapon);
+            weaponCards.add(weaponCard);
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(weaponCards);
+        solution.setWeapon(weaponCards.get(0));
+        weaponCards.remove(0);
+
+        return weaponCards;
+    }
+
+    /**
+     * Create a roomCard for every room. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all roomCards, with solution removed.
+     */
+    private Collection<? extends Card> setupRoomCards() {
+        ArrayList<RoomCard> roomCards = new ArrayList<>();
+
+        //Create weapon cards for all weapons and add to collection
+        for (rooms room : rooms.values()) {
+            RoomCard roomCard = new RoomCard(room);
+            roomCards.add(roomCard);
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(roomCards);
+        solution.setRoom(roomCards.get(0));
+        roomCards.remove(0);
+
+        return roomCards;
     }
 
     /**
@@ -254,10 +275,13 @@ public class Game {
         int player = 0;
         for (Card card : cards) {
             players.get(player).addHand(card);
-            if (player != numPlayers - 1) { player++; }
-            else { player = 0; }
 
-
+            //Roll back to first player
+            if (player != numPlayers - 1) {
+                player++; }
+            else {
+                player = 0;
+            }
         }
     }
 
@@ -424,6 +448,6 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game coolbeans = new Game();
+        Game game = new Game();
     }
 }
