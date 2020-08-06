@@ -24,6 +24,8 @@ public class Game {
     private Player currentPlayer;
     private int numPlayers;
 
+    private int turn = 0; //FIXME remove when implementing working gameover
+
     //GameMechanics.Game Associations
     private Board board;
     private List<Player> players = new ArrayList<>();
@@ -100,6 +102,13 @@ public class Game {
      * @return True if game over, otherwise false.
      */
     private boolean isGameOver() {
+
+        //TODO actually write something
+        if (turn >= 10) {
+            return true;
+        }
+        turn++;
+
         return false;
     }
 
@@ -126,20 +135,24 @@ public class Game {
         //System.out.println(board.toString());
     }
 
-    //TODO loop if incorrect input
-
     /**
      * Ask the player for amount of players, must be between 3-6
      */
     public void setNumPlayers() {
         System.out.println("How many players?");
-        Scanner scan = new Scanner(System.in);
-        if (scan.hasNextInt()) {
-            int num = scan.nextInt();
-            //check within range
-            if (num >= 3 && num <= 6) {
-                numPlayers = num;
+
+        //Loop until number of player is set
+        while (true) {
+            Scanner scan = new Scanner(System.in);
+            if (scan.hasNextInt()) {
+                int num = scan.nextInt();
+                //check within range
+                if (num >= 3 && num <= 6) {
+                    numPlayers = num;
+                    break;
+                }
             }
+            System.out.println("Enter a number between 3 and 6");
         }
     }
 
@@ -153,7 +166,6 @@ public class Game {
             Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
             if (startingTile instanceof HallwayTile) { ((HallwayTile) startingTile).setPlayerOnThisTile(p); }
             players.add(p);
-
         }
     }
 
@@ -161,46 +173,78 @@ public class Game {
      * Create all of the cards, select a solution, then deal the rest of the cards to the players.
      */
     private void setupCards() {
-        //Char cards
-        ArrayList<Card> cards = new ArrayList<>();
-        ArrayList<Card> solutionCards = new ArrayList<>();
         solution = new Hypothesis(null, null, null);
 
-        for (Player player : players) {
-            cards.add(player.getCharacter());
-            solutionCards.add(player.getCharacter());
-        }
-
-        Collections.shuffle(solutionCards);
-        solution.setCharacter((CharacterCard) solutionCards.get(0));
-        cards.remove(solutionCards.get(0));
-        solutionCards.clear();
-
-        //Weapon cards
-        for (weapons weapon : weapons.values()) {
-            WeaponCard weaponCard = new WeaponCard(weapon);
-            cards.add(weaponCard);
-            solutionCards.add(weaponCard);
-        }
-
-        Collections.shuffle(solutionCards);
-        solution.setWeapon((WeaponCard) solutionCards.get(0));
-        cards.remove(solutionCards.get(0));
-        solutionCards.clear();
-
-        //Room cards
-        for (rooms room : rooms.values()) {
-            RoomCard roomCard = new RoomCard(room);
-            cards.add(roomCard);
-            solutionCards.add(roomCard);
-        }
-
-        Collections.shuffle(solutionCards);
-        solution.setRoom((RoomCard) solutionCards.get(0));
-        cards.remove(solutionCards.get(0));
-        solutionCards.clear();
+        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
+        cards.addAll(setupWeaponCards());
+        cards.addAll(setupRoomCards());
 
         dealCards(cards);
+    }
+
+    /**
+     * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all active characterCards, with solution removed.
+     */
+    private ArrayList<? extends Card> setupCharacterCards() {
+        ArrayList<CharacterCard> characterCards = new ArrayList<>();
+
+        //Create all the cards representing current players
+        for (Player player : players) {
+            characterCards.add(player.getCharacter());
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(characterCards);
+        solution.setCharacter(characterCards.get(0));
+        characterCards.remove(0);
+
+        return characterCards;
+    }
+
+    /**
+     * Create a weaponCard for every weapon. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all weaponCards, with solution removed.
+     */
+    private Collection<? extends Card> setupWeaponCards() {
+        ArrayList<WeaponCard> weaponCards = new ArrayList<>();
+
+        //Create weapon cards for all weapons and add to collection
+        for (weapons weapon : weapons.values()) {
+            WeaponCard weaponCard = new WeaponCard(weapon);
+            weaponCards.add(weaponCard);
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(weaponCards);
+        solution.setWeapon(weaponCards.get(0));
+        weaponCards.remove(0);
+
+        return weaponCards;
+    }
+
+    /**
+     * Create a roomCard for every room. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all roomCards, with solution removed.
+     */
+    private Collection<? extends Card> setupRoomCards() {
+        ArrayList<RoomCard> roomCards = new ArrayList<>();
+
+        //Create weapon cards for all weapons and add to collection
+        for (rooms room : rooms.values()) {
+            RoomCard roomCard = new RoomCard(room);
+            roomCards.add(roomCard);
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(roomCards);
+        solution.setRoom(roomCards.get(0));
+        roomCards.remove(0);
+
+        return roomCards;
     }
 
     /**
