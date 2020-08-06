@@ -75,125 +75,116 @@ public class BoardParser {
      * @throws InputMismatchException   If token is not of pre-known sequence, input is incorrect.
      */
     private Tile parseInitials(String token, int x, int y) throws InputMismatchException {
-        if (token.equalsIgnoreCase("KT")) {
-            // Kitchen
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.KITCHEN)) {
-                entrances.put(RoomCard.rooms.KITCHEN, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.KITCHEN).add(h);
-            return new EntranceTile(RoomCard.rooms.KITCHEN, h);
+        Position h = new Position(x, y);
+        switch (token) {
+            case "KT":
+                // Kitchen
+                if (!entrances.containsKey(RoomCard.rooms.KITCHEN)) {
+                    entrances.put(RoomCard.rooms.KITCHEN, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.KITCHEN).add(h);
+                return new EntranceTile(RoomCard.rooms.KITCHEN, h);
+
+            case "BR":
+                // Ballroom
+                if (!entrances.containsKey(RoomCard.rooms.BALLROOM)) {
+                    entrances.put(RoomCard.rooms.BALLROOM, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.BALLROOM).add(h);
+                return new EntranceTile(RoomCard.rooms.BALLROOM, h);
+
+            case "CT":
+                // Conservatory
+                if (!entrances.containsKey(RoomCard.rooms.CONSERVATORY)) {
+                    entrances.put(RoomCard.rooms.CONSERVATORY, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.CONSERVATORY).add(h);
+                return new EntranceTile(RoomCard.rooms.CONSERVATORY, h);
+
+           case "BL":
+                // Billiard room
+                if (!entrances.containsKey(RoomCard.rooms.BILLIARDROOM)) {
+                    entrances.put(RoomCard.rooms.BILLIARDROOM, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.BILLIARDROOM).add(h);
+                return new EntranceTile(RoomCard.rooms.BILLIARDROOM, h);
+
+            case "LB":
+                // Library
+                if (!entrances.containsKey(RoomCard.rooms.LIBRARY)) {
+                    entrances.put(RoomCard.rooms.LIBRARY, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.LIBRARY).add(h);
+                return new EntranceTile(RoomCard.rooms.LIBRARY, h);
+
+            case "ST":
+                // Study
+                if (!entrances.containsKey(RoomCard.rooms.STUDY)) {
+                    entrances.put(RoomCard.rooms.STUDY, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.STUDY).add(h);
+                return new EntranceTile(RoomCard.rooms.STUDY, h);
+
+            case "HL":
+                // Hall
+                if (!entrances.containsKey(RoomCard.rooms.HALL)) {
+                    entrances.put(RoomCard.rooms.HALL, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.HALL).add(h);
+                return new EntranceTile(RoomCard.rooms.HALL, h);
+
+            case"LG":
+                // Lounge
+                if (!entrances.containsKey(RoomCard.rooms.LOUNGE)) {
+                    entrances.put(RoomCard.rooms.LOUNGE, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.LOUNGE).add(h);
+                return new EntranceTile(RoomCard.rooms.LOUNGE, h);
+
+            case "DR":
+                // Dining room
+                if (!entrances.containsKey(RoomCard.rooms.DININGROOM)) {
+                    entrances.put(RoomCard.rooms.DININGROOM, new ArrayList<>());
+                }
+                entrances.get(RoomCard.rooms.DININGROOM).add(h);
+                return new EntranceTile(RoomCard.rooms.DININGROOM, h);
+
+            case "MU":
+                // Mustard
+                startingTiles.put(CharacterCard.characters.MUSTARD, h);
+                return new HallwayTile(new CharacterCard(CharacterCard.characters.MUSTARD), h);
+
+            case "WH":
+                // White
+                startingTiles.put(CharacterCard.characters.WHITE, h);
+                return new HallwayTile(new CharacterCard(CharacterCard.characters.WHITE), h);
+
+            case "GR":
+                // Green
+                startingTiles.put(CharacterCard.characters.GREEN, h);
+                return new HallwayTile(new CharacterCard(CharacterCard.characters.GREEN), h);
+
+            case "PC":
+                // Peacock
+                startingTiles.put(CharacterCard.characters.PEACOCK, h);
+                return new HallwayTile(new CharacterCard(CharacterCard.characters.PEACOCK), h);
+
+            case "PL":
+                // Plum
+                startingTiles.put(CharacterCard.characters.PLUM, h);
+                return new HallwayTile(new CharacterCard(CharacterCard.characters.PLUM), h);
+
+            case "SC":
+                // Scarlett
+                startingTiles.put(CharacterCard.characters.SCARLETT, h);
+                return new HallwayTile(new CharacterCard(CharacterCard.characters.SCARLETT), h);
+
+            default:
+                throw new InputMismatchException("No viable character value found.");
         }
-        else if (token.equalsIgnoreCase("BR")) {
-            // Ballroom
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.BALLROOM)) {
-                entrances.put(RoomCard.rooms.BALLROOM, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.BALLROOM).add(h);
-            return new EntranceTile(RoomCard.rooms.BALLROOM, h);
-        }
-        else if (token.equalsIgnoreCase("CT")) {
-            // Conservatory
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.CONSERVATORY)) {
-                entrances.put(RoomCard.rooms.CONSERVATORY, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.CONSERVATORY).add(h);
-            return new EntranceTile(RoomCard.rooms.CONSERVATORY, h);
-        }
-        else if (token.equalsIgnoreCase("BL")) {
-            // Billiard room
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.BILLIARDROOM)) {
-                entrances.put(RoomCard.rooms.BILLIARDROOM, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.BILLIARDROOM).add(h);
-            return new EntranceTile(RoomCard.rooms.BILLIARDROOM, h);
-        }
-        else if (token.equalsIgnoreCase("LB")) {
-            // Library
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.LIBRARY)) {
-                entrances.put(RoomCard.rooms.LIBRARY, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.LIBRARY).add(h);
-            return new EntranceTile(RoomCard.rooms.LIBRARY, h);
-        }
-        else if (token.equalsIgnoreCase("ST")) {
-            // Study
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.STUDY)) {
-                entrances.put(RoomCard.rooms.STUDY, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.STUDY).add(h);
-            return new EntranceTile(RoomCard.rooms.STUDY, h);
-        }
-        else if (token.equalsIgnoreCase("HL")) {
-            // Hall
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.HALL)) {
-                entrances.put(RoomCard.rooms.HALL, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.HALL).add(h);
-            return new EntranceTile(RoomCard.rooms.HALL, h);
-        }
-        else if (token.equalsIgnoreCase("LG")) {
-            // Lounge
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.LOUNGE)) {
-                entrances.put(RoomCard.rooms.LOUNGE, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.LOUNGE).add(h);
-            return new EntranceTile(RoomCard.rooms.LOUNGE, h);
-        }
-        else if (token.equalsIgnoreCase("DR")) {
-            // Dining room
-            Position h = new Position(x, y);
-            if (!entrances.containsKey(RoomCard.rooms.DININGROOM)) {
-                entrances.put(RoomCard.rooms.DININGROOM, new ArrayList<>());
-            }
-            entrances.get(RoomCard.rooms.DININGROOM).add(h);
-            return new EntranceTile(RoomCard.rooms.DININGROOM, h);
-        }
-        else if (token.equalsIgnoreCase("MU")) {
-            // Mustard
-            Position h = new Position(x, y);
-            startingTiles.put(CharacterCard.characters.MUSTARD, h);
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.MUSTARD), h);
-        }
-        else if (token.equalsIgnoreCase("WH")) {
-            // White
-            Position h = new Position(x, y);
-            startingTiles.put(CharacterCard.characters.WHITE, h);
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.WHITE), h);
-        }
-        else if (token.equalsIgnoreCase("GR")) {
-            // Green
-            Position h = new Position(x, y);
-            startingTiles.put(CharacterCard.characters.GREEN, h);
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.GREEN), h);
-        }
-        else if (token.equalsIgnoreCase("PC")) {
-            // Peacock
-            Position h = new Position(x, y);
-            startingTiles.put(CharacterCard.characters.PEACOCK, h);
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.PEACOCK), new Position(x, y));
-        }
-        else if (token.equalsIgnoreCase("PL")) {
-            // Plum
-            Position h = new Position(x, y);
-            startingTiles.put(CharacterCard.characters.PLUM, h);
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.PLUM), h);
-        }
-        else if (token.equalsIgnoreCase("SC")) {
-            // Scarlett
-            Position h = new Position(x, y);
-            startingTiles.put(CharacterCard.characters.SCARLETT, h);
-            return new HallwayTile(new CharacterCard(CharacterCard.characters.SCARLETT), h);
-        }
-        else {
-            throw new InputMismatchException("No viable character value found.");
-        }
+
+
+
+
     }
 }
