@@ -16,7 +16,7 @@ import static Cards.WeaponCard.*;
 public class Game {
 
 
-    private int movementRange;
+    private int movementRange = 999;
     private boolean hasMadeValidMove = false;
 
     public enum TurnState {Playing, Finished;}
@@ -63,20 +63,27 @@ public class Game {
     private void playerMovement() {
         System.out.println("Player movement called");
         //roll dice
-        movementRange = rollDice();
+       // movementRange = rollDice();
         System.out.println("You rolled a " + movementRange);
         //ask for tile to move to
         Scanner sc = new Scanner(System.in);
         hasMadeValidMove = false;
         while(!hasMadeValidMove) {
-            System.out.println("current col coord = "+currentPlayer.getTile().position.getX());
-            System.out.println("current row coord = "+currentPlayer.getTile().position.getY());//todo just temp
+            System.out.println("current col coord = " + currentPlayer.getTile().position.getX());
+            System.out.println("current row coord = " + currentPlayer.getTile().position.getY());//todo just temp
 
             System.out.println("Enter column to move to:");
-            int moveRow = sc.nextInt();
-            System.out.println("Enter row to move to:");
             int moveCol = sc.nextInt();
-            move(moveRow, moveCol);
+            System.out.println("Enter row to move to:");
+            int moveRow = sc.nextInt();
+
+            if (moveRow < 25 && moveRow >= 0 && moveCol < 24 && moveCol >= 0) {
+                move(moveCol, moveRow);//check if requested tile is even within 24x25
+            }//these might not be the right values?
+            else{
+                System.out.println("Invalid row/column, try again.");
+            }
+
         }
 
 
@@ -97,39 +104,41 @@ public class Game {
             return false;
         }
 
-        //check if requested tile is even within 24x25
-        else if(endX > 25 || endY > 24){        //these might not be the right values?
-            System.out.println("Invalid Coordinate");
-            return false;
-        }
 
-        else if((board.getTileAt(endPos).hasPlayer()) && !(board.getTileAt(endPos) instanceof RoomTile)){
+        if((board.getTileAt(endPos).hasPlayer()) && !(board.getTileAt(endPos) instanceof RoomTile)){
             System.out.println("Tile already has player on it");
             return false;
         }//else if endPos already has player && endPos is not entranceTile
 
 
-        else if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
+        if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
             System.out.println("You can not move that far!");
             return false;
         }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
-        hasMadeValidMove = true;
 
+        hasMadeValidMove = true;
         return true;
     }
     //TODO get movement working
     public void move(int x, int y) {
+
         Tile startTile = currentPlayer.getTile();   //tile before moving
         Position startPos = startTile.position; //position before moving
-        if(currentPlayer.getTile() == null){
-            currentPlayer.setPosition(new Tile(new Position(0,0))); //todo just a temp fix
+//        if(currentPlayer.getTile() == null){
+//            currentPlayer.setPosition(new Tile(new Position(0,0))); //todo just a temp fix
+//        }
+        if(board.getTileAt(new Position(x,y)).hasPlayer()){
+
         }
+
         Position endPos = new Position(x,y); // position to move to
+        Tile endTile = new Tile(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
         if(isValidMovement(playerX, playerY, x, y)){
             board.setTileAt(endPos, currentPlayer);  //move current player to their end position
             board.setTileAt(startPos,null);//set the start position to null
+            currentPlayer.setPosition(endTile);
             board.draw();
         }
     }
