@@ -67,11 +67,14 @@ public class Game {
         System.out.println("You rolled a " + movementRange);
         //ask for tile to move to
         Scanner sc = new Scanner(System.in);
+        hasMadeValidMove = false;
         while(!hasMadeValidMove) {
-            System.out.println(currentPlayer.getTile().position);
-            System.out.println("Enter row to move to:");
-            int moveRow = sc.nextInt();
+            System.out.println("current col coord = "+currentPlayer.getTile().position.getX());
+            System.out.println("current row coord = "+currentPlayer.getTile().position.getY());//todo just temp
+
             System.out.println("Enter column to move to:");
+            int moveRow = sc.nextInt();
+            System.out.println("Enter row to move to:");
             int moveCol = sc.nextInt();
             move(moveRow, moveCol);
         }
@@ -106,7 +109,7 @@ public class Game {
         }//else if endPos already has player && endPos is not entranceTile
 
 
-        else if(Math.abs((startX + endX) + (startY + endY)) > movementRange){
+        else if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
             System.out.println("You can not move that far!");
             return false;
         }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
