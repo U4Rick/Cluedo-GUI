@@ -4,9 +4,9 @@ import Cards.RoomCard;
 
 public class EntranceTile extends AccessibleTile {
 
-    private RoomCard.rooms room;
+    private RoomCard.RoomEnum room;
 
-    public EntranceTile(RoomCard.rooms r, Position pos) {
+    public EntranceTile(RoomCard.RoomEnum r, Position pos) {
         super(pos);
         room = r;
     }

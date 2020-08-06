@@ -81,7 +81,7 @@ public class Game {
      */
     private void printTurnInfo() {
         System.out.println(board.toString());
-        System.out.println(currentPlayer.getCharacter().convertToFullName());
+        System.out.println(currentPlayer.getCharacter());
     }
 
     /**
@@ -178,7 +178,7 @@ public class Game {
      * Create the players and add them to the list of players.
      */
     private void setupPlayers() {
-        characters[] values = characters.values();
+        CharacterEnum[] values = CharacterEnum.values();
         for (int i = 0; i < numPlayers; i++) {
             Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])), board);
             Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
@@ -230,8 +230,8 @@ public class Game {
     private Collection<? extends Card> setupWeaponCards() {
         ArrayList<WeaponCard> weaponCards = new ArrayList<>();
 
-        //Create weapon cards for all weapons and add to collection
-        for (weapons weapon : weapons.values()) {
+        //Create weapon cards for all WeaponEnum and add to collection
+        for (WeaponEnum weapon : WeaponEnum.values()) {
             WeaponCard weaponCard = new WeaponCard(weapon);
             weaponCards.add(weaponCard);
         }
@@ -252,8 +252,8 @@ public class Game {
     private Collection<? extends Card> setupRoomCards() {
         ArrayList<RoomCard> roomCards = new ArrayList<>();
 
-        //Create weapon cards for all weapons and add to collection
-        for (rooms room : rooms.values()) {
+        //Create weapon cards for all WeaponEnum and add to collection
+        for (RoomEnum room : RoomEnum.values()) {
             RoomCard roomCard = new RoomCard(room);
             roomCards.add(roomCard);
         }
