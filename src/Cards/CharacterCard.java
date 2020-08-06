@@ -2,42 +2,37 @@ package Cards;
 
 public class CharacterCard implements Card {
 
-    characters character;
-    public CharacterCard(characters c) {
-        character = c;
+    private CharacterEnum character;
+
+    public CharacterCard(CharacterEnum character) {
+        this.character = character;
     }
 
-    public enum characters {
+    public enum CharacterEnum {
         SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
     }
 
-    public String convertToFullName() {
+    public CharacterEnum getCharacter() {
+        return character;
+    }
+
+    @Override
+    public String toString() {
         switch (character) {
             case SCARLETT:
                 return "Miss Scarlett";
-
             case WHITE:
                 return "Mrs White";
-
             case GREEN:
                 return "Mr Green";
-
             case PLUM:
                 return "Professor Plum";
-
             case MUSTARD:
                 return "Colonel Mustard";
-
             case PEACOCK:
                 return "Mrs Peacock";
-
             default:
                 return "";
         }
     }
-
-    public void delete() {
-    }
-
-    public characters getCharacter() { return character; }
 }

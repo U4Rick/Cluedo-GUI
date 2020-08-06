@@ -10,8 +10,8 @@ import java.util.Map;
 public class Board {
 
     Tile[][] board;
-    public Map<CharacterCard.characters, Position> startingTiles;
-    public Map<RoomCard.rooms, ArrayList<Position>> entrances;
+    public Map<CharacterCard.CharacterEnum, Position> startingTiles;
+    public Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
 
     public Board() {
         //board
@@ -77,9 +77,9 @@ public class Board {
         return false;
     }
 
-    public Map<CharacterCard.characters, Position> getStartingTiles() { return startingTiles; }
+    public Map<CharacterCard.CharacterEnum, Position> getStartingTiles() { return startingTiles; }
 
-    public Map<RoomCard.rooms, ArrayList<Position>> getEntrances() { return entrances; }
+    public Map<RoomCard.RoomEnum, ArrayList<Position>> getEntrances() { return entrances; }
 
     @Override
     public String toString() {

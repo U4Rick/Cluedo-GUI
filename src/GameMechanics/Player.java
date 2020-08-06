@@ -206,7 +206,7 @@ public class Player {
         for (Card card : hand) {
             handAsText.append(card.toString()).append(", ");
         }
-        handAsText.delete(handAsText.length() - 3, handAsText.length() - 1);    //TODO check range
+        handAsText.delete(handAsText.length() - 2, handAsText.length() - 1);
 
         System.out.println(handAsText);
     }

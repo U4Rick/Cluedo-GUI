@@ -2,16 +2,33 @@ package Cards;
 
 public class WeaponCard implements Card {
 
-    weapons weapon;
-    public WeaponCard(weapons weapon) {
+    private WeaponEnum weapon;
+
+    public WeaponCard(WeaponEnum weapon) {
         this.weapon = weapon;
     }
 
-    public enum weapons {
+    public enum WeaponEnum {
         CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER
     }
 
-    public void delete() {
+    @Override
+    public String toString() {
+        switch (weapon) {
+            case CANDLESTICK:
+                return "Candlestick";
+            case LEADPIPE:
+                return "Leadpipe";
+            case DAGGER:
+                return "Dagger";
+            case REVOLVER:
+                return "Revolver";
+            case ROPE:
+                return "Rope";
+            case SPANNER:
+                return "Spanner";
+            default:
+                return "";
+        }
     }
-
 }
