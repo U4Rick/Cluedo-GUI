@@ -2,6 +2,8 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.CharacterCard;
+import Cards.RoomCard;
+import Cards.WeaponCard;
 import Tiles.Position;
 import Tiles.Tile;
 
@@ -42,11 +44,8 @@ public class Player {
         return wasSet;
     }
 
-    public boolean setMadeFalseAccusation(boolean madeFalseAccusation) {
-        boolean wasSet = false;
-        this.madeFalseAccusation = madeFalseAccusation;
-        wasSet = true;
-        return wasSet;
+    public void madeFalseAccusation() {
+        this.madeFalseAccusation = true;
     }
 
     public CharacterCard getCharacter() {
@@ -234,5 +233,30 @@ public class Player {
      */
     public boolean canHypothesise() {
         return isInRoom() && !getMadeFalseAccusation();
+    }
+
+
+    /**
+     * Create a new Hypothesis from user input.
+     * TODO get user input and validate it
+     *
+     * @return Newly created Hypothesis.
+     */
+    public Hypothesis createNewSuggestion() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Suggest a Character...");
+        String userInput = scan.next();
+        CharacterCard character = new CharacterCard(CharacterCard.CharacterEnum.GREEN);
+
+        System.out.println("Suggest a Weapon...");
+        userInput = scan.next();
+        WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
+
+        System.out.println("Suggest a Room...");
+        userInput = scan.next();
+        RoomCard room = new RoomCard(RoomCard.RoomEnum.BALLROOM);
+
+        return new Hypothesis(character, weapon, room);
     }
 }

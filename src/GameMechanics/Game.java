@@ -6,6 +6,7 @@ import Cards.RoomCard;
 import Cards.WeaponCard;
 import Tiles.*;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 import static Cards.CharacterCard.*;
@@ -53,7 +54,7 @@ public class Game {
      */
     private void processPlayerTurn() {
         playerMovement();
-        if (currentPlayer.canHypothesise()) { //FIXME Does this need to be more restrictive? Is there a case where a player is in a room but shouldn't be allowed
+        if (currentPlayer.canHypothesise()) {
             currentPlayer.displayHand();
             playerHypothesis();
         }
@@ -131,7 +132,49 @@ public class Game {
     }
 
     private void playerHypothesis() {
+        Scanner scan = new Scanner(System.in);
         System.out.println("player hypothesis called");
+
+        //Get input from user
+        System.out.println("Make a Suggestion? (Y or N)");
+        String userInput = scan.next();
+
+        if (userInput.equalsIgnoreCase("Y")) {
+            playerSuggestion();
+            return;
+        }
+
+        System.out.println("Make an Accusation?");
+        userInput = scan.next();
+        if (userInput.equalsIgnoreCase("Y")) {
+            playerAccusation();
+            return;
+        }
+
+        System.out.println("No action selected.");
+
+
+    }
+
+    private void playerSuggestion() {
+        Hypothesis activeSuggestion = currentPlayer.createNewSuggestion();
+
+        //take turns refuting
+
+    }
+
+    /**
+     * Creates a new accusation, if it matches the solution the game is over and the player wins.
+     * Otherwise they can no longer make suggestions or accusations. (They can still refute)
+     */
+    private void playerAccusation() {
+        Hypothesis accusation = currentPlayer.createNewSuggestion();
+        if (accusation.equals(solution)) {
+            System.out.println(currentPlayer + " has won the game!");
+            this.playerHasWon = true;
+        } else {
+            currentPlayer.madeFalseAccusation();
+        }
     }
 
     /**
