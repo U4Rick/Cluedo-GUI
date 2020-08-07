@@ -104,8 +104,9 @@ public class Game {
             return false;
         }
 
-        HallwayTile endHallwayTile = (HallwayTile) board.getTileAt(endPos);
-        if((endHallwayTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof RoomTile)){
+//        HallwayTile endHallwayTile = (HallwayTile) board.getTileAt(endPos);
+        Tile endTile = board.getTileAt(endPos);
+        if((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof RoomTile)){
             System.out.println("Tile already has player on it");
             return false;//else if endPos already has player && endPos is not entranceTile
         }

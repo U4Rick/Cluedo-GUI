@@ -1,6 +1,7 @@
 package Tiles;
 
 import Cards.RoomCard;
+import GameMechanics.Player;
 
 /**
  * Entrance tiles, allows multiple players to be on and
@@ -9,6 +10,7 @@ import Cards.RoomCard;
 public class EntranceTile extends AccessibleTile {
 
     private final RoomCard.RoomEnum room;
+    private Player playerOnThisTile;
 
 
     /**
@@ -21,13 +23,18 @@ public class EntranceTile extends AccessibleTile {
         room = r;
     }
 
+    public Player getPlayerOnThisTile() {
+        return playerOnThisTile;
+    }
+
+    public void setPlayerOnThisTile(Player playerOnThisTile) {
+        this.playerOnThisTile = playerOnThisTile;
+    }
+
     public RoomCard.RoomEnum getRoom() {
         return room;
     }
 
-    public void delete() {
-        super.delete();
-    }
 
     @Override
     public String toString() {
