@@ -2,12 +2,19 @@ package Tiles;
 
 import java.util.Objects;
 
+/**
+ *
+ */
 public class Position {
 
     //Tiles.Position Attributes
     private int x;
     private int y;
 
+    /**
+     * @param x
+     * @param y
+     */
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
