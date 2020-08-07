@@ -218,9 +218,11 @@ public class Player {
      * @return True if player is in a room, otherwise false.
      */
     public boolean isInRoom() {
-        for (Position entrance : board.startingTiles.values()) {
-            if (tile.getPosition().equals(entrance)) {
-                return true;
+        for (ArrayList<Position> entrance : board.entrances.values()) {
+            for (Position position : entrance) {    //TODO cleaner way to do this?
+                if (tile.getPosition().equals(position)) {
+                    return true;
+                }
             }
         }
         return false;
