@@ -2,7 +2,7 @@ package Cards;
 
 public class RoomCard implements Card {
 
-    private RoomEnum room;
+    private final RoomEnum room;
 
     public RoomCard(RoomEnum room) {
         this.room = room;
@@ -14,27 +14,16 @@ public class RoomCard implements Card {
 
     @Override
     public String toString() {
-        switch (room) {
-            case KITCHEN:
-                return "Kitchen";
-            case BALLROOM:
-                return "Ballroom";
-            case CONSERVATORY:
-                return "Conservatory";
-            case DININGROOM:
-                return "Dining Room";
-            case BILLIARDROOM:
-                return "Billiard Room";
-            case LIBRARY:
-                return "Library";
-            case STUDY:
-                return "Study";
-            case HALL:
-                return "Hall";
-            case LOUNGE:
-                return "Lounge";
-            default:
-                return "";
-        }
+        return switch (room) {
+            case KITCHEN -> "Kitchen";
+            case BALLROOM -> "Ballroom";
+            case CONSERVATORY -> "Conservatory";
+            case DININGROOM -> "Dining Room";
+            case BILLIARDROOM -> "Billiard Room";
+            case LIBRARY -> "Library";
+            case STUDY -> "Study";
+            case HALL -> "Hall";
+            case LOUNGE -> "Lounge";
+        };
     }
 }

@@ -2,7 +2,7 @@ package Cards;
 
 public class CharacterCard implements Card {
 
-    private CharacterEnum character;
+    private final CharacterEnum character;
 
     public CharacterCard(CharacterEnum character) {
         this.character = character;
@@ -18,21 +18,13 @@ public class CharacterCard implements Card {
 
     @Override
     public String toString() {
-        switch (character) {
-            case SCARLETT:
-                return "Miss Scarlett";
-            case WHITE:
-                return "Mrs White";
-            case GREEN:
-                return "Mr Green";
-            case PLUM:
-                return "Professor Plum";
-            case MUSTARD:
-                return "Colonel Mustard";
-            case PEACOCK:
-                return "Mrs Peacock";
-            default:
-                return "";
-        }
+        return switch (character) {
+            case SCARLETT -> "Miss Scarlett";
+            case WHITE -> "Mrs White";
+            case GREEN -> "Mr Green";
+            case PLUM -> "Professor Plum";
+            case MUSTARD -> "Colonel Mustard";
+            case PEACOCK -> "Mrs Peacock";
+        };
     }
 }
