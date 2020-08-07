@@ -92,7 +92,14 @@ public class Game {
         //update current player
     }
 
-    //TODO get movement working
+
+    /**
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     * @return
+     */
     public Boolean isValidMovement(int startX, int startY, int endX, int endY){
 
         Position endPos = new Position(endX, endY);
@@ -104,9 +111,8 @@ public class Game {
             return false;
         }
 
-//        HallwayTile endHallwayTile = (HallwayTile) board.getTileAt(endPos);
         Tile endTile = board.getTileAt(endPos);
-        if((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof RoomTile)){
+        if((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)){
             System.out.println("Tile already has player on it");
             return false;//else if endPos already has player && endPos is not entranceTile
         }
@@ -119,15 +125,15 @@ public class Game {
         hasMadeValidMove = true;
         return true;
     }
-    //TODO get movement working
+
+    /**
+     * @param x
+     * @param y
+     */
     public void move(int x, int y) {
 
         Tile startTile = currentPlayer.getTile();   //tile before moving
         Position startPos = startTile.position; //position before moving
-//        if(currentPlayer.getTile() == null){
-//            currentPlayer.setPosition(new Tile(new Position(0,0))); //todo just a temp fix
-//        }
-
         Position endPos = new Position(x,y); // position to move to
         Tile endTile = board.getTileAt(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
@@ -136,10 +142,15 @@ public class Game {
             board.setTileAt(endPos, currentPlayer);  //move current player to their end position
             board.setTileAt(startPos,null);//set the start position to null
             currentPlayer.setTile(endTile);
+            endTile.setPlayerOnThisTile(currentPlayer);
+            startTile.setPlayerOnThisTile(null);
             board.draw();
         }
     }
 
+    /**
+     *
+     */
     private void playerHypothesis() {
         Scanner scan = new Scanner(System.in);
         System.out.println("player hypothesis called");
@@ -165,6 +176,9 @@ public class Game {
 
     }
 
+    /**
+     *
+     */
     private void playerSuggestion() {
         currentPlayer.displayHand();
         printPotentialCharacters();
@@ -176,6 +190,9 @@ public class Game {
 
     }
 
+    /**
+     *
+     */
     private void printPotentialWeapons() {
         StringBuilder result = new StringBuilder();
         result.append("Weapons: ");
@@ -186,6 +203,9 @@ public class Game {
         System.out.println(result);
     }
 
+    /**
+     *
+     */
     private void printPotentialCharacters() {
         StringBuilder result = new StringBuilder();
         result.append("Characters: ");

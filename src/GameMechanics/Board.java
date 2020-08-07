@@ -63,18 +63,8 @@ public class Board {
 
     public Tile getTileAt(Position p) { return board[p.getY()][p.getX()]; }
 
-    public boolean setTileAt(Position pos, Player p) {
+    public void setTileAt(Position pos, Player p) {
         Tile temp = board[pos.getY()][pos.getX()];
-        if (temp instanceof AccessibleTile) {
-            if (temp instanceof HallwayTile) {
-                ((HallwayTile) temp).setPlayerOnThisTile(p);
-                return true;
-            }
-            else if (temp instanceof EntranceTile) {
-                //TODO: set up room entry stuff here,
-            }
-        }
-        return false;
     }
 
     public Map<CharacterCard.CharacterEnum, Position> getStartingTiles() { return startingTiles; }
