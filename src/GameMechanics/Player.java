@@ -2,9 +2,6 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.CharacterCard;
-import Cards.RoomCard;
-import Cards.WeaponCard;
-import Tiles.EntranceTile;
 import Tiles.Position;
 import Tiles.Tile;
 
@@ -22,8 +19,6 @@ public class Player {
     private Board board;
     public int movementRange;
 
-
-
     public Player(CharacterCard character, Tile tile, Board board) {
         this.character = character;
         this.tile = tile;
@@ -31,18 +26,8 @@ public class Player {
         hand = new ArrayList<>();
     }
 
-    public boolean setCharacter(CharacterCard character) {
-        boolean wasSet = false;
-        this.character = character;
-        wasSet = true;
-        return wasSet;
-    }
-
-    public boolean setPosition(Tile position) {
-        boolean wasSet = false;
-        this.tile = position;
-        wasSet = true;
-        return wasSet;
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     public void madeFalseAccusation() {
@@ -67,7 +52,7 @@ public class Player {
      * @param index
      * @return
      */
-    public Card getHand(int index) {
+    public Card getCard(int index) {
         Card hand = this.hand.get(index);
         return hand;
     }
@@ -82,88 +67,27 @@ public class Player {
     }
 
     //TODO: size of hand?
-    public int numberOfHand() {
+    public int sizeOfHand() {
         int number = hand.size();
         return number;
     }
 
-    public boolean hasHand() {
-        boolean hasHand = hand.size() > 0;
-        return hasHand;
-    }
-
     //TODO ?????
-    public int indexOfHand(Card aHand) {
-        int index = hand.indexOf(aHand);
+    public int indexOfCard(Card card) {
+        int index = hand.indexOf(card);
         return index;
     }
 
-    public static int minimumNumberOfHand() {
-        return 0;
-    }
-
     //TODO naming, what are these?
-    public boolean addHand(Card aHand) {
+    public boolean addCard(Card card) {
         boolean wasAdded = false;
-        if (hand.contains(aHand)) {
+        if (hand.contains(card)) {
             return false;
         }
-        hand.add(aHand);
+        hand.add(card);
         wasAdded = true;
         return wasAdded;
     }
-
-    //TODO remove card from hand?
-    public boolean removeHand(Card aHand) {
-        boolean wasRemoved = false;
-        if (hand.contains(aHand)) {
-            hand.remove(aHand);
-            wasRemoved = true;
-        }
-        return wasRemoved;
-    }
-
-    //TODO lul
-    public boolean addHandAt(Card aHand, int index) {
-        boolean wasAdded = false;
-        if (addHand(aHand)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfHand()) {
-                index = numberOfHand() - 1;
-            }
-            hand.remove(aHand);
-            hand.add(index, aHand);
-            wasAdded = true;
-        }
-        return wasAdded;
-    }
-
-    //TODO stop
-    public boolean addOrMoveHandAt(Card aHand, int index) {
-        boolean wasAdded = false;
-        if (hand.contains(aHand)) {
-            if (index < 0) {
-                index = 0;
-            }
-            if (index > numberOfHand()) {
-                index = numberOfHand() - 1;
-            }
-            hand.remove(aHand);
-            hand.add(index, aHand);
-            wasAdded = true;
-        } else {
-            wasAdded = addHandAt(aHand, index);
-        }
-        return wasAdded;
-    }
-
-    public void delete() {
-        hand.clear();
-    }
-
-
 
     public boolean canRefute() {
         return false;
@@ -181,24 +105,15 @@ public class Player {
 
     }
 
-
     public String toString() {
-        switch(character.getCharacter()) {
-            case PEACOCK:
-                return "PC";
-            case MUSTARD:
-                return "MU";
-            case PLUM:
-                return "PL";
-            case GREEN:
-                return "GR";
-            case WHITE:
-                return "WH";
-            case SCARLETT:
-                return "SC";
-            default:
-                return "";
-        }
+        return switch (character.getCharacter()) {
+            case PEACOCK -> "PC";
+            case MUSTARD -> "MU";
+            case PLUM -> "PL";
+            case GREEN -> "GR";
+            case WHITE -> "WH";
+            case SCARLETT -> "SC";
+        };
     }
 
     public void displayHand() {
