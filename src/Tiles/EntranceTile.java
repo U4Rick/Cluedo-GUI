@@ -1,7 +1,8 @@
 package Tiles;
 
-import Cards.RoomCard;
 import GameMechanics.Player;
+
+import static Cards.RoomCard.*;
 
 /**
  * Entrance tiles, allows multiple players to be on and
@@ -9,7 +10,7 @@ import GameMechanics.Player;
  */
 public class EntranceTile extends AccessibleTile {
 
-    private final RoomCard.RoomEnum room;
+    private final RoomEnum room;
     private Player playerOnThisTile;
 
 
@@ -18,7 +19,7 @@ public class EntranceTile extends AccessibleTile {
      * @param r     The room the entrance gives access to
      * @param pos   Position on the tile on the board
      */
-    public EntranceTile(RoomCard.RoomEnum r, Position pos) {
+    public EntranceTile(RoomEnum r, Position pos) {
         super(pos);
         room = r;
     }
@@ -31,7 +32,7 @@ public class EntranceTile extends AccessibleTile {
         this.playerOnThisTile = playerOnThisTile;
     }
 
-    public RoomCard.RoomEnum getRoom() {
+    public RoomEnum getRoom() {
         return room;
     }
 

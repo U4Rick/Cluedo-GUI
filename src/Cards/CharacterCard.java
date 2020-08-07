@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Character card for the game of Cluedo.
+ */
 public class CharacterCard implements Card {
 
     private final CharacterEnum character;

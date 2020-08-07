@@ -1,14 +1,6 @@
 package Tiles;
 
-
-import GameMechanics.Board;
-import GameMechanics.BoardParser;
-import GameMechanics.Game;
 import GameMechanics.Player;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Tiles which represent areas on the board grid.
@@ -16,11 +8,7 @@ import java.util.Set;
 public class Tile {
 
     private Player playerOnThisTile;
-
     public Position position;
-    private Board board;
-    private Set<String> characters = new HashSet<>(Arrays.asList("MU", "WH", "GR", "PC", "PL", "SC"));
-
 
     /**
      * Creates a tile at position given.

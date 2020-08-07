@@ -48,24 +48,8 @@ public class Board {
         entrances = b.entrances;
     }
 
-    public void delete() {
-    }
-
-    /**
-     * Tiles.Tile[][] tiles;
-     * Creates list.
-     */
-
-
-    public void draw() {
-
-    }
-
     public Tile getTileAt(Position p) { return board[p.getY()][p.getX()]; }
 
-    public void setTileAt(Position pos, Player p) {
-        Tile temp = board[pos.getY()][pos.getX()];
-    }
 
     public Map<CharacterCard.CharacterEnum, Position> getStartingTiles() { return startingTiles; }
 
