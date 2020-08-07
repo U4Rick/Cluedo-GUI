@@ -11,7 +11,11 @@ public class HallwayTile extends AccessibleTile {
 
     private boolean startingTile;
     private CharacterCard startingCharacter;
-    private Player playerOnThisTile = null;
+    private Player playerOnThisTile;
+
+    public Player getPlayerOnThisTile() {
+        return playerOnThisTile;
+    }
 
     /**
      * Creates a non starting tile.
