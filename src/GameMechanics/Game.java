@@ -249,8 +249,6 @@ public class Game {
         userInput = scan.next();
         WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
 
-        System.out.println(currentPlayer.getTile().toString());
-
         EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
         RoomCard room = new RoomCard(entranceTile.getRoom());
         return new Hypothesis(character, weapon, room);

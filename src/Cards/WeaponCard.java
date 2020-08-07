@@ -2,7 +2,7 @@ package Cards;
 
 public class WeaponCard implements Card {
 
-    private WeaponEnum weapon;
+    private final WeaponEnum weapon;
 
     public WeaponCard(WeaponEnum weapon) {
         this.weapon = weapon;
@@ -14,21 +14,13 @@ public class WeaponCard implements Card {
 
     @Override
     public String toString() {
-        switch (weapon) {
-            case CANDLESTICK:
-                return "Candlestick";
-            case LEADPIPE:
-                return "Leadpipe";
-            case DAGGER:
-                return "Dagger";
-            case REVOLVER:
-                return "Revolver";
-            case ROPE:
-                return "Rope";
-            case SPANNER:
-                return "Spanner";
-            default:
-                return "";
-        }
+        return switch (weapon) {
+            case CANDLESTICK -> "Candlestick";
+            case LEADPIPE -> "Leadpipe";
+            case DAGGER -> "Dagger";
+            case REVOLVER -> "Revolver";
+            case ROPE -> "Rope";
+            case SPANNER -> "Spanner";
+        };
     }
 }
