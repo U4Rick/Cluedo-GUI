@@ -6,7 +6,6 @@ import Cards.RoomCard;
 import Cards.WeaponCard;
 import Tiles.*;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static Cards.CharacterCard.*;
@@ -135,7 +134,7 @@ public class Game {
         if(isValidMovement(playerX, playerY, x, y)){
             board.setTileAt(endPos, currentPlayer);  //move current player to their end position
             board.setTileAt(startPos,null);//set the start position to null
-            currentPlayer.setPosition(endTile);
+            currentPlayer.setTile(endTile);
             board.draw();
         }
     }
@@ -204,9 +203,13 @@ public class Game {
         userInput = scan.next();
         WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
 
-        EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
-        RoomCard room = new RoomCard(entranceTile.getRoom());
-        return new Hypothesis(character, weapon, room);
+        if (currentPlayer.getTile() instanceof EntranceTile) {
+            EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
+            RoomCard room = new RoomCard(entranceTile.getRoom());
+            return new Hypothesis(character, weapon, room);
+        }
+        System.out.println("wut");
+        return null;
     }
 
     /**
@@ -406,7 +409,7 @@ public class Game {
     private void dealCards(ArrayList<Card> cards) {
         int player = 0;
         for (Card card : cards) {
-            players.get(player).addHand(card);
+            players.get(player).addCard(card);
 
             //Roll back to first player
             if (player != numPlayers - 1) {
