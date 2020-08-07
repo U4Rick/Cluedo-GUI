@@ -165,7 +165,7 @@ public class Game {
     }
 
     private void playerSuggestion() {
-        Hypothesis activeSuggestion = currentPlayer.createNewSuggestion();
+        Hypothesis activeSuggestion = createNewSuggestion();
 
         //take turns refuting
 
@@ -176,13 +176,40 @@ public class Game {
      * Otherwise they can no longer make suggestions or accusations. (They can still refute)
      */
     private void playerAccusation() {
-        Hypothesis accusation = currentPlayer.createNewSuggestion();
+        Hypothesis accusation = createNewSuggestion();
         if (accusation.equals(solution)) {
             System.out.println(currentPlayer + " has won the game!");
             this.playerHasWon = true;
         } else {
             currentPlayer.madeFalseAccusation();
         }
+    }
+
+    /**
+     * Create a new Hypothesis from user input.
+     * TODO get user input and validate it
+     *
+     * @return Newly created Hypothesis.
+     */
+    public Hypothesis createNewSuggestion() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Suggest a Character...");
+        String userInput = scan.next();
+        CharacterCard character = new CharacterCard(CharacterCard.CharacterEnum.GREEN);
+
+        System.out.println("Suggest a Weapon...");
+        userInput = scan.next();
+        WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
+
+        if (currentPlayer.getTile() instanceof EntranceTile) {
+            EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
+            RoomCard room = new RoomCard(entranceTile.getRoom());
+            return new Hypothesis(character, weapon, room);
+        }
+        System.out.println("Not an instance of entrance tile?");
+        return null;
+
     }
 
     /**
@@ -293,7 +320,6 @@ public class Game {
             Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
             if (startingTile instanceof HallwayTile) { ((HallwayTile) startingTile).setPlayerOnThisTile(p); }
             players.add(p);
-
         }
     }
 

@@ -21,6 +21,14 @@ public class EntranceTile extends AccessibleTile {
         room = r;
     }
 
+    public RoomCard.RoomEnum getRoom() {
+        return room;
+    }
+
+    public void delete() {
+        super.delete();
+    }
+
     @Override
     public String toString() {
         switch (room) {
