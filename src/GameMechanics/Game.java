@@ -31,6 +31,7 @@ public class Game {
     //GameMechanics.Game Associations
     private Board board;
     private List<Player> players = new ArrayList<>();
+    private List<WeaponCard> allWeapons = new ArrayList<>();
 
     public Game() {
         initialise();
@@ -54,7 +55,7 @@ public class Game {
     private void processPlayerTurn() {
         playerMovement();
         if (currentPlayer.canHypothesise()) {
-            currentPlayer.displayHand();
+            //currentPlayer.displayHand();
             playerHypothesis();
         }
     }
@@ -165,11 +166,36 @@ public class Game {
     }
 
     private void playerSuggestion() {
+        currentPlayer.displayHand();
+        printPotentialCharacters();
+        printPotentialWeapons();
         Hypothesis activeSuggestion = createNewSuggestion();
+        System.out.println(activeSuggestion);
 
         //take turns refuting
 
     }
+
+    private void printPotentialWeapons() {
+        StringBuilder result = new StringBuilder();
+        result.append("Weapons: ");
+        for (WeaponCard weapon : allWeapons) {
+            result.append(weapon.toString()).append(", ");
+        }
+        result.delete(result.length() - 2, result.length() - 1);
+        System.out.println(result);
+    }
+
+    private void printPotentialCharacters() {
+        StringBuilder result = new StringBuilder();
+        result.append("Characters: ");
+        for (Player player : players) {
+            result.append(player.getCharacter().toString()).append(", ");
+        }
+        result.delete(result.length() - 2, result.length() - 1);
+        System.out.println(result);
+    }
+
 
     /**
      * Creates a new accusation, if it matches the solution the game is over and the player wins.
@@ -204,13 +230,10 @@ public class Game {
         WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
 
         System.out.println(currentPlayer.getTile().toString());
-        if (currentPlayer.getTile() instanceof EntranceTile) {
-            EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
-            RoomCard room = new RoomCard(entranceTile.getRoom());
-            return new Hypothesis(character, weapon, room);
-        }
-        System.out.println("wut");
-        return null;
+
+        EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
+        RoomCard room = new RoomCard(entranceTile.getRoom());
+        return new Hypothesis(character, weapon, room);
     }
 
     /**
@@ -370,6 +393,7 @@ public class Game {
         for (WeaponEnum weapon : WeaponEnum.values()) {
             WeaponCard weaponCard = new WeaponCard(weapon);
             weaponCards.add(weaponCard);
+            allWeapons.add(weaponCard);
         }
 
         //Remove one at random and set aside as the solution

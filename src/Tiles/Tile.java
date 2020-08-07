@@ -38,11 +38,6 @@ public class Tile {
         this.playerOnThisTile = playerOnThisTile;
     }
 
-    public void draw() {
-    }
-
-
-
     public Position getPosition() {
         return this.position;
     }

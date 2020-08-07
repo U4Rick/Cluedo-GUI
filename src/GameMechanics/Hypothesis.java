@@ -19,25 +19,20 @@ public class Hypothesis {
         this.room = room;
     }
 
-    public boolean setWeapon(WeaponCard weapon) {
-        boolean wasSet = false;
-        this.weapon = weapon;
-        wasSet = true;
-        return wasSet;
-    }
-
-    public boolean setRoom(RoomCard room) {
-        boolean wasSet = false;
-        this.room = room;
-        wasSet = true;
-        return wasSet;
-    }
-
-    public boolean setCharacter(CharacterCard character) {
-        boolean wasSet = false;
+    public void setCharacter(CharacterCard character) {
         this.character = character;
-        wasSet = true;
-        return wasSet;
+    }
+
+    public void setWeapon(WeaponCard weapon) {
+        this.weapon = weapon;
+    }
+
+    public void setRoom(RoomCard room) {
+        this.room = room;
+    }
+
+    public CharacterCard getCharacter() {
+        return character;
     }
 
     public WeaponCard getWeapon() {
@@ -48,18 +43,13 @@ public class Hypothesis {
         return room;
     }
 
-    public CharacterCard getCharacter() {
-        return character;
-    }
-
-    public void delete() {
-    }
-
+    @Override
     public String toString() {
-        return super.toString() + "[" + "]" + System.getProperties().getProperty("line.separator") +
-                "  " + "weapon" + "=" + (getWeapon() != null ? !getWeapon().equals(this) ? getWeapon().toString().replaceAll("  ", "    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-                "  " + "room" + "=" + (getRoom() != null ? !getRoom().equals(this) ? getRoom().toString().replaceAll("  ", "    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-                "  " + "character" + "=" + (getCharacter() != null ? !getCharacter().equals(this) ? getCharacter().toString().replaceAll("  ", "    ") : "this" : "null");
+        return "Hypothesis{" +
+                "character=" + character +
+                ", weapon=" + weapon +
+                ", room=" + room +
+                '}';
     }
 
     @Override
