@@ -24,10 +24,7 @@ public class Tile {
     public void draw() {
     }
 
-    //todo implement
-    public boolean hasPlayer() {
-        return false;
-    }
+
 
     public Position getPosition() {
         return this.position;

@@ -104,12 +104,11 @@ public class Game {
             return false;
         }
 
-
-        if((board.getTileAt(endPos).hasPlayer()) && !(board.getTileAt(endPos) instanceof RoomTile)){
+        HallwayTile endHallwayTile = (HallwayTile) board.getTileAt(endPos);
+        if((endHallwayTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof RoomTile)){
             System.out.println("Tile already has player on it");
-            return false;
-        }//else if endPos already has player && endPos is not entranceTile
-
+            return false;//else if endPos already has player && endPos is not entranceTile
+        }
 
         if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
             System.out.println("You can not move that far!");
@@ -127,9 +126,6 @@ public class Game {
 //        if(currentPlayer.getTile() == null){
 //            currentPlayer.setPosition(new Tile(new Position(0,0))); //todo just a temp fix
 //        }
-        if(board.getTileAt(new Position(x,y)).hasPlayer()){
-
-        }
 
         Position endPos = new Position(x,y); // position to move to
         Tile endTile = new Tile(endPos);    //tile to move to
