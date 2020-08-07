@@ -129,7 +129,7 @@ public class Game {
 //        }
 
         Position endPos = new Position(x,y); // position to move to
-        Tile endTile = new Tile(endPos);    //tile to move to
+        Tile endTile = board.getTileAt(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
         if(isValidMovement(playerX, playerY, x, y)){
@@ -203,6 +203,7 @@ public class Game {
         userInput = scan.next();
         WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
 
+        System.out.println(currentPlayer.getTile().toString());
         if (currentPlayer.getTile() instanceof EntranceTile) {
             EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
             RoomCard room = new RoomCard(entranceTile.getRoom());
