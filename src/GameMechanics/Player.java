@@ -89,20 +89,14 @@ public class Player {
         return wasAdded;
     }
 
-    public boolean canRefute() {
-        return false;
-    }
-
-    public void suggest() {
-
-    }
-
-    public void accuse() {
-
-    }
-
-    public void refute() {
-
+    public ArrayList<Card> getRefutableCards(Hypothesis activeSuggestion) {
+        ArrayList<Card> refutableCards = new ArrayList<>();
+        for (Card card : hand) {
+            if (card.equals(activeSuggestion.getCharacter()) || card.equals(activeSuggestion.getRoom()) || card.equals(activeSuggestion.getWeapon())) {
+                refutableCards.add(card);
+            }
+        }
+        return refutableCards;
     }
 
     public String toString() {

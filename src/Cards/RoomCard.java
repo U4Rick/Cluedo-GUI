@@ -1,5 +1,7 @@
 package Cards;
 
+import java.util.Objects;
+
 /**
  * Room card for the game of Cluedo.
  */
@@ -13,6 +15,19 @@ public class RoomCard implements Card {
 
     public enum RoomEnum {
         KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLIARDROOM, LIBRARY, STUDY, HALL, LOUNGE
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoomCard roomCard = (RoomCard) o;
+        return room == roomCard.room;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(room);
     }
 
     @Override

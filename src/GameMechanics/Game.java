@@ -7,7 +7,6 @@ import Cards.WeaponCard;
 import Tiles.*;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static Cards.CharacterCard.*;
 import static Cards.RoomCard.*;
@@ -33,9 +32,8 @@ public class Game {
     private Board board;
     private List<Player> players = new ArrayList<>();
     private List<WeaponCard> allWeapons = new ArrayList<>();
+    private List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
-    private Pattern characterRegex = Pattern.compile("[WH]|[GR]|[PC]|[PL]|[SC]|[MU]");
-    private Pattern weaponRegex = Pattern.compile("[1-6]");
 
     public Game() {
         initialise();
@@ -191,7 +189,41 @@ public class Game {
         System.out.println(activeSuggestion);
 
         //take turns refuting
+        int index = players.indexOf(currentPlayer);
+        do {
+            //Roll over to index 0
+            if (index == players.size() - 1) {
+                index = 0;
+            } else {
+                index++;
+            }
 
+            Player refutingPlayer = players.get(index);
+            ArrayList<Card> refutableCards = refutingPlayer.getRefutableCards(activeSuggestion);
+            System.out.println();
+            refutingPlayer.displayHand();
+
+            if (!refutableCards.isEmpty()) {
+                System.out.println(refutableCards.size());
+                if (refutableCards.size() == 1) {
+                    System.out.println(refutingPlayer + " refutes with " + refutableCards.get(0));
+                    return;
+                }
+
+                //TODO chose multiple cards from user input
+
+
+
+
+
+            } else {
+                System.out.println(refutingPlayer + "cannot refute.");
+            }
+
+
+        } while (index != players.indexOf(currentPlayer));
+
+        unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
     }
 
     /**
@@ -238,17 +270,16 @@ public class Game {
 
     /**
      * Create a new Hypothesis from user input.
-     * TODO get user input and validate it
      *
      * @return Newly created Hypothesis.
      */
     public Hypothesis createNewSuggestion() {
-        Scanner scan = new Scanner(System.in);
         CharacterCard character = characterFromInput();
         WeaponCard weapon = weaponFromInput();
 
         EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
         RoomCard room = new RoomCard(entranceTile.getRoom());
+
         return new Hypothesis(character, weapon, room);
     }
 
