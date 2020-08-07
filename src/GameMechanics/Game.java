@@ -244,18 +244,65 @@ public class Game {
      */
     public Hypothesis createNewSuggestion() {
         Scanner scan = new Scanner(System.in);
-
-        System.out.println("Suggest a Character...");
-        String userInput = scan.next();
-        CharacterCard character = new CharacterCard(CharacterCard.CharacterEnum.GREEN);
-
-        System.out.println("Suggest a Weapon...");
-        userInput = scan.next();
-        WeaponCard weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
+        CharacterCard character = characterFromInput();
+        WeaponCard weapon = weaponFromInput();
 
         EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
         RoomCard room = new RoomCard(entranceTile.getRoom());
         return new Hypothesis(character, weapon, room);
+    }
+
+    /**
+     * Creates a character from user input after validation.
+     *
+     * @return CharacterCard created from user input.
+     */
+    private CharacterCard characterFromInput() {
+        Scanner scan = new Scanner(System.in);
+        CharacterCard character = null;
+
+        do {
+            System.out.println("Suggest a character using initials... (eg. Miss Scarlett = SC)");
+            String userInput = scan.next();
+            System.out.println(userInput);
+
+            switch (userInput) {
+                case "MU" -> character = new CharacterCard(CharacterEnum.MUSTARD);
+                case "WH" -> character = new CharacterCard(CharacterEnum.WHITE);
+                case "GR" -> character = new CharacterCard(CharacterEnum.GREEN);
+                case "PC" -> character = new CharacterCard(CharacterEnum.PEACOCK);
+                case "PL" -> character = new CharacterCard(CharacterEnum.PLUM);
+                case "SC" -> character = new CharacterCard(CharacterEnum.SCARLETT);
+            }
+        } while (character == null);
+
+        return character;
+    }
+
+    /**
+     * Create weapon from user input after validation.
+     *
+     * @return WeaponCard create from user input.
+     */
+    private WeaponCard weaponFromInput() {
+        Scanner scan = new Scanner(System.in);
+        WeaponCard weapon = null;
+
+        do {
+            System.out.println("Suggest a weapon using number between 1 and 6... (eg. Candlestick = 1)");
+            String userInput = scan.next();
+
+            switch (userInput) {
+                case "1" -> weapon = new WeaponCard(WeaponEnum.CANDLESTICK);
+                case "2" -> weapon = new WeaponCard(WeaponEnum.LEADPIPE);
+                case "3" -> weapon = new WeaponCard(WeaponEnum.DAGGER);
+                case "4" -> weapon = new WeaponCard(WeaponEnum.REVOLVER);
+                case "5" -> weapon = new WeaponCard(WeaponEnum.ROPE);
+                case "6" -> weapon = new WeaponCard(WeaponEnum.SPANNER);
+            }
+        } while (weapon == null);
+
+        return weapon;
     }
 
     /**
