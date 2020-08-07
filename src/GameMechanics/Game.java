@@ -7,6 +7,7 @@ import Cards.WeaponCard;
 import Tiles.*;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static Cards.CharacterCard.*;
 import static Cards.RoomCard.*;
@@ -32,6 +33,9 @@ public class Game {
     private Board board;
     private List<Player> players = new ArrayList<>();
     private List<WeaponCard> allWeapons = new ArrayList<>();
+
+    private Pattern characterRegex = Pattern.compile("[WH]|[GR]|[PC]|[PL]|[SC]|[MU]");
+    private Pattern weaponRegex = Pattern.compile("[1-6]");
 
     public Game() {
         initialise();
