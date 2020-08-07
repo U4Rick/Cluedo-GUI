@@ -84,12 +84,24 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for (int row = 0; row < board.length; row++) {
+        for (int row = 0; row < board.length + 1; row++) {
+
+            if (row < board.length) { builder.append(row); }
+            else { builder.append("   "); }
+            if (row < 10) { builder.append(" "); }
+
             for (int col = 0; col < board[0].length; col++)  {
-                builder.append("|");
-                builder.append(board[row][col].toString());
+                if (row == board.length) {
+                    builder.append(" ").append(col);
+                    if (col < 10) { builder.append(" "); }
+                }
+                else {
+                    builder.append("|");
+                    builder.append(board[row][col].toString());
+                }
+
             }
-            builder.append("|").append("\n");
+            if (row != board.length) { builder.append("|").append("\n"); }
         }
         return builder.toString();
     }

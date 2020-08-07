@@ -3,7 +3,7 @@ package Tiles;
 import java.util.Objects;
 
 /**
- *
+ *  Position on the board.
  */
 public class Position {
 
@@ -12,39 +12,32 @@ public class Position {
     private int y;
 
     /**
-     * @param x
-     * @param y
+     * Create a new position.
+     * @param x     X coordinate
+     * @param y     Y coordinate
      */
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public boolean setX(int x) {
-        boolean wasSet = false;
-        this.x = x;
-        wasSet = true;
-        return wasSet;
-    }
-
-    public boolean setY(int y) {
-        boolean wasSet = false;
-        this.y = y;
-        wasSet = true;
-        return wasSet;
-    }
-
+    /**
+     * Return the x coordinate.
+     * @return x value
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Return the y coordinate.
+     * @return  y value
+     */
     public int getY() {
         return y;
     }
 
-    public void delete() {
-    }
-
+    @Override
     public String toString() {
         return super.toString() + "[" +
                 "x" + ":" + getX() + "," +
