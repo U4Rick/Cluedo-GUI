@@ -25,33 +25,19 @@ public class EntranceTile extends AccessibleTile {
         return room;
     }
 
-    public void delete() {
-        super.delete();
-    }
 
     @Override
     public String toString() {
-        switch (room) {
-                case HALL:
-                    return "HL";
-                case STUDY:
-                    return "ST";
-                case LOUNGE:
-                    return "LG";
-                case KITCHEN:
-                    return "KT";
-                case LIBRARY:
-                    return "LB";
-                case BALLROOM:
-                    return "BR";
-                case DININGROOM:
-                    return "DR";
-                case BILLIARDROOM:
-                    return  "BL";
-                case CONSERVATORY:
-                    return "CT";
-                default:
-                    return "  ";
-        }
+        return switch (room) {
+            case HALL -> "HL";
+            case STUDY -> "ST";
+            case LOUNGE -> "LG";
+            case KITCHEN -> "KT";
+            case LIBRARY -> "LB";
+            case BALLROOM -> "BR";
+            case DININGROOM -> "DR";
+            case BILLIARDROOM -> "BL";
+            case CONSERVATORY -> "CT";
+        };
     }
 }
