@@ -7,9 +7,8 @@ import java.util.Objects;
  */
 public class Position {
 
-    //Tiles.Position Attributes
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     /**
      * Create a new position.

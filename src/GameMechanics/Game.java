@@ -143,12 +143,12 @@ public class Game {
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
         if(isValidMovement(playerX, playerY, x, y)){
-            board.setTileAt(endPos, currentPlayer);  //move current player to their end position
-            board.setTileAt(startPos,null);//set the start position to null
+            //board.setTileAt(endPos, currentPlayer);  //move current player to their end position
+            //board.setTileAt(startPos,null);//set the start position to null
             currentPlayer.setTile(endTile);
             endTile.setPlayerOnThisTile(currentPlayer);
             startTile.setPlayerOnThisTile(null);
-            board.draw();
+            //board.draw();
         }
     }
 

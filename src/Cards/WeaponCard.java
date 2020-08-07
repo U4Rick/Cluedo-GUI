@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Weapon card for the game of Cluedo.
+ */
 public class WeaponCard implements Card {
 
     private final WeaponEnum weapon;

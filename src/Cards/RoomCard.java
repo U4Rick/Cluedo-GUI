@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Room card for the game of Cluedo.
+ */
 public class RoomCard implements Card {
 
     private final RoomEnum room;

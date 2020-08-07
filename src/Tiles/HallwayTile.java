@@ -9,8 +9,6 @@ import GameMechanics.Player;
  */
 public class HallwayTile extends AccessibleTile {
 
-    private boolean startingTile;
-    private CharacterCard startingCharacter;
     private Player playerOnThisTile;
 
     public Player getPlayerOnThisTile() {
@@ -23,7 +21,6 @@ public class HallwayTile extends AccessibleTile {
      */
     public HallwayTile(Position pos) {
         super(pos);
-        startingTile = false;
     }
 
     /**
@@ -33,8 +30,6 @@ public class HallwayTile extends AccessibleTile {
      */
     public HallwayTile(CharacterCard c, Position pos) {
         super(pos);
-        startingTile = true;
-        startingCharacter = c;
     }
 
 
