@@ -2,21 +2,22 @@ package GameMechanics.Action;
 
 import GameMechanics.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ *  Allow the player to make an accusation.
+ *  Holds methods to take, print and execute an accusation.
  */
 public class Accusation extends Action {
 
-    private List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
+    private final List<Hypothesis> unrefutedSuggestions;
     private final Hypothesis solution;
 
     /**
-     * @param suggestions
-     * @param solution
+     * Initialise a new accusation action.
+     * @param suggestions   Current unrefuted suggestions which can be used as an accusation
+     * @param solution  The solution to the game, to compare to.
      */
     public Accusation(List<Hypothesis> suggestions, Hypothesis solution) {
         this.unrefutedSuggestions = suggestions;
@@ -25,7 +26,7 @@ public class Accusation extends Action {
 
 
     /**
-     *
+     *  Prints the possible suggestions to accuse based on.
      */
     public void printSuggestions() {
         StringBuilder result = new StringBuilder();
@@ -49,6 +50,7 @@ public class Accusation extends Action {
      * Creates a new accusation, if it matches the solution the game is over and the player wins.
      * Otherwise they can no longer make suggestions or accusations. (They can still refute)
      *
+     * @param currentPlayer Player who is making the accusation
      * @return True if game is won, otherwise false.
      */
     public boolean playerAccusation(Player currentPlayer) {

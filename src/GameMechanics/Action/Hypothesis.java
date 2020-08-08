@@ -16,6 +16,13 @@ public class Hypothesis {
     private WeaponCard weapon;
     private RoomCard room;
 
+    /**
+     * Initialises a new hypothesis.
+     * All params may be initialised as null.
+     * @param character The CharacterCard associated with this hypothesis
+     * @param weapon    The WeaponCard associated with this hypothesis
+     * @param room  The RoomCard associated with this hypothesis
+     */
     public Hypothesis(CharacterCard character, WeaponCard weapon, RoomCard room) {
         this.character = character;
         this.weapon = weapon;

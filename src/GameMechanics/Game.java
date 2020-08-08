@@ -16,16 +16,18 @@ import static Cards.CharacterCard.*;
 import static Cards.RoomCard.*;
 import static Cards.WeaponCard.*;
 
+/**
+ * Main class for Cluedo.
+ * Handles game initialisation, game over, and refers to all other
+ * classes in running the game via game logic
+ */
 public class Game {
-
-    private boolean hasMadeValidMove = false;
 
     //GameMechanics.Game Attributes
     private Hypothesis solution;
     private Player currentPlayer;
     private int numPlayers;
     private boolean playerHasWon = false;
-    private final String contentBreak = "\n-------------------------------------------\n";
 
     //GameMechanics.Game Associations
     private Board board;
@@ -33,6 +35,10 @@ public class Game {
     private final List<WeaponCard> allWeapons = new ArrayList<>();
     private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
+    /**
+     * Creates new instance of game.
+     * Run initialise methods and then run the game.
+     */
     public Game() {
         initialise();
         run();
@@ -65,7 +71,7 @@ public class Game {
     //////////////////////////
 
     /**
-     * Ask the player for amount of players, must be between 3-6
+     * Ask the player for amount of players, must be between 3-6.
      */
     public void setNumPlayers() {
         System.out.println("How many players?");
@@ -295,7 +301,7 @@ public class Game {
      * Print current board and name of current player.
      */
     private void printTurnInfo() {
-        System.out.println(contentBreak);
+        System.out.println("\n-------------------------------------------\n");
         System.out.print("\n");
         System.out.println(board.toString());
         printPlayersInRooms();
@@ -304,7 +310,7 @@ public class Game {
     }
 
     /**
-     *
+     * Prints an informative line for each player who is in a room.
      */
     private void printPlayersInRooms() {
         for (Player player : players) {
@@ -318,6 +324,10 @@ public class Game {
         System.out.println();
     }
 
+    /**
+     * Run the game.
+     * @param args  ignored
+     */
     public static void main(String[] args) {
         Game game = new Game();
     }

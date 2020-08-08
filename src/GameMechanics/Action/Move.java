@@ -10,7 +10,7 @@ import Tiles.Tile;
 import java.util.Scanner;
 
 /**
- *
+ *  Move players around the board and check the validity of those moves.
  */
 public class Move {
 
@@ -20,6 +20,11 @@ public class Move {
     private final Board board;
     private int movementRange = 999;
 
+    /**
+     * Initialise a new move instance.
+     * @param currentPlayer Player that's moving
+     * @param board Board to move around on
+     */
     public Move(Player currentPlayer, Board board) {
         this.currentPlayer = currentPlayer;
         this.board = board;
@@ -67,9 +72,8 @@ public class Move {
     public Boolean isValidMovement(int startX, int startY, int endX, int endY){
 
         Position endPos = new Position(endX, endY);
-        Position startPos = new Position(startX, startY);
 
-        //if endtile == inaccessible
+        //if endTile == inaccessible
         if(board.getTileAt(endPos) instanceof InaccessibleTile){
             System.out.println("Inaccessible Tile");
             return false;
@@ -84,15 +88,16 @@ public class Move {
         if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
             System.out.println("You can not move that far!");
             return false;
-        }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
+        }
 
         hasMadeValidMove = true;
         return true;
     }
 
     /**
-     * @param x
-     * @param y
+     * Get the move, and move the player if the move is deemed valid.
+     * @param x x coordinate to move to
+     * @param y y coordinate to move to
      */
     public void move(int x, int y) {
 

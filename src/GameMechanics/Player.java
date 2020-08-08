@@ -8,21 +8,40 @@ import Tiles.Tile;
 
 import java.util.*;
 
+/**
+ * Holds the information unique to each player.
+ */
 public class Player {
 
     private final CharacterCard character;
     private Tile tile;
     private boolean madeFalseAccusation = false;
-    public int movementRange;
 
     private final List<Card> hand;
     private final Board board;
 
+    /**
+     * Initialises the player.
+     * @param character Card of the character the player is playing as
+     * @param tile      The tile the player starts on
+     * @param board     The board of the game
+     */
     public Player(CharacterCard character, Tile tile, Board board) {
         this.character = character;
         this.tile = tile;
         this.board = board;
         hand = new ArrayList<>();
+    }
+
+    /**
+     * Add a card to the players hand.
+     *
+     * @param card Card to add to the hand.
+     */
+    public void addCardToHand(Card card) {
+        if (!hand.contains(card)) {
+            hand.add(card);
+        }
     }
 
     /**
@@ -59,25 +78,6 @@ public class Player {
         return tile;
     }
 
-    /**
-     * Getter for madeFalseAccusation.
-     *
-     * @return madeFalseAccusation.
-     */
-    public boolean hasNotMadeFalseAccusation() {
-        return !madeFalseAccusation;
-    }
-
-    /**
-     * Add a card to the players hand.
-     *
-     * @param card Card to add to the hand.
-     */
-    public void addCardToHand(Card card) {
-        if (!hand.contains(card)) {
-            hand.add(card);
-        }
-    }
 
     /**
      * Get a list of all cards that could be used as to refute the passed suggestion.
@@ -95,32 +95,13 @@ public class Player {
         return refutableCards;
     }
 
-    @Override
-    public String toString() {
-        return switch (character.getCharacter()) {
-            case PEACOCK -> "PC";
-            case MUSTARD -> "MU";
-            case PLUM -> "PL";
-            case GREEN -> "GR";
-            case WHITE -> "WH";
-            case SCARLETT -> "SC";
-        };
-    }
-
     /**
-     * Prints the players hand as text to the screen.
+     * Getter for madeFalseAccusation.
+     *
+     * @return madeFalseAccusation.
      */
-    public void displayHand() {
-        StringBuilder handAsText = new StringBuilder();
-
-        handAsText.append("Your hand: ");
-        for (Card card : hand) {
-            handAsText.append(card.toString()).append(", ");
-        }
-        handAsText.delete(handAsText.length() - 2, handAsText.length() - 1);
-        handAsText.append("\n");
-
-        System.out.println(handAsText);
+    public boolean hasNotMadeFalseAccusation() {
+        return !madeFalseAccusation;
     }
 
     /**
@@ -146,5 +127,34 @@ public class Player {
      */
     public boolean canHypothesise() {
         return isInRoom() && hasNotMadeFalseAccusation();
+    }
+
+    /**
+     * Prints the players hand as text to the screen.
+     */
+    public void displayHand() {
+        StringBuilder handAsText = new StringBuilder();
+
+        handAsText.append("Your hand: ");
+        for (Card card : hand) {
+            handAsText.append(card.toString()).append(", ");
+        }
+        handAsText.delete(handAsText.length() - 2, handAsText.length() - 1);
+        handAsText.append("\n");
+
+        System.out.println(handAsText);
+    }
+
+
+    @Override
+    public String toString() {
+        return switch (character.getCharacter()) {
+            case PEACOCK -> "PC";
+            case MUSTARD -> "MU";
+            case PLUM -> "PL";
+            case GREEN -> "GR";
+            case WHITE -> "WH";
+            case SCARLETT -> "SC";
+        };
     }
 }

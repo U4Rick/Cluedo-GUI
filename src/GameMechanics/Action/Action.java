@@ -5,13 +5,14 @@ import GameMechanics.Player;
 import Tiles.Position;
 
 /**
- *
+ *  Super class to some player actions.
+ *  Contains helper methods that multiple actions utilise.
  */
 public class Action {
 
 
     /**
-     *
+     *  Pause the console output for 2 seconds.
      */
     protected void sleep() {
         try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
@@ -21,6 +22,7 @@ public class Action {
      * Teleports a player to a room if they're not already there.
      * @param player     Player to move
      * @param position   Position to move to
+     * @param board      Board to move upon
      */
     protected void playerTeleport(Player player, Position position, Board board) {
         System.out.print("\n");

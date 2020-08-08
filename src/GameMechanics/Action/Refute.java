@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ *  Refute against a suggestion with a contradicting card.
  */
 public class Refute extends Action {
 
     /**
-     *
+     *  Create a new instance of Refute.
      */
     public Refute() {}
 
@@ -77,7 +77,9 @@ public class Refute extends Action {
     }
 
     /**
-     * @param cards
+     * Prints the cards a player can use from their hand to refute if they
+     * hold more than one.
+     * @param cards Cards to print
      */
     private void printRefutableCards(ArrayList<Card> cards) {
         StringBuilder result = new StringBuilder();

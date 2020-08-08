@@ -15,6 +15,10 @@ public class BoardParser {
     public Map<CharacterCard.CharacterEnum, Position> startingTiles;
     public Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
 
+    /**
+     * Initialise the BoardParser object.
+     * Create an empty 2D array, and initialise the maps.
+     */
     public BoardParser() {
         board = new Tile[25][24];
         startingTiles = new HashMap<>();

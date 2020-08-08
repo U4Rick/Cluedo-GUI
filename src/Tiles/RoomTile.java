@@ -1,7 +1,7 @@
 package Tiles;
 
 /**
- * Textual placeholder for room tiles (which are inaccessible by the player)
+ * Textual placeholder for room tiles (which are inaccessible by the player).
  */
 public class RoomTile extends InaccessibleTile {
 

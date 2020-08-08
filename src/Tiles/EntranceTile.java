@@ -1,7 +1,5 @@
 package Tiles;
 
-import GameMechanics.Player;
-
 import static Cards.RoomCard.*;
 
 /**
@@ -11,8 +9,6 @@ import static Cards.RoomCard.*;
 public class EntranceTile extends AccessibleTile {
 
     private final RoomEnum room;
-    private Player playerOnThisTile; // FIXME: field exists in Tile class already?
-
 
     /**
      * Creates the EntranceTile object.
@@ -24,15 +20,10 @@ public class EntranceTile extends AccessibleTile {
         room = r;
     }
 
-    // FIXME: getter and setter exists in Tile superclass.
-    public Player getPlayerOnThisTile() {
-        return playerOnThisTile;
-    }
-
-    public void setPlayerOnThisTile(Player playerOnThisTile) {
-        this.playerOnThisTile = playerOnThisTile;
-    }
-
+    /**
+     * Get the room this entrance leads to.
+     * @return  the room
+     */
     public RoomEnum getRoom() {
         return room;
     }

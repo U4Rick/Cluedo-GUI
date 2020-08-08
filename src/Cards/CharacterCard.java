@@ -9,8 +9,27 @@ public class CharacterCard implements Card {
 
     private final CharacterEnum character;
 
+    /**
+     * Initialise the CharacterCard.
+     * @param character  Character to initialise as.
+     */
     public CharacterCard(CharacterEnum character) {
         this.character = character;
+    }
+
+    /**
+     * Enum values for all possible characters.
+     */
+    public enum CharacterEnum {
+        SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
+    }
+
+    /**
+     * Get the character associated with this card.
+     * @return  the character
+     */
+    public CharacterEnum getCharacter() {
+        return character;
     }
 
     @Override
@@ -24,14 +43,6 @@ public class CharacterCard implements Card {
     @Override
     public int hashCode() {
         return Objects.hash(character);
-    }
-
-    public enum CharacterEnum {
-        SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
-    }
-
-    public CharacterEnum getCharacter() {
-        return character;
     }
 
     @Override

@@ -7,21 +7,21 @@ import GameMechanics.Board;
 import GameMechanics.Player;
 import Tiles.EntranceTile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ *  A suggested murder circumstance.
  */
 public class Suggestion extends Action {
 
     private final Player currentPlayer;
-    private List<Player> players = new ArrayList<>();
+    private final List<Player> players;
 
     /**
-     * @param currentPlayer
-     * @param players
+     * Initialise a new Suggestion.
+     * @param currentPlayer Player making the suggestion
+     * @param players   The players in the game
      */
     public Suggestion(Player currentPlayer, List<Player> players) {
         this.currentPlayer = currentPlayer;
@@ -48,6 +48,9 @@ public class Suggestion extends Action {
      *  Prints out relevant info needed to do so, and runs createNewSuggestion().
      *  Moves the relevant player of suggestion to the room if not already there,
      *  then runs the refute() method for each player other than current.
+     * @param unrefutedSuggestions  Collection to add suggestion to if successfully unrefuted
+     * @param weapons   Weapons that are available to make a suggestion with
+     * @param board The board we suggest in reference to
      * @return true if suggestion was refuted, false if unrefuted.
      */
     public boolean playerSuggestion(List<Hypothesis> unrefutedSuggestions, List<WeaponCard> weapons, Board board) {
@@ -144,7 +147,8 @@ public class Suggestion extends Action {
     }
 
     /**
-     *
+     *  Prints all the weapons options for ease of suggestion making.
+     * @param allWeapons The weapons available
      */
     private void printPotentialWeapons(List<WeaponCard> allWeapons) {
         StringBuilder result = new StringBuilder();
@@ -161,7 +165,7 @@ public class Suggestion extends Action {
 
 
     /**
-     *
+     *  Prints all the potential characters for ease of suggestion making.
      */
     private void printPotentialCharacters() {
         StringBuilder result = new StringBuilder();

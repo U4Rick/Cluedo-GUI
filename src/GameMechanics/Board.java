@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- *
+ *  The board which the game is played on.
+ *  Contains the 2D array of tiles that make up the board,
+ *  and a couple collections of positions relating to starting tiles
+ *  for players and the entrances to rooms.
  */
 public class Board {
 
@@ -17,7 +20,8 @@ public class Board {
     private final Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
 
     /**
-     *
+     *  Initialise the board.
+     *  Runs the boardParser to process the ascii board into the 2D array.
      */
     public Board() {
         String boardText =
@@ -54,7 +58,7 @@ public class Board {
     }
 
     /**
-     * Get the tile from the board given a Position (X, Y coordinates)
+     * Get the tile from the board given a Position (X, Y coordinates).
      *
      * @param position Position to get the tile of.
      * @return Tile at passed position.
