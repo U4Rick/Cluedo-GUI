@@ -255,145 +255,18 @@ public class Game {
     }
 
 
-    /**
-     *  Allows player to make a suggestion.
-     *  Prints out relevant info needed to do so, and runs createNewSuggestion().
-     *  Moves the relevant player of suggestion to the room if not already there,
-     *  then runs the refute() method for each player other than current.
-     * @return true if suggestion was refuted, false if unrefuted.
-     */
-    private boolean playerSuggestion() {
-
-        currentPlayer.displayHand();
-        printPotentialCharacters();
-        printPotentialWeapons();
-        Hypothesis activeSuggestion = createNewSuggestion();
-        System.out.println("Hypothesis: \n" + activeSuggestion);
-
-        //Move targeted player to current tile
-        for (Player p: players) {
-            if (p.getCharacter().equals(activeSuggestion.getCharacter())) {
-                playerTeleport(p, currentPlayer.getTile().position);
-                break;
-            }
-        }
-
-        Refute refute = new Refute();
-        //take turns refuting
-        int index = players.indexOf(currentPlayer);
-        for (int i = 0; i < numPlayers - 1; i++) {
-
-            //Roll over to index 0
-            if (index == players.size() - 1) {
-                index = 0;
-            } else {
-                index++;
-            }
-
-            Player refutingPlayer = players.get(index);
-            if (refute.refute(refutingPlayer, activeSuggestion)) {
-                return true;
-            }
-        }
-
-        System.out.println("Nobody was able to refute!");
-        unrefutedSuggestions.add(activeSuggestion);      //Add to collection if no one refutes
-        return false;
-    }
 
 
 
 
-    /**
-     * Teleports a player to a room if they're not already there.
-     * @param player     Player to move
-     * @param position   Position to move to
-     */
-    public void playerTeleport(Player player, Position position) {
-        System.out.println("\n");
-        if (player.getTile() != board.getTileAt(position)) {
-            player.getTile().setPlayerOnThisTile(null);
-            player.setTile(board.getTileAt(position));
-            System.out.println(player.toString() + " moved to suggested room.");
-        }
-        else {
-            System.out.println(player.toString() + " is already in the room.");
-        }
-    }
 
 
-
-    /**
-     * Create a new Hypothesis from user input.
-     *
-     * @return Newly created Hypothesis.
-     */
-    public Hypothesis createNewSuggestion() {
-        CharacterCard character = characterFromInput();
-        WeaponCard weapon = weaponFromInput();
-
-        EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
-        RoomCard room = new RoomCard(entranceTile.getRoom());
-
-        return new Hypothesis(character, weapon, room);
-    }
 
     //////////////////////////
     // USER INPUT
     //////////////////////////
 
-    /**
-     * Creates a character from user input after validation.
-     *
-     * @return CharacterCard created from user input.
-     */
-    private CharacterCard characterFromInput() {
-        Scanner scan = new Scanner(System.in);
-        CharacterCard character = null;
 
-        do {
-            System.out.println("\nSuggest a character using initials... (eg. Miss Scarlett = SC)");
-            String userInput = scan.next();
-            //System.out.println(userInput);
-
-            switch (userInput) {
-                case "MU" -> character = new CharacterCard(CharacterEnum.MUSTARD);
-                case "WH" -> character = new CharacterCard(CharacterEnum.WHITE);
-                case "GR" -> character = new CharacterCard(CharacterEnum.GREEN);
-                case "PC" -> character = new CharacterCard(CharacterEnum.PEACOCK);
-                case "PL" -> character = new CharacterCard(CharacterEnum.PLUM);
-                case "SC" -> character = new CharacterCard(CharacterEnum.SCARLETT);
-            }
-        } while (character == null);
-
-        return character;
-    }
-
-    /**
-     * Create weapon from user input after validation.
-     *
-     * @return WeaponCard create from user input.
-     */
-    private WeaponCard weaponFromInput() {
-        Scanner scan = new Scanner(System.in);
-        WeaponCard weapon = null;
-
-        do {
-            System.out.println("Suggest a weapon using number between 1 and 6... (eg. Candlestick = 1)");
-            String userInput = scan.next();
-
-            switch (userInput) {
-                case "1" -> weapon = new WeaponCard(WeaponEnum.CANDLESTICK);
-                case "2" -> weapon = new WeaponCard(WeaponEnum.LEADPIPE);
-                case "3" -> weapon = new WeaponCard(WeaponEnum.DAGGER);
-                case "4" -> weapon = new WeaponCard(WeaponEnum.REVOLVER);
-                case "5" -> weapon = new WeaponCard(WeaponEnum.ROPE);
-                case "6" -> weapon = new WeaponCard(WeaponEnum.SPANNER);
-            }
-        } while (weapon == null);
-
-        return weapon;
-    }
 
 
 
@@ -558,36 +431,6 @@ public class Game {
             }
         }
         System.out.print("\n");
-    }
-
-    /**
-     *
-     */
-    private void printPotentialWeapons() {
-        StringBuilder result = new StringBuilder();
-        result.append("Weapons: ");
-        int count = 1;
-        for (WeaponCard weapon : allWeapons) {
-            result.append(count).append(".").append(weapon.toString()).append(" ");
-            count++;
-        }
-        result.delete(result.length() - 1, result.length());
-        System.out.println(result);
-    }
-
-
-
-    /**
-     *
-     */
-    private void printPotentialCharacters() {
-        StringBuilder result = new StringBuilder();
-        result.append("Characters: ");
-        for (Player player : players) {
-            result.append(player.getCharacter().toString()).append(", ");
-        }
-        result.delete(result.length() - 2, result.length() - 1);
-        System.out.println(result);
     }
 
 

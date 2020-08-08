@@ -1,0 +1,26 @@
+package GameMechanics;
+
+import Tiles.Position;
+
+public class Action {
+    public void sleep() {
+        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
+    }
+
+    /**
+     * Teleports a player to a room if they're not already there.
+     * @param player     Player to move
+     * @param position   Position to move to
+     */
+    public void playerTeleport(Player player, Position position) {
+        System.out.println("\n");
+        if (player.getTile() != board.getTileAt(position)) {
+            player.getTile().setPlayerOnThisTile(null);
+            player.setTile(board.getTileAt(position));
+            System.out.println(player.toString() + " moved to suggested room.");
+        }
+        else {
+            System.out.println(player.toString() + " is already in the room.");
+        }
+    }
+}
