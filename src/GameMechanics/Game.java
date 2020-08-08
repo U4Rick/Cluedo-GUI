@@ -34,11 +34,158 @@ public class Game {
     private List<WeaponCard> allWeapons = new ArrayList<>();
     private List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
+    private final String contentBreak = "-------------------------------------------";
+
 
     public Game() {
         initialise();
         run();
     }
+
+    /**
+     * Setup the game.
+     */
+    public void initialise() {
+        board = new Board();
+        setNumPlayers();
+        setupPlayers();
+        setupCards();
+        currentPlayer = players.get(0);
+        //System.out.println(board.toString());
+    }
+
+    /**
+     * Ask the player for amount of players, must be between 3-6
+     */
+    public void setNumPlayers() {
+        System.out.println("How many players?");
+
+        //Loop until number of player is set
+        while (true) {
+            Scanner scan = new Scanner(System.in);
+            if (scan.hasNextInt()) {
+                int num = scan.nextInt();
+                //check within range
+                if (num >= 3 && num <= 6) {
+                    numPlayers = num;
+                    break;
+                }
+            }
+            System.out.println("Enter a number between 3 and 6");
+        }
+    }
+
+    /**
+     * Create the players and add them to the list of players.
+     */
+    private void setupPlayers() {
+        CharacterEnum[] values = CharacterEnum.values();
+        for (int i = 0; i < numPlayers; i++) {
+            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])), board);
+            Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
+            if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
+            players.add(p);
+        }
+    }
+
+    /**
+     * Create all of the cards, select a solution, then deal the rest of the cards to the players.
+     */
+    private void setupCards() {
+        solution = new Hypothesis(null, null, null);
+
+        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
+        cards.addAll(setupWeaponCards());
+        cards.addAll(setupRoomCards());
+
+        dealCards(cards);
+    }
+
+    /**
+     * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all active characterCards, with solution removed.
+     */
+    private ArrayList<? extends Card> setupCharacterCards() {
+        ArrayList<CharacterCard> characterCards = new ArrayList<>();
+
+        //Create all the cards representing current players
+        for (Player player : players) {
+            characterCards.add(player.getCharacter());
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(characterCards);
+        solution.setCharacter(characterCards.get(0));
+        characterCards.remove(0);
+
+        return characterCards;
+    }
+
+    /**
+     * Create a weaponCard for every weapon. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all weaponCards, with solution removed.
+     */
+    private Collection<? extends Card> setupWeaponCards() {
+        ArrayList<WeaponCard> weaponCards = new ArrayList<>();
+
+        //Create weapon cards for all WeaponEnum and add to collection
+        for (WeaponEnum weapon : WeaponEnum.values()) {
+            WeaponCard weaponCard = new WeaponCard(weapon);
+            weaponCards.add(weaponCard);
+            allWeapons.add(weaponCard);
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(weaponCards);
+        solution.setWeapon(weaponCards.get(0));
+        weaponCards.remove(0);
+
+        return weaponCards;
+    }
+
+    /**
+     * Create a roomCard for every room. Removes one at random and sets as solution. Returns the rest.
+     *
+     * @return List of all roomCards, with solution removed.
+     */
+    private Collection<? extends Card> setupRoomCards() {
+        ArrayList<RoomCard> roomCards = new ArrayList<>();
+
+        //Create weapon cards for all WeaponEnum and add to collection
+        for (RoomEnum room : RoomEnum.values()) {
+            RoomCard roomCard = new RoomCard(room);
+            roomCards.add(roomCard);
+        }
+
+        //Remove one at random and set aside as the solution
+        Collections.shuffle(roomCards);
+        solution.setRoom(roomCards.get(0));
+        roomCards.remove(0);
+
+        return roomCards;
+    }
+
+    /**
+     * Deal the cards to the players.
+     *
+     * @param cards List of cards to deal to players.
+     */
+    private void dealCards(ArrayList<Card> cards) {
+        int player = 0;
+        for (Card card : cards) {
+            players.get(player).addCard(card);
+
+            //Roll back to first player
+            if (player != numPlayers - 1) {
+                player++; }
+            else {
+                player = 0;
+            }
+        }
+    }
+
 
     /**
      * Main game loop, loops until a player has won or all players have made false accusations.
@@ -62,93 +209,6 @@ public class Game {
         }
     }
 
-    private void playerMovement() {
-        System.out.println("Player movement called");
-        //roll dice
-       // movementRange = rollDice();
-        System.out.println("You rolled a " + movementRange);
-        //ask for tile to move to
-        Scanner sc = new Scanner(System.in);
-        hasMadeValidMove = false;
-        while(!hasMadeValidMove) {
-            System.out.println("current col coord = " + currentPlayer.getTile().position.getX());
-            System.out.println("current row coord = " + currentPlayer.getTile().position.getY());//todo just temp
-
-            System.out.println("Enter column to move to:");
-            int moveCol = sc.nextInt();
-            System.out.println("Enter row to move to:");
-            int moveRow = sc.nextInt();
-
-            if (moveRow < 25 && moveRow >= 0 && moveCol < 24 && moveCol >= 0) {
-                move(moveCol, moveRow);//check if requested tile is even within 24x25
-            }//these might not be the right values?
-            else{
-                System.out.println("Invalid row/column, try again.");
-            }
-
-        }
-
-
-        //opt. make suggestion/accusation
-
-        //update current player
-    }
-
-
-    /**
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     * @return
-     */
-    public Boolean isValidMovement(int startX, int startY, int endX, int endY){
-
-        Position endPos = new Position(endX, endY);
-        Position startPos = new Position(startX, startY);
-
-        //if endtile == inaccessible
-        if(board.getTileAt(endPos) instanceof InaccessibleTile){
-            System.out.println("Inaccessible Tile");
-            return false;
-        }
-
-        Tile endTile = board.getTileAt(endPos);
-        if((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)){
-            System.out.println("Tile already has player on it");
-            return false;//else if endPos already has player && endPos is not entranceTile
-        }
-
-        if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
-            System.out.println("You can not move that far!");
-            return false;
-        }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
-
-        hasMadeValidMove = true;
-        return true;
-    }
-
-    /**
-     * @param x
-     * @param y
-     */
-    public void move(int x, int y) {
-
-        Tile startTile = currentPlayer.getTile();   //tile before moving
-        Position startPos = startTile.position; //position before moving
-        Position endPos = new Position(x,y); // position to move to
-        Tile endTile = board.getTileAt(endPos);    //tile to move to
-        int playerX = currentPlayer.getTile().position.getX();    //current X
-        int playerY = currentPlayer.getTile().position.getY();    //current Y
-        if(isValidMovement(playerX, playerY, x, y)){
-            //board.setTileAt(endPos, currentPlayer);  //move current player to their end position
-            //board.setTileAt(startPos,null);//set the start position to null
-            currentPlayer.setTile(endTile);
-            endTile.setPlayerOnThisTile(currentPlayer);
-            startTile.setPlayerOnThisTile(null);
-            //board.draw();
-        }
-    }
 
     /**
      *
@@ -505,147 +565,96 @@ public class Game {
         return dice1 + dice2;
     }
 
-    /**
-     * Setup the game.
-     */
-    public void initialise() {
-        board = new Board();
-        setNumPlayers();
-        setupPlayers();
-        setupCards();
-        currentPlayer = players.get(0);
-        //System.out.println(board.toString());
-    }
+
 
     /**
-     * Ask the player for amount of players, must be between 3-6
+     *
      */
-    public void setNumPlayers() {
-        System.out.println("How many players?");
+    private void playerMovement() {
+        System.out.println("Player movement called");
+        //roll dice
+        // movementRange = rollDice();
+        System.out.println("You rolled a " + movementRange);
+        //ask for tile to move to
+        Scanner sc = new Scanner(System.in);
+        hasMadeValidMove = false;
+        while(!hasMadeValidMove) {
+            System.out.println("current col coord = " + currentPlayer.getTile().position.getX());
+            System.out.println("current row coord = " + currentPlayer.getTile().position.getY());//todo just temp
 
-        //Loop until number of player is set
-        while (true) {
-            Scanner scan = new Scanner(System.in);
-            if (scan.hasNextInt()) {
-                int num = scan.nextInt();
-                //check within range
-                if (num >= 3 && num <= 6) {
-                    numPlayers = num;
-                    break;
-                }
+            System.out.println("Enter column to move to:");
+            int moveCol = sc.nextInt();
+            System.out.println("Enter row to move to:");
+            int moveRow = sc.nextInt();
+
+            if (moveRow < 25 && moveRow >= 0 && moveCol < 24 && moveCol >= 0) {
+                move(moveCol, moveRow);//check if requested tile is even within 24x25
+            }//these might not be the right values?
+            else{
+                System.out.println("Invalid row/column, try again.");
             }
-            System.out.println("Enter a number between 3 and 6");
-        }
-    }
 
-    /**
-     * Create the players and add them to the list of players.
-     */
-    private void setupPlayers() {
-        CharacterEnum[] values = CharacterEnum.values();
-        for (int i = 0; i < numPlayers; i++) {
-            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])), board);
-            Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
-            if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
-            players.add(p);
-        }
-    }
-
-    /**
-     * Create all of the cards, select a solution, then deal the rest of the cards to the players.
-     */
-    private void setupCards() {
-        solution = new Hypothesis(null, null, null);
-
-        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
-        cards.addAll(setupWeaponCards());
-        cards.addAll(setupRoomCards());
-
-        dealCards(cards);
-    }
-
-    /**
-     * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.
-     *
-     * @return List of all active characterCards, with solution removed.
-     */
-    private ArrayList<? extends Card> setupCharacterCards() {
-        ArrayList<CharacterCard> characterCards = new ArrayList<>();
-
-        //Create all the cards representing current players
-        for (Player player : players) {
-            characterCards.add(player.getCharacter());
         }
 
-        //Remove one at random and set aside as the solution
-        Collections.shuffle(characterCards);
-        solution.setCharacter(characterCards.get(0));
-        characterCards.remove(0);
 
-        return characterCards;
+        //opt. make suggestion/accusation
+
+        //update current player
     }
 
-    /**
-     * Create a weaponCard for every weapon. Removes one at random and sets as solution. Returns the rest.
-     *
-     * @return List of all weaponCards, with solution removed.
-     */
-    private Collection<? extends Card> setupWeaponCards() {
-        ArrayList<WeaponCard> weaponCards = new ArrayList<>();
 
-        //Create weapon cards for all WeaponEnum and add to collection
-        for (WeaponEnum weapon : WeaponEnum.values()) {
-            WeaponCard weaponCard = new WeaponCard(weapon);
-            weaponCards.add(weaponCard);
-            allWeapons.add(weaponCard);
+    /**
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     * @return
+     */
+    public Boolean isValidMovement(int startX, int startY, int endX, int endY){
+
+        Position endPos = new Position(endX, endY);
+        Position startPos = new Position(startX, startY);
+
+        //if endtile == inaccessible
+        if(board.getTileAt(endPos) instanceof InaccessibleTile){
+            System.out.println("Inaccessible Tile");
+            return false;
         }
 
-        //Remove one at random and set aside as the solution
-        Collections.shuffle(weaponCards);
-        solution.setWeapon(weaponCards.get(0));
-        weaponCards.remove(0);
-
-        return weaponCards;
-    }
-
-    /**
-     * Create a roomCard for every room. Removes one at random and sets as solution. Returns the rest.
-     *
-     * @return List of all roomCards, with solution removed.
-     */
-    private Collection<? extends Card> setupRoomCards() {
-        ArrayList<RoomCard> roomCards = new ArrayList<>();
-
-        //Create weapon cards for all WeaponEnum and add to collection
-        for (RoomEnum room : RoomEnum.values()) {
-            RoomCard roomCard = new RoomCard(room);
-            roomCards.add(roomCard);
+        Tile endTile = board.getTileAt(endPos);
+        if((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)){
+            System.out.println("Tile already has player on it");
+            return false;//else if endPos already has player && endPos is not entranceTile
         }
 
-        //Remove one at random and set aside as the solution
-        Collections.shuffle(roomCards);
-        solution.setRoom(roomCards.get(0));
-        roomCards.remove(0);
+        if(Math.abs((startX - endX) + (startY - endY)) > this.movementRange){
+            System.out.println("You can not move that far!");
+            return false;
+        }//else if Math.abs((startPos.x + endPos .x) + (startPos.y + endPos.y)) > movementRange
 
-        return roomCards;
+        hasMadeValidMove = true;
+        return true;
     }
 
     /**
-     * Deal the cards to the players.
-     *
-     * @param cards List of cards to deal to players.
+     * @param x
+     * @param y
      */
-    private void dealCards(ArrayList<Card> cards) {
-        int player = 0;
-        for (Card card : cards) {
-            players.get(player).addCard(card);
+    public void move(int x, int y) {
 
-            //Roll back to first player
-            if (player != numPlayers - 1) {
-                player++; }
-            else {
-                player = 0;
-            }
+        Tile startTile = currentPlayer.getTile();   //tile before moving
+        Position startPos = startTile.position; //position before moving
+        Position endPos = new Position(x,y); // position to move to
+        Tile endTile = board.getTileAt(endPos);    //tile to move to
+        int playerX = currentPlayer.getTile().position.getX();    //current X
+        int playerY = currentPlayer.getTile().position.getY();    //current Y
+        if(isValidMovement(playerX, playerY, x, y)){
+            //board.setTileAt(endPos, currentPlayer);  //move current player to their end position
+            //board.setTileAt(startPos,null);//set the start position to null
+            currentPlayer.setTile(endTile);
+            endTile.setPlayerOnThisTile(currentPlayer);
+            startTile.setPlayerOnThisTile(null);
+            //board.draw();
         }
     }
 
