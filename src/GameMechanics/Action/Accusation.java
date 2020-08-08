@@ -6,17 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Accusation {
+/**
+ *
+ */
+public class Accusation extends Action {
 
     private List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
     private final Hypothesis solution;
 
+    /**
+     * @param suggestions
+     * @param solution
+     */
     public Accusation(List<Hypothesis> suggestions, Hypothesis solution) {
-        this.unrefutedSuggestions =  suggestions;
+        this.unrefutedSuggestions = suggestions;
         this.solution = solution;
     }
 
 
+    /**
+     *
+     */
     public void printSuggestions() {
         StringBuilder result = new StringBuilder();
         int count = 1;
@@ -75,8 +85,5 @@ public class Accusation {
                 }
             }
         }
-    }
-    private void sleep() {
-        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
     }
 }

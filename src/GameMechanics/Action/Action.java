@@ -4,8 +4,16 @@ import GameMechanics.Board;
 import GameMechanics.Player;
 import Tiles.Position;
 
+/**
+ *
+ */
 public class Action {
-    public void sleep() {
+
+
+    /**
+     *
+     */
+    protected void sleep() {
         try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
     }
 
@@ -14,8 +22,8 @@ public class Action {
      * @param player     Player to move
      * @param position   Position to move to
      */
-    public void playerTeleport(Player player, Position position, Board board) {
-        System.out.println("\n");
+    protected void playerTeleport(Player player, Position position, Board board) {
+        System.out.print("\n");
         if (player.getTile() != board.getTileAt(position)) {
             player.getTile().setPlayerOnThisTile(null);
             player.setTile(board.getTileAt(position));

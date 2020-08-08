@@ -6,8 +6,14 @@ import GameMechanics.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class Refute extends Action {
 
+    /**
+     *
+     */
     public Refute() {}
 
     /**

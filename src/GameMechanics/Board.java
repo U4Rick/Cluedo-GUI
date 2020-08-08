@@ -7,12 +7,18 @@ import Tiles.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ *
+ */
 public class Board {
 
     Tile[][] board;
     private final Map<CharacterCard.CharacterEnum, Position> startingTiles;
     private final Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
 
+    /**
+     *
+     */
     public Board() {
         String boardText =
                 "|~~|~~|~~|~~|~~|~~|~~|~~|~~|WH|~~|~~|~~|~~|GR|~~|~~|~~|~~|~~|~~|~~|~~|~~|\n" +

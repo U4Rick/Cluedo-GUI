@@ -11,11 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ *
+ */
 public class Suggestion extends Action {
 
     private final Player currentPlayer;
     private List<Player> players = new ArrayList<>();
 
+    /**
+     * @param currentPlayer
+     * @param players
+     */
     public Suggestion(Player currentPlayer, List<Player> players) {
         this.currentPlayer = currentPlayer;
         this.players = players;
