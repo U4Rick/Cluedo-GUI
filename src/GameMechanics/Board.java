@@ -14,7 +14,6 @@ public class Board {
     public Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
 
     public Board() {
-        //board
         String boardText =
                 "|~~|~~|~~|~~|~~|~~|~~|~~|~~|WH|~~|~~|~~|~~|GR|~~|~~|~~|~~|~~|~~|~~|~~|~~|\n" +
                 "|  |  |  |  |  |  |~~|__|__|__|  |  |  |  |__|__|__|~~|  |  |  |  |  |  |\n" +
@@ -48,12 +47,33 @@ public class Board {
         entrances = b.entrances;
     }
 
-    public Tile getTileAt(Position p) { return board[p.getY()][p.getX()]; }
+    /**
+     * Get the tile from the board given a Position (X, Y coordinates)
+     *
+     * @param position Position to get the tile of.
+     * @return Tile at passed position.
+     */
+    public Tile getTileAt(Position position) {
+        return board[position.getY()][position.getX()];
+    }
 
+    /**
+     * TODO use this?
+     *
+     * @return
+     */
+    public Map<CharacterCard.CharacterEnum, Position> getStartingTiles() {
+        return startingTiles;
+    }
 
-    public Map<CharacterCard.CharacterEnum, Position> getStartingTiles() { return startingTiles; }
-
-    public Map<RoomCard.RoomEnum, ArrayList<Position>> getEntrances() { return entrances; }
+    /**
+     * TODO use this?
+     *
+     * @return
+     */
+    public Map<RoomCard.RoomEnum, ArrayList<Position>> getEntrances() {
+        return entrances;
+    }
 
     @Override
     public String toString() {

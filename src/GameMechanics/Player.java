@@ -26,22 +26,45 @@ public class Player {
         hand = new ArrayList<>();
     }
 
+    /**
+     * Setter for tile.
+     *
+     * @param tile New tile to set current as.
+     */
     public void setTile(Tile tile) {
         this.tile = tile;
     }
 
+    /**
+     * Sets madeFalseAccusation to true.
+     */
     public void madeFalseAccusation() {
         this.madeFalseAccusation = true;
     }
 
+    /**
+     * Getter for character.
+     *
+     * @return character.
+     */
     public CharacterCard getCharacter() {
         return character;
     }
 
+    /**
+     * Getter for tile.
+     *
+     * @return tile.
+     */
     public Tile getTile() {
         return tile;
     }
 
+    /**
+     * Getter for madeFalseAccusation.
+     *
+     * @return madeFalseAccusation.
+     */
     public boolean getMadeFalseAccusation() {
         return madeFalseAccusation;
     }
