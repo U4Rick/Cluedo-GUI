@@ -520,7 +520,8 @@ public class Game {
     //////////////////////////
 
     /**
-     *
+     * Handles user input and console output for movement.
+     * Calls necessary methods to control movement.
      */
     private void playerMovement() {
         //roll dice
@@ -549,12 +550,13 @@ public class Game {
     }
 
     /**
-     * TODO: javadoc
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     * @return
+     * Checks if the requested move of the player is a valid movement.
+     * Checks for out of board, out of move range, tile types.
+     * @param startX    Starting x position
+     * @param startY    Starting y position
+     * @param endX      Ending x position
+     * @param endY      Ending y position
+     * @return  true if valid move, false if invalid move.
      */
     public Boolean isValidMovement(int startX, int startY, int endX, int endY){
 
