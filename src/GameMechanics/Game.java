@@ -308,6 +308,7 @@ public class Game {
                 currentPlayer.madeFalseAccusation();
             }
         }
+        sleep();
     }
 
     /**
@@ -346,11 +347,11 @@ public class Game {
             } else {
                 System.out.println(result.append(refuteWithMultiple(refutableCards)));
             }
-            try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
+            sleep();
             return true;
         }
         result.append(" cannot refute.");
-        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
+        sleep();
         System.out.println(result);
         return false;
     }
@@ -655,7 +656,7 @@ public class Game {
         if (unrefutedSuggestions.isEmpty()) {
             result.append("There are no existing suggestions. \nNo accusation can be made.");
             System.out.println(result);
-            try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
+            sleep();
             return;
         }
         result.append("Choose one: ");
@@ -698,6 +699,10 @@ public class Game {
     //////////////////////////
     // HELPER METHODS
     //////////////////////////
+
+    private void sleep() {
+        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
+    }
 
 
     //////////////////////////
