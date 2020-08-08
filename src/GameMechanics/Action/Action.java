@@ -1,5 +1,7 @@
-package GameMechanics;
+package GameMechanics.Action;
 
+import GameMechanics.Board;
+import GameMechanics.Player;
 import Tiles.Position;
 
 public class Action {
@@ -12,7 +14,7 @@ public class Action {
      * @param player     Player to move
      * @param position   Position to move to
      */
-    public void playerTeleport(Player player, Position position) {
+    public void playerTeleport(Player player, Position position, Board board) {
         System.out.println("\n");
         if (player.getTile() != board.getTileAt(position)) {
             player.getTile().setPlayerOnThisTile(null);

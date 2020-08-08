@@ -4,6 +4,9 @@ import Cards.Card;
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
+import GameMechanics.Action.Accusation;
+import GameMechanics.Action.Hypothesis;
+import GameMechanics.Action.Suggestion;
 import Tiles.*;
 
 import java.util.*;
@@ -237,7 +240,8 @@ public class Game {
         String userInput = scan.next();
         System.out.println("\n");
         if (userInput.equalsIgnoreCase("Y")) {
-            if (playerSuggestion()) {
+            Suggestion suggestion = new Suggestion(currentPlayer, players);
+            if (suggestion.playerSuggestion(unrefutedSuggestions, allWeapons, board)) {
                 return;
             }
         }

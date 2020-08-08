@@ -1,20 +1,22 @@
-package GameMechanics;
+package GameMechanics.Action;
 
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
+import GameMechanics.Board;
+import GameMechanics.Player;
 import Tiles.EntranceTile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Suggestion extends Action{
+public class Suggestion extends Action {
 
     private final Player currentPlayer;
-    private final ArrayList<Player> players;
+    private List<Player> players = new ArrayList<>();
 
-    public Suggestion(Player currentPlayer, ArrayList<Player> players) {
+    public Suggestion(Player currentPlayer, List<Player> players) {
         this.currentPlayer = currentPlayer;
         this.players = players;
     }
@@ -41,7 +43,7 @@ public class Suggestion extends Action{
      *  then runs the refute() method for each player other than current.
      * @return true if suggestion was refuted, false if unrefuted.
      */
-    private boolean playerSuggestion(ArrayList<Hypothesis> unrefutedSuggestions, ArrayList<WeaponCard> weapons) {
+    public boolean playerSuggestion(List<Hypothesis> unrefutedSuggestions, List<WeaponCard> weapons, Board board) {
 
         currentPlayer.displayHand();
         printPotentialCharacters();
@@ -52,7 +54,7 @@ public class Suggestion extends Action{
         //Move targeted player to current tile
         for (Player p: players) {
             if (p.getCharacter().equals(activeSuggestion.getCharacter())) {
-                playerTeleport(p, currentPlayer.getTile().position);
+                playerTeleport(p, currentPlayer.getTile().position, board);
                 break;
             }
         }
@@ -137,7 +139,7 @@ public class Suggestion extends Action{
     /**
      *
      */
-    private void printPotentialWeapons(ArrayList<WeaponCard> allWeapons) {
+    private void printPotentialWeapons(List<WeaponCard> allWeapons) {
         StringBuilder result = new StringBuilder();
         result.append("Weapons: ");
         int count = 1;

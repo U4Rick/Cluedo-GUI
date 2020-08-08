@@ -1,11 +1,12 @@
-package GameMechanics;
+package GameMechanics.Action;
 
 import Cards.Card;
+import GameMechanics.Player;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Refute {
+public class Refute extends Action {
 
     public Refute() {}
 
@@ -84,7 +85,5 @@ public class Refute {
         System.out.println(result);
     }
 
-    private void sleep() {
-        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
-    }
+
 }

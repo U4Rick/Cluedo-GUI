@@ -1,4 +1,4 @@
-package GameMechanics;
+package GameMechanics.Action;
 
 import Cards.CharacterCard;
 import Cards.RoomCard;
@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Hypothesis {
 
-    //GameMechanics.Hypothesis Attributes
+    //GameMechanics.Action.Hypothesis Attributes
     private CharacterCard character;
     private WeaponCard weapon;
     private RoomCard room;
@@ -42,6 +42,7 @@ public class Hypothesis {
     public RoomCard getRoom() {
         return room;
     }
+
 
     @Override
     public String toString() {

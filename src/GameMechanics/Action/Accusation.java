@@ -1,4 +1,6 @@
-package GameMechanics;
+package GameMechanics.Action;
+
+import GameMechanics.Player;
 
 import java.util.ArrayList;
 import java.util.List;
