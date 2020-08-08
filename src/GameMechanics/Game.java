@@ -24,15 +24,13 @@ public class Game {
     private Hypothesis solution;
     private Player currentPlayer;
     private int numPlayers;
-
-    private int turn = 0; //FIXME remove when implementing working gameover
     private boolean playerHasWon = false;
 
     //GameMechanics.Game Associations
     private Board board;
-    private List<Player> players = new ArrayList<>();
-    private List<WeaponCard> allWeapons = new ArrayList<>();
-    private List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
+    private final List<WeaponCard> allWeapons = new ArrayList<>();
+    private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
     private final String contentBreak = "-------------------------------------------";
 
@@ -230,17 +228,17 @@ public class Game {
      */
     private void playerHypothesis() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("player hypothesis called");
 
-        //Get input from user
+        //Check if player wants to make a suggestion.
         System.out.println("Make a Suggestion? (Y or N)");
         String userInput = scan.next();
-
         if (userInput.equalsIgnoreCase("Y")) {
-            playerSuggestion();
-            return;
+            if (playerSuggestion()) {
+                return;
+            }
         }
 
+        //Check if player wants to make an accusation.
         System.out.println("Make an Accusation?");
         userInput = scan.next();
         if (userInput.equalsIgnoreCase("Y")) {
@@ -249,19 +247,20 @@ public class Game {
         }
 
         System.out.println("No action selected.");
-
     }
 
     /**
      *
      */
-    private void playerSuggestion() {
+    private boolean playerSuggestion() {
 
         currentPlayer.displayHand();
         printPotentialCharacters();
         printPotentialWeapons();
         Hypothesis activeSuggestion = createNewSuggestion();
         System.out.println(activeSuggestion);
+
+        //Move targeted player to current tile
         for (Player p: players) {
             if (p.getCharacter().equals(activeSuggestion.getCharacter())) {
                 playerTeleport(p, currentPlayer.getTile().position);
@@ -281,13 +280,14 @@ public class Game {
 
             Player refutingPlayer = players.get(index);
             if (refute(refutingPlayer, activeSuggestion)) {
-                return;
+                return true;
             }
 
         } while (index != players.indexOf(currentPlayer));
 
         System.out.println("Nobody was able to refute!");
         unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
+        return false;
         //TODO add optional make accusation
     }
 
@@ -459,8 +459,8 @@ public class Game {
         while (true) {
             if (scan.hasNextInt()) {
                 int userInput = scan.nextInt();
-                if (userInput >= 0 && userInput < unrefutedSuggestions.size()) {
-                    return unrefutedSuggestions.get(userInput);
+                if (userInput >= 1 && userInput <= unrefutedSuggestions.size()) {
+                    return unrefutedSuggestions.get(userInput - 1);
                 }
             }
         }
