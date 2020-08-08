@@ -14,25 +14,21 @@ import static Cards.WeaponCard.*;
 
 public class Game {
 
-
     private int movementRange = 999;
     private boolean hasMadeValidMove = false;
-
-    public enum TurnState {Playing, Finished;}
 
     //GameMechanics.Game Attributes
     private Hypothesis solution;
     private Player currentPlayer;
     private int numPlayers;
     private boolean playerHasWon = false;
+    private final String contentBreak = "\n-------------------------------------------\n";
 
     //GameMechanics.Game Associations
     private Board board;
     private final List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
     private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
-
-    private final String contentBreak = "\n-------------------------------------------\n";
 
     public Game() {
         initialise();
@@ -187,7 +183,7 @@ public class Game {
     private void dealCards(ArrayList<Card> cards) {
         int player = 0;
         for (Card card : cards) {
-            players.get(player).addCard(card);
+            players.get(player).addCardToHand(card);
 
             //Roll back to first player
             if (player != numPlayers - 1) {

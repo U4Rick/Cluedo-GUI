@@ -10,13 +10,13 @@ import java.util.*;
 public class Player {
 
     //GameMechanics.Player Attributes
-    private CharacterCard character;
+    private final CharacterCard character;
     private Tile tile;
     private boolean madeFalseAccusation = false;
 
     //GameMechanics.Player Associations
-    private List<Card> hand;
-    private Board board;
+    private final List<Card> hand;
+    private final Board board;
     public int movementRange;
 
     public Player(CharacterCard character, Tile tile, Board board) {
@@ -47,48 +47,22 @@ public class Player {
     }
 
     /**
-     * TODO: This isn't right, needs to return some kind of collection. should be get card?
+     * Add a card to the players hand.
      *
-     * @param index
-     * @return
+     * @param card Card to add to the hand.
      */
-    public Card getCard(int index) {
-        Card hand = this.hand.get(index);
-        return hand;
+    public void addCardToHand(Card card) {
+        if (!hand.contains(card)) {
+            hand.add(card);
+        }
     }
 
     /**
-     * ArrayList<Cards.Card> hand;
-     * Just creates list instead of arraylist.
+     * Get a list of all cards that could be used as to refute the passed suggestion.
+     *
+     * @param activeSuggestion Suggestion to check based off.
+     * @return ArrayList of potential cards, could be empty.
      */
-    public List<Card> getHand() {
-        List<Card> hand = Collections.unmodifiableList(this.hand);
-        return hand;
-    }
-
-    //TODO: size of hand?
-    public int sizeOfHand() {
-        int number = hand.size();
-        return number;
-    }
-
-    //TODO ?????
-    public int indexOfCard(Card card) {
-        int index = hand.indexOf(card);
-        return index;
-    }
-
-    //TODO naming, what are these?
-    public boolean addCard(Card card) {
-        boolean wasAdded = false;
-        if (hand.contains(card)) {
-            return false;
-        }
-        hand.add(card);
-        wasAdded = true;
-        return wasAdded;
-    }
-
     public ArrayList<Card> getRefutableCards(Hypothesis activeSuggestion) {
         ArrayList<Card> refutableCards = new ArrayList<>();
         for (Card card : hand) {
@@ -99,6 +73,7 @@ public class Player {
         return refutableCards;
     }
 
+    @Override
     public String toString() {
         return switch (character.getCharacter()) {
             case PEACOCK -> "PC";
@@ -110,6 +85,9 @@ public class Player {
         };
     }
 
+    /**
+     * Prints the players hand as text to the screen.
+     */
     public void displayHand() {
         StringBuilder handAsText = new StringBuilder();
 
