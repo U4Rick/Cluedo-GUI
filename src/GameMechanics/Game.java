@@ -433,16 +433,6 @@ public class Game {
         System.out.print("\n");
     }
 
-
-
-    //////////////////////////
-    // HELPER METHODS
-    //////////////////////////
-
-    private void sleep() {
-        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
-    }
-
     //////////////////////////
     // GETTERS & SETTERS
     //////////////////////////
