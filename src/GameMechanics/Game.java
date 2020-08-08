@@ -203,7 +203,8 @@ public class Game {
     //////////////////////////
 
     /**
-     *
+     *  Runs the player movement and suggestion/accusation process for
+     *  current player.
      */
     private void processPlayerTurn() {
         playerMovement();
@@ -225,7 +226,8 @@ public class Game {
     }
 
     /**
-     *
+     *  Checks if player wants to make a suggestion and/or accusation,
+     *  and runs relevant methods to those choices.
      */
     private void playerHypothesis() {
         Scanner scan = new Scanner(System.in);
@@ -251,8 +253,13 @@ public class Game {
         System.out.println("No action selected.");
     }
 
+
     /**
-     *
+     *  Allows player to make a suggestion.
+     *  Prints out relevant info needed to do so, and runs createNewSuggestion().
+     *  Moves the relevant player of suggestion to the room if not already there,
+     *  then runs the refute() method for each player other than current.
+     * @return true if suggestion was refuted, false if unrefuted.
      */
     private boolean playerSuggestion() {
 
@@ -287,13 +294,8 @@ public class Game {
             }
         }
 
-/*        do {
-
-
-        } while (index != players.indexOf(currentPlayer) - 1);*/
-
         System.out.println("Nobody was able to refute!");
-        unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
+        unrefutedSuggestions.add(activeSuggestion);      //Add to collection if no one refutes
         return false;
     }
 
@@ -318,33 +320,37 @@ public class Game {
     }
 
     /**
-     * @param p
-     * @param pos
+     * Teleports a player to a room if they're not already there.
+     * @param player     Player to move
+     * @param position   Position to move to
      */
-    public void playerTeleport(Player p, Position pos) {
+    public void playerTeleport(Player player, Position position) {
         System.out.println("\n");
-        if (p.getTile() != board.getTileAt(pos)) {
-            p.getTile().setPlayerOnThisTile(null);
-            p.setTile(board.getTileAt(pos));
-            System.out.println(p.toString() + " moved to suggested room.");
+        if (player.getTile() != board.getTileAt(position)) {
+            player.getTile().setPlayerOnThisTile(null);
+            player.setTile(board.getTileAt(position));
+            System.out.println(player.toString() + " moved to suggested room.");
         }
         else {
-            System.out.println(p.toString() + " is already in the room.");
+            System.out.println(player.toString() + " is already in the room.");
         }
     }
 
     /**
-     * @param refutingPlayer
-     * @param activeSuggestion
-     * @return
+     * Checks if a player can refute, and acts on the outcome.
+     * If no refute found, program prints accordingly.
+     * If one refute is found, program prints accordingly
+     * If multiple refutes are found, player gets to choose which card
+     * they would like to refute with.
+     * @param refutingPlayer    Player to refute
+     * @param activeSuggestion  The suggestion to refute against
+     * @return  true if refute occurred, false if not
      */
     private boolean refute(Player refutingPlayer, Hypothesis activeSuggestion) {
         StringBuilder result = new StringBuilder();
         result.append(refutingPlayer.getCharacter());
         ArrayList<Card> refutableCards = refutingPlayer.getRefutableCards(activeSuggestion);
 
-        //refutingPlayer.displayHand(); //debug
-        //System.out.println(refutableCards.size()); //debug
         System.out.println("\n");
         if (!refutableCards.isEmpty()) {
             if (refutableCards.size() == 1) {
@@ -436,8 +442,9 @@ public class Game {
     }
 
     /**
-     * @param refutableCards
-     * @return
+     * Takes input from user regarding multiple card refutes.
+     * @param refutableCards The cards the player can refute with
+     * @return  the String output of chosen refute card
      */
     private String refuteWithMultiple(ArrayList<Card> refutableCards) {
         printRefutableCards(refutableCards);
@@ -501,7 +508,7 @@ public class Game {
     private boolean isGameInvalid() {
         for (Player player : players) {
             if (!player.getMadeFalseAccusation()) {
-                return false;                                                   //At least one player is still playing
+                return false;                     //At least one player is still playing
             }
         }
         System.out.println("The murderer got away with it! Everybody loses!");
@@ -539,9 +546,6 @@ public class Game {
                 System.out.println("Invalid row/column, try again.");
             }
         }
-        //opt. make suggestion/accusation
-
-        //update current player
     }
 
     /**
