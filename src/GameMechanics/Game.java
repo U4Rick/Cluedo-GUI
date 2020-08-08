@@ -284,7 +284,7 @@ public class Game {
                 return true;
             }
 
-        } while (index != players.indexOf(currentPlayer));
+        } while (index != players.indexOf(currentPlayer) - 1);
 
         System.out.println("Nobody was able to refute!");
         unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
@@ -508,8 +508,9 @@ public class Game {
      */
     private void playerMovement() {
         //roll dice
-        // movementRange = rollDice();
+        //movementRange = rollDice(); TODO uncomment at the end
         System.out.println("You rolled a " + movementRange);
+
         //ask for tile to move to
         Scanner sc = new Scanner(System.in);
         hasMadeValidMove = false;
