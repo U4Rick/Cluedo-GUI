@@ -233,6 +233,7 @@ public class Game {
         //Check if player wants to make a suggestion.
         System.out.println("Make a Suggestion? (Y or N)");
         String userInput = scan.next();
+        System.out.println("\n");
         if (userInput.equalsIgnoreCase("Y")) {
             if (playerSuggestion()) {
                 return;
@@ -259,7 +260,7 @@ public class Game {
         printPotentialCharacters();
         printPotentialWeapons();
         Hypothesis activeSuggestion = createNewSuggestion();
-        System.out.println(activeSuggestion);
+        System.out.println("Hypothesis: \n" + activeSuggestion);
 
         //Move targeted player to current tile
         for (Player p: players) {
@@ -518,7 +519,7 @@ public class Game {
 
             System.out.println("Your position \nRow: " + currentPlayer.getTile().position.getY()
                     + "\nCol: " + currentPlayer.getTile().position.getX());
-            System.out.println("Enter column to move to:");
+            System.out.println("\nEnter column to move to:");
             int moveCol = sc.nextInt();
             System.out.println("Enter row to move to:");
             int moveRow = sc.nextInt();
@@ -612,7 +613,21 @@ public class Game {
     private void printTurnInfo() {
         System.out.println(contentBreak);
         System.out.println(board.toString());
+        printPlayersInRooms();
         System.out.println(currentPlayer.getCharacter());
+        currentPlayer.displayHand();
+    }
+
+    private void printPlayersInRooms() {
+        for (Player player : players) {
+            for (RoomEnum r : board.entrances.keySet()) {
+                if (board.entrances.get(r).contains(player.getTile().position)) {
+                    System.out.println(player.getCharacter().toString() + " is in the " + new RoomCard(r));
+                    break;
+                }
+            }
+        }
+        System.out.println("\n");
     }
 
     /**
