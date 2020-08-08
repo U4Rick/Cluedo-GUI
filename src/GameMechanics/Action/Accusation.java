@@ -38,21 +38,24 @@ public class Accusation {
     /**
      * Creates a new accusation, if it matches the solution the game is over and the player wins.
      * Otherwise they can no longer make suggestions or accusations. (They can still refute)
+     *
+     * @return True if game is won, otherwise false.
      */
-    public void playerAccusation(Player currentPlayer, boolean playerHasWon) {
+    public boolean playerAccusation(Player currentPlayer) {
         printSuggestions();
         if (!unrefutedSuggestions.isEmpty()) {
             Hypothesis selected = selectSuggestion();
 
             if (selected.equals(solution)) {
-                playerHasWon = true;
                 System.out.println(currentPlayer + " has won the game!");
+                return true;
             } else {
                 currentPlayer.madeFalseAccusation();
                 System.out.println(currentPlayer + " made a false accusation!");
             }
         }
         sleep();
+        return false;
     }
 
     /**

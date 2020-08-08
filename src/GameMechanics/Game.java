@@ -247,34 +247,15 @@ public class Game {
         userInput = scan.next();
         if (userInput.equalsIgnoreCase("Y")) {
             Accusation accusation = new Accusation(unrefutedSuggestions, solution);
-            accusation.playerAccusation(currentPlayer, playerHasWon);
+            if (accusation.playerAccusation(currentPlayer)) {
+                playerHasWon = true;
+            }
             return;
         }
 
         System.out.println("No action selected.");
     }
 
-
-
-
-
-
-
-
-
-    //////////////////////////
-    // USER INPUT
-    //////////////////////////
-
-
-
-
-
-
-
-    //////////////////////////
-    // GAME OVER
-    //////////////////////////
 
     /**
      * Check whether a player has won, or all players have made false accusations.
@@ -423,14 +404,14 @@ public class Game {
      */
     private void printPlayersInRooms() {
         for (Player player : players) {
-            for (RoomEnum r : board.getEntrances().keySet()) {
-                if (board.getEntrances().get(r).contains(player.getTile().position)) {
-                    System.out.println(player.getCharacter().toString() + " is in the " + new RoomCard(r));
+            for (RoomEnum room : board.getEntrances().keySet()) {
+                if (board.getEntrances().get(room).contains(player.getTile().position)) {
+                    System.out.println(player.getCharacter().toString() + " is in the " + new RoomCard(room));
                     break;
                 }
             }
         }
-        System.out.print("\n");
+        System.out.println();
     }
 
     //////////////////////////

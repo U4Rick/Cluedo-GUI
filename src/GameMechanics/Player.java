@@ -130,7 +130,7 @@ public class Player {
      */
     public boolean isInRoom() {
         for (ArrayList<Position> entrance : board.getEntrances().values()) {
-            for (Position position : entrance) {    //TODO cleaner way to do this?
+            for (Position position : entrance) {
                 if (tile.getPosition().equals(position)) {
                     return true;
                 }
