@@ -89,8 +89,8 @@ public class Game {
     private void setupPlayers() {
         CharacterEnum[] values = CharacterEnum.values();
         for (int i = 0; i < numPlayers; i++) {
-            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.startingTiles.get(values[i])), board);
-            Tile startingTile = board.getTileAt(board.startingTiles.get(values[i]));
+            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.getStartingTiles().get(values[i])), board);
+            Tile startingTile = board.getTileAt(board.getStartingTiles().get(values[i]));
             if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
             players.add(p);
         }
@@ -503,7 +503,7 @@ public class Game {
      */
     private boolean isGameInvalid() {
         for (Player player : players) {
-            if (!player.getMadeFalseAccusation()) {
+            if (player.hasNotMadeFalseAccusation()) {
                 return false;                     //At least one player is still playing
             }
         }
@@ -634,8 +634,8 @@ public class Game {
      */
     private void printPlayersInRooms() {
         for (Player player : players) {
-            for (RoomEnum r : board.entrances.keySet()) {
-                if (board.entrances.get(r).contains(player.getTile().position)) {
+            for (RoomEnum r : board.getEntrances().keySet()) {
+                if (board.getEntrances().get(r).contains(player.getTile().position)) {
                     System.out.println(player.getCharacter().toString() + " is in the " + new RoomCard(r));
                     break;
                 }

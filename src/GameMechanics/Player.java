@@ -9,15 +9,13 @@ import java.util.*;
 
 public class Player {
 
-    //GameMechanics.Player Attributes
     private final CharacterCard character;
     private Tile tile;
     private boolean madeFalseAccusation = false;
+    public int movementRange;
 
-    //GameMechanics.Player Associations
     private final List<Card> hand;
     private final Board board;
-    public int movementRange;
 
     public Player(CharacterCard character, Tile tile, Board board) {
         this.character = character;
@@ -65,8 +63,8 @@ public class Player {
      *
      * @return madeFalseAccusation.
      */
-    public boolean getMadeFalseAccusation() {
-        return madeFalseAccusation;
+    public boolean hasNotMadeFalseAccusation() {
+        return !madeFalseAccusation;
     }
 
     /**
@@ -130,7 +128,7 @@ public class Player {
      * @return True if player is in a room, otherwise false.
      */
     public boolean isInRoom() {
-        for (ArrayList<Position> entrance : board.entrances.values()) {
+        for (ArrayList<Position> entrance : board.getEntrances().values()) {
             for (Position position : entrance) {    //TODO cleaner way to do this?
                 if (tile.getPosition().equals(position)) {
                     return true;
@@ -146,6 +144,6 @@ public class Player {
      * @return True if they can make hypothesis, otherwise false.
      */
     public boolean canHypothesise() {
-        return isInRoom() && !getMadeFalseAccusation();
+        return isInRoom() && hasNotMadeFalseAccusation();
     }
 }

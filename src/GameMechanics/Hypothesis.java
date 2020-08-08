@@ -7,7 +7,7 @@ import Cards.WeaponCard;
 import java.util.Objects;
 
 /**
- * TODO
+ * Represents either a Suggestion or an Accusation for the game of Cluedo.
  */
 public class Hypothesis {
 
