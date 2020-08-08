@@ -9,7 +9,7 @@ import GameMechanics.Player;
  */
 public class HallwayTile extends AccessibleTile {
 
-    private Player playerOnThisTile;
+    private Player playerOnThisTile; // FIXME: in Tile class already?
 
     public Player getPlayerOnThisTile() {
         return playerOnThisTile;
@@ -29,10 +29,12 @@ public class HallwayTile extends AccessibleTile {
      * @param pos   Position of the tile.
      */
     public HallwayTile(CharacterCard c, Position pos) {
+        // FIXME: does the same thing as other constructor?
         super(pos);
     }
 
 
+    // FIXME: getter and setter in superclass?
     /**
      * Sets there to be a player on the tile, can be null if no player.
      * @param playerOnThisTile  The player (or null value) to place here.

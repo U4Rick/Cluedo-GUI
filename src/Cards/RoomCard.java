@@ -9,10 +9,17 @@ public class RoomCard implements Card {
 
     private final RoomEnum room;
 
+    /**
+     * Constructs a RoomCard object that contains a room.
+     * @param room the room to represent.
+     */
     public RoomCard(RoomEnum room) {
         this.room = room;
     }
 
+    /**
+     * Possible rooms.
+     */
     public enum RoomEnum {
         KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLIARDROOM, LIBRARY, STUDY, HALL, LOUNGE
     }

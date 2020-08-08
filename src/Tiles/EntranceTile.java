@@ -11,7 +11,7 @@ import static Cards.RoomCard.*;
 public class EntranceTile extends AccessibleTile {
 
     private final RoomEnum room;
-    private Player playerOnThisTile;
+    private Player playerOnThisTile; // FIXME: field exists in Tile class already?
 
 
     /**
@@ -24,6 +24,7 @@ public class EntranceTile extends AccessibleTile {
         room = r;
     }
 
+    // FIXME: getter and setter exists in Tile superclass.
     public Player getPlayerOnThisTile() {
         return playerOnThisTile;
     }
