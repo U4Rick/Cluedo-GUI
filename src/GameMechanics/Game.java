@@ -272,7 +272,8 @@ public class Game {
 
         //take turns refuting
         int index = players.indexOf(currentPlayer);
-        do {
+        for (int i = 0; i < numPlayers - 1; i++) {
+
             //Roll over to index 0
             if (index == players.size() - 1) {
                 index = 0;
@@ -284,8 +285,12 @@ public class Game {
             if (refute(refutingPlayer, activeSuggestion)) {
                 return true;
             }
+        }
 
-        } while (index != players.indexOf(currentPlayer) - 1);
+/*        do {
+
+
+        } while (index != players.indexOf(currentPlayer) - 1);*/
 
         System.out.println("Nobody was able to refute!");
         unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
@@ -302,10 +307,11 @@ public class Game {
             Hypothesis selected = selectSuggestion();
 
             if (selected.equals(solution)) {
-                System.out.println(currentPlayer + " has won the game!");
                 this.playerHasWon = true;
+                System.out.println(currentPlayer + " has won the game!");
             } else {
                 currentPlayer.madeFalseAccusation();
+                System.out.println(currentPlayer + " made a false accusation!");
             }
         }
         sleep();
@@ -345,6 +351,7 @@ public class Game {
                 System.out.println(result.append(" refutes with ").append(refutableCards.get(0)));
 
             } else {
+                System.out.println(refutingPlayer + " turn to refute.");
                 System.out.println(result.append(refuteWithMultiple(refutableCards)));
             }
             sleep();
