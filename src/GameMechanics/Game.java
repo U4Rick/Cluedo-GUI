@@ -32,7 +32,7 @@ public class Game {
     private final List<WeaponCard> allWeapons = new ArrayList<>();
     private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
-    private final String contentBreak = "-------------------------------------------";
+    private final String contentBreak = "\n-------------------------------------------\n";
 
     public Game() {
         initialise();
@@ -70,6 +70,7 @@ public class Game {
      */
     public void setNumPlayers() {
         System.out.println("How many players?");
+
 
         //Loop until number of player is set
         while (true) {
@@ -288,7 +289,6 @@ public class Game {
         System.out.println("Nobody was able to refute!");
         unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
         return false;
-        //TODO add optional make accusation
     }
 
     /**
@@ -297,13 +297,15 @@ public class Game {
      */
     private void playerAccusation() {
         printSuggestions();
-        Hypothesis selected = selectSuggestion();
+        if (!unrefutedSuggestions.isEmpty()) {
+            Hypothesis selected = selectSuggestion();
 
-        if (selected.equals(solution)) {
-            System.out.println(currentPlayer + " has won the game!");
-            this.playerHasWon = true;
-        } else {
-            currentPlayer.madeFalseAccusation();
+            if (selected.equals(solution)) {
+                System.out.println(currentPlayer + " has won the game!");
+                this.playerHasWon = true;
+            } else {
+                currentPlayer.madeFalseAccusation();
+            }
         }
     }
 
@@ -312,6 +314,7 @@ public class Game {
      * @param pos
      */
     public void playerTeleport(Player p, Position pos) {
+        System.out.println("\n");
         if (p.getTile() != board.getTileAt(pos)) {
             p.getTile().setPlayerOnThisTile(null);
             p.setTile(board.getTileAt(pos));
@@ -332,19 +335,21 @@ public class Game {
         result.append(refutingPlayer.getCharacter());
         ArrayList<Card> refutableCards = refutingPlayer.getRefutableCards(activeSuggestion);
 
-        refutingPlayer.displayHand(); //debug
-        System.out.println(refutableCards.size()); //debug
-
+        //refutingPlayer.displayHand(); //debug
+        //System.out.println(refutableCards.size()); //debug
+        System.out.println("\n");
         if (!refutableCards.isEmpty()) {
             if (refutableCards.size() == 1) {
                 System.out.println(result.append(" refutes with ").append(refutableCards.get(0)));
+
             } else {
                 System.out.println(result.append(refuteWithMultiple(refutableCards)));
             }
+            try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
             return true;
-        } else {
-            result.append(" cannot refute.");
         }
+        result.append(" cannot refute.");
+        try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
         System.out.println(result);
         return false;
     }
@@ -378,9 +383,9 @@ public class Game {
         CharacterCard character = null;
 
         do {
-            System.out.println("Suggest a character using initials... (eg. Miss Scarlett = SC)");
+            System.out.println("\nSuggest a character using initials... (eg. Miss Scarlett = SC)");
             String userInput = scan.next();
-            System.out.println(userInput);
+            //System.out.println(userInput);
 
             switch (userInput) {
                 case "MU" -> character = new CharacterCard(CharacterEnum.MUSTARD);
@@ -502,7 +507,6 @@ public class Game {
      *
      */
     private void playerMovement() {
-        System.out.println("Player movement called");
         //roll dice
         // movementRange = rollDice();
         System.out.println("You rolled a " + movementRange);
@@ -510,17 +514,17 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         hasMadeValidMove = false;
         while(!hasMadeValidMove) {
-            System.out.println("current col coord = " + currentPlayer.getTile().position.getX());
-            System.out.println("current row coord = " + currentPlayer.getTile().position.getY());//todo just temp
 
+            System.out.println("Your position \nRow: " + currentPlayer.getTile().position.getY()
+                    + "\nCol: " + currentPlayer.getTile().position.getX());
             System.out.println("Enter column to move to:");
             int moveCol = sc.nextInt();
             System.out.println("Enter row to move to:");
             int moveRow = sc.nextInt();
 
             if (moveRow < 25 && moveRow >= 0 && moveCol < 24 && moveCol >= 0) {
-                move(moveCol, moveRow);//check if requested tile is even within 24x25
-            }//these might not be the right values?
+                move(moveCol, moveRow); //check if requested tile is within board bounds
+            }
             else{
                 System.out.println("Invalid row/column, try again.");
             }
@@ -604,6 +608,7 @@ public class Game {
      * Print current board and name of current player.
      */
     private void printTurnInfo() {
+        System.out.println(contentBreak);
         System.out.println(board.toString());
         System.out.println(currentPlayer.getCharacter());
     }
@@ -626,6 +631,12 @@ public class Game {
     private void printSuggestions() {
         StringBuilder result = new StringBuilder();
         int count = 1;
+        if (unrefutedSuggestions.isEmpty()) {
+            result.append("There are no existing suggestions. \nNo accusation can be made.");
+            System.out.println(result);
+            try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
+            return;
+        }
         result.append("Choose one: ");
         for (Hypothesis hypothesis : unrefutedSuggestions) {
             result.append(count).append(".").append(hypothesis.toString()).append(" ");

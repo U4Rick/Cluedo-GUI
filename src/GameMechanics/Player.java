@@ -118,6 +118,7 @@ public class Player {
             handAsText.append(card.toString()).append(", ");
         }
         handAsText.delete(handAsText.length() - 2, handAsText.length() - 1);
+        handAsText.append("\n");
 
         System.out.println(handAsText);
     }
