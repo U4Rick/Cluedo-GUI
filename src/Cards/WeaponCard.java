@@ -9,10 +9,17 @@ public class WeaponCard implements Card {
 
     private final WeaponEnum weapon;
 
+    /**
+     * Constructs a WeaponCard object that contains a weapon.
+     * @param weapon the weapon represent.
+     */
     public WeaponCard(WeaponEnum weapon) {
         this.weapon = weapon;
     }
 
+    /**
+     * Possible weapons.
+     */
     public enum WeaponEnum {
         CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER
     }
