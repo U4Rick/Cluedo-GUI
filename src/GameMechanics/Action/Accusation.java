@@ -47,7 +47,7 @@ public class Accusation {
             Hypothesis selected = selectSuggestion();
 
             if (selected.equals(solution)) {
-                System.out.println(currentPlayer + " has won the game!");
+                System.out.println(currentPlayer.getCharacter() + " has won the game!");
                 return true;
             } else {
                 currentPlayer.madeFalseAccusation();
