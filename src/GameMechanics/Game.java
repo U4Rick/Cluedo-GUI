@@ -246,7 +246,8 @@ public class Game {
         System.out.println("Make an Accusation?");
         userInput = scan.next();
         if (userInput.equalsIgnoreCase("Y")) {
-            playerAccusation();
+            Accusation accusation = new Accusation(unrefutedSuggestions, solution);
+            accusation.playerAccusation(currentPlayer, playerHasWon);
             return;
         }
 
@@ -299,25 +300,8 @@ public class Game {
         return false;
     }
 
-    /**
-     * Creates a new accusation, if it matches the solution the game is over and the player wins.
-     * Otherwise they can no longer make suggestions or accusations. (They can still refute)
-     */
-    private void playerAccusation() {
-        printSuggestions();
-        if (!unrefutedSuggestions.isEmpty()) {
-            Hypothesis selected = selectSuggestion();
 
-            if (selected.equals(solution)) {
-                this.playerHasWon = true;
-                System.out.println(currentPlayer + " has won the game!");
-            } else {
-                currentPlayer.madeFalseAccusation();
-                System.out.println(currentPlayer + " made a false accusation!");
-            }
-        }
-        sleep();
-    }
+
 
     /**
      * Teleports a player to a room if they're not already there.
@@ -468,24 +452,7 @@ public class Game {
         }
     }
 
-    /**
-     * Select from user input a suggestion from unrefutedSuggestions for use in an accusation.
-     *
-     * @return Selected Hypothesis.
-     */
-    private Hypothesis selectSuggestion() {
-        Scanner scan = new Scanner(System.in);
 
-        //Loop until valid number input
-        while (true) {
-            if (scan.hasNextInt()) {
-                int userInput = scan.nextInt();
-                if (userInput >= 1 && userInput <= unrefutedSuggestions.size()) {
-                    return unrefutedSuggestions.get(userInput - 1);
-                }
-            }
-        }
-    }
 
     //////////////////////////
     // GAME OVER
@@ -663,23 +630,7 @@ public class Game {
         System.out.println(result);
     }
 
-    private void printSuggestions() {
-        StringBuilder result = new StringBuilder();
-        int count = 1;
-        if (unrefutedSuggestions.isEmpty()) {
-            result.append("There are no existing suggestions. \nNo accusation can be made.");
-            System.out.println(result);
-            sleep();
-            return;
-        }
-        result.append("Choose one:\n");
-        for (Hypothesis hypothesis : unrefutedSuggestions) {
-            result.append("\t").append(count).append(".").append(hypothesis.toString()).append("\n");
-            count++;
-        }
-        result.delete(result.length() - 1, result.length());
-        System.out.println(result);
-    }
+
 
     /**
      *
