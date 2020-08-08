@@ -301,6 +301,18 @@ public class Game {
         System.out.println(result);
     }
 
+    private void printSuggestions() {
+        StringBuilder result = new StringBuilder();
+        int count = 1;
+        result.append("Choose one: ");
+        for (Hypothesis hypothesis : unrefutedSuggestions) {
+            result.append(count).append(".").append(hypothesis.toString()).append(" ");
+            count++;
+        }
+        result.delete(result.length() - 1, result.length());
+        System.out.println(result);
+    }
+
     /**
      *
      */
@@ -334,12 +346,28 @@ public class Game {
      * Otherwise they can no longer make suggestions or accusations. (They can still refute)
      */
     private void playerAccusation() {
-        Hypothesis accusation = createNewSuggestion();
-        if (accusation.equals(solution)) {
+        printSuggestions();
+        Hypothesis selected = selectSuggestion();
+
+        if (selected.equals(solution)) {
             System.out.println(currentPlayer + " has won the game!");
             this.playerHasWon = true;
         } else {
             currentPlayer.madeFalseAccusation();
+        }
+    }
+
+
+    private Hypothesis selectSuggestion() {
+        Scanner scan = new Scanner(System.in);
+
+        while (true) {
+            if (scan.hasNextInt()) {
+                int userInput = scan.nextInt();
+                if (userInput >= 0 && userInput < unrefutedSuggestions.size()) {
+                    return unrefutedSuggestions.get(userInput);
+                }
+            }
         }
     }
 
