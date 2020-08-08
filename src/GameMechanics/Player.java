@@ -2,6 +2,7 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.CharacterCard;
+import GameMechanics.Action.Hypothesis;
 import Tiles.Position;
 import Tiles.Tile;
 
