@@ -45,11 +45,8 @@ public class Hypothesis {
 
     @Override
     public String toString() {
-        return "Hypothesis{" +
-                "character=" + character +
-                ", weapon=" + weapon +
-                ", room=" + room +
-                '}';
+        return character + ", " + weapon +
+                ", " + room;
     }
 
     @Override
