@@ -611,12 +611,16 @@ public class Game {
      */
     private void printTurnInfo() {
         System.out.println(contentBreak);
+        System.out.print("\n");
         System.out.println(board.toString());
         printPlayersInRooms();
         System.out.println(currentPlayer.getCharacter());
         currentPlayer.displayHand();
     }
 
+    /**
+     *
+     */
     private void printPlayersInRooms() {
         for (Player player : players) {
             for (RoomEnum r : board.entrances.keySet()) {
@@ -626,7 +630,7 @@ public class Game {
                 }
             }
         }
-        System.out.println("\n");
+        System.out.print("\n");
     }
 
     /**
