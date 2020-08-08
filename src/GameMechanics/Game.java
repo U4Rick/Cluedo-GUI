@@ -175,7 +175,6 @@ public class Game {
 
         System.out.println("No action selected.");
 
-
     }
 
     /**
@@ -199,31 +198,59 @@ public class Game {
             }
 
             Player refutingPlayer = players.get(index);
-            ArrayList<Card> refutableCards = refutingPlayer.getRefutableCards(activeSuggestion);
-            System.out.println();
-            refutingPlayer.displayHand();
-
-            if (!refutableCards.isEmpty()) {
-                System.out.println(refutableCards.size());
-                if (refutableCards.size() == 1) {
-                    System.out.println(refutingPlayer + " refutes with " + refutableCards.get(0));
-                    return;
-                }
-
-                //TODO chose multiple cards from user input
-
-
-
-
-
-            } else {
-                System.out.println(refutingPlayer + "cannot refute.");
+            if (refute(refutingPlayer, activeSuggestion)) {
+                break;
             }
-
 
         } while (index != players.indexOf(currentPlayer));
 
+        System.out.println("Nobody was able to refute!");
         unrefutedSuggestions.add(activeSuggestion);                             //Add to collection if no one refutes
+        //TODO add optional make accusation
+    }
+
+    private boolean refute(Player refutingPlayer, Hypothesis activeSuggestion) {
+        StringBuilder result = new StringBuilder();
+        result.append(refutingPlayer.getCharacter());
+        ArrayList<Card> refutableCards = refutingPlayer.getRefutableCards(activeSuggestion);
+
+        refutingPlayer.displayHand(); //debug
+        System.out.println(refutableCards.size()); //debug
+
+        if (!refutableCards.isEmpty()) {
+            if (refutableCards.size() == 1) {
+                System.out.println(result.append(" refutes with ").append(refutableCards.get(0)));
+            } else {
+                System.out.println(result.append(refuteWithMultiple(refutableCards)));
+            }
+            return true;
+        } else {
+            result.append(" cannot refute.");
+        }
+        System.out.println(result);
+        return false;
+    }
+
+    private String refuteWithMultiple(ArrayList<Card> refutableCards) {
+        printRefutableCards(refutableCards);
+        Scanner scan = new Scanner(System.in);
+        String userInput = scan.next();
+        StringBuilder result = new StringBuilder();
+        result.append(" refutes with ");
+
+        while (true) {
+            switch (userInput) {
+                case "1" -> {
+                    return result.append(refutableCards.get(0)).toString();
+                }
+                case "2" -> {
+                    return result.append(refutableCards.get(1)).toString();
+                }
+                case "3" -> {
+                    return result.append(refutableCards.get(2)).toString();
+                }
+            }
+        }
     }
 
     /**
@@ -232,10 +259,12 @@ public class Game {
     private void printPotentialWeapons() {
         StringBuilder result = new StringBuilder();
         result.append("Weapons: ");
+        int count = 1;
         for (WeaponCard weapon : allWeapons) {
-            result.append(weapon.toString()).append(", ");
+            result.append(count).append(".").append(weapon.toString()).append(" ");
+            count++;
         }
-        result.delete(result.length() - 2, result.length() - 1);
+        result.delete(result.length() - 1, result.length());
         System.out.println(result);
     }
 
@@ -252,6 +281,17 @@ public class Game {
         System.out.println(result);
     }
 
+    private void printRefutableCards(ArrayList<Card> cards) {
+        StringBuilder result = new StringBuilder();
+        int count = 1;
+        result.append("Choose one: ");
+        for (Card card : cards) {
+            result.append(count).append(".").append(card.toString()).append(" ");
+            count++;
+        }
+        result.delete(result.length() - 1, result.length());
+        System.out.println(result);
+    }
 
     /**
      * Creates a new accusation, if it matches the solution the game is over and the player wins.
