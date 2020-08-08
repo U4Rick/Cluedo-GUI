@@ -715,29 +715,9 @@ public class Game {
         try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
     }
 
-
     //////////////////////////
     // GETTERS & SETTERS
     //////////////////////////
-
-    public Hypothesis getSolution() {
-        return solution;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public String toString() {
-        return super.toString() + "[" + "]" + System.getProperties().getProperty("line.separator") +
-                "  " + "solution" + "=" + (getSolution() != null ? !getSolution().equals(this) ? getSolution().toString().replaceAll("  ", "    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-                "  " + "currentPlayer" + "=" + (getCurrentPlayer() != null ? !getCurrentPlayer().equals(this) ? getCurrentPlayer().toString().replaceAll("  ", "    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-                "  " + "board = " + (getBoard() != null ? Integer.toHexString(System.identityHashCode(getBoard())) : "null");
-    }
 
     public static void main(String[] args) {
         Game game = new Game();

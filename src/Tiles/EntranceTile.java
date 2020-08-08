@@ -37,7 +37,6 @@ public class EntranceTile extends AccessibleTile {
         return room;
     }
 
-
     @Override
     public String toString() {
         return switch (room) {

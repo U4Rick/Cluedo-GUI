@@ -75,116 +75,96 @@ public class BoardParser {
      * @throws InputMismatchException   If token is not of pre-known sequence, input is incorrect.
      */
     private Tile parseInitials(String token, int x, int y) throws InputMismatchException {
-        Position h = new Position(x, y);
+        Position position = new Position(x, y);
         switch (token) {
-            case "KT":
-                // Kitchen
+            case "KT" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.KITCHEN)) {
                     entrances.put(RoomCard.RoomEnum.KITCHEN, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.KITCHEN).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.KITCHEN, h);
-
-            case "BR":
-                // Ballroom
+                entrances.get(RoomCard.RoomEnum.KITCHEN).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.KITCHEN, position);
+            }
+            case "BR" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.BALLROOM)) {
                     entrances.put(RoomCard.RoomEnum.BALLROOM, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.BALLROOM).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.BALLROOM, h);
-
-            case "CT":
-                // Conservatory
+                entrances.get(RoomCard.RoomEnum.BALLROOM).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.BALLROOM, position);
+            }
+            case "CT" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.CONSERVATORY)) {
                     entrances.put(RoomCard.RoomEnum.CONSERVATORY, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.CONSERVATORY).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.CONSERVATORY, h);
-
-           case "BL":
-                // Billiard room
+                entrances.get(RoomCard.RoomEnum.CONSERVATORY).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.CONSERVATORY, position);
+            }
+            case "BL" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.BILLIARDROOM)) {
                     entrances.put(RoomCard.RoomEnum.BILLIARDROOM, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.BILLIARDROOM).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.BILLIARDROOM, h);
-
-            case "LB":
-                // Library
+                entrances.get(RoomCard.RoomEnum.BILLIARDROOM).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.BILLIARDROOM, position);
+            }
+            case "LB" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.LIBRARY)) {
                     entrances.put(RoomCard.RoomEnum.LIBRARY, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.LIBRARY).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.LIBRARY, h);
-
-            case "ST":
-                // Study
+                entrances.get(RoomCard.RoomEnum.LIBRARY).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.LIBRARY, position);
+            }
+            case "ST" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.STUDY)) {
                     entrances.put(RoomCard.RoomEnum.STUDY, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.STUDY).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.STUDY, h);
-
-            case "HL":
-                // Hall
+                entrances.get(RoomCard.RoomEnum.STUDY).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.STUDY, position);
+            }
+            case "HL" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.HALL)) {
                     entrances.put(RoomCard.RoomEnum.HALL, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.HALL).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.HALL, h);
-
-            case"LG":
-                // Lounge
+                entrances.get(RoomCard.RoomEnum.HALL).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.HALL, position);
+            }
+            case "LG" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.LOUNGE)) {
                     entrances.put(RoomCard.RoomEnum.LOUNGE, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.LOUNGE).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.LOUNGE, h);
-
-            case "DR":
-                // Dining room
+                entrances.get(RoomCard.RoomEnum.LOUNGE).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.LOUNGE, position);
+            }
+            case "DR" -> {
                 if (!entrances.containsKey(RoomCard.RoomEnum.DININGROOM)) {
                     entrances.put(RoomCard.RoomEnum.DININGROOM, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.DININGROOM).add(h);
-                return new EntranceTile(RoomCard.RoomEnum.DININGROOM, h);
-
-            case "MU":
-                // Mustard
-                startingTiles.put(CharacterCard.CharacterEnum.MUSTARD, h);
-                return new HallwayTile(new CharacterCard(CharacterCard.CharacterEnum.MUSTARD), h);
-
-            case "WH":
-                // White
-                startingTiles.put(CharacterCard.CharacterEnum.WHITE, h);
-                return new HallwayTile(new CharacterCard(CharacterCard.CharacterEnum.WHITE), h);
-
-            case "GR":
-                // Green
-                startingTiles.put(CharacterCard.CharacterEnum.GREEN, h);
-                return new HallwayTile(new CharacterCard(CharacterCard.CharacterEnum.GREEN), h);
-
-            case "PC":
-                // Peacock
-                startingTiles.put(CharacterCard.CharacterEnum.PEACOCK, h);
-                return new HallwayTile(new CharacterCard(CharacterCard.CharacterEnum.PEACOCK), h);
-
-            case "PL":
-                // Plum
-                startingTiles.put(CharacterCard.CharacterEnum.PLUM, h);
-                return new HallwayTile(new CharacterCard(CharacterCard.CharacterEnum.PLUM), h);
-
-            case "SC":
-                // Scarlett
-                startingTiles.put(CharacterCard.CharacterEnum.SCARLETT, h);
-                return new HallwayTile(new CharacterCard(CharacterCard.CharacterEnum.SCARLETT), h);
-
-            default:
-                throw new InputMismatchException("No viable character value found.");
+                entrances.get(RoomCard.RoomEnum.DININGROOM).add(position);
+                return new EntranceTile(RoomCard.RoomEnum.DININGROOM, position);
+            }
+            case "MU" -> {
+                startingTiles.put(CharacterCard.CharacterEnum.MUSTARD, position);
+                return new HallwayTile(position);
+            }
+            case "WH" -> {
+                startingTiles.put(CharacterCard.CharacterEnum.WHITE, position);
+                return new HallwayTile(position);
+            }
+            case "GR" -> {
+                startingTiles.put(CharacterCard.CharacterEnum.GREEN, position);
+                return new HallwayTile(position);
+            }
+            case "PC" -> {
+                startingTiles.put(CharacterCard.CharacterEnum.PEACOCK, position);
+                return new HallwayTile(position);
+            }
+            case "PL" -> {
+                startingTiles.put(CharacterCard.CharacterEnum.PLUM, position);
+                return new HallwayTile(position);
+            }
+            case "SC" -> {
+                startingTiles.put(CharacterCard.CharacterEnum.SCARLETT, position);
+                return new HallwayTile(position);
+            }
+            default -> throw new InputMismatchException("No viable character value found.");
         }
-
-
-
-
     }
 }

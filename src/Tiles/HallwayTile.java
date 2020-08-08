@@ -1,6 +1,5 @@
 package Tiles;
 
-import Cards.CharacterCard;
 import GameMechanics.Player;
 
 /**
@@ -22,17 +21,6 @@ public class HallwayTile extends AccessibleTile {
     public HallwayTile(Position pos) {
         super(pos);
     }
-
-    /**
-     * Creates a starting tile with a specific character.
-     * @param c     Character that starts there.
-     * @param pos   Position of the tile.
-     */
-    public HallwayTile(CharacterCard c, Position pos) {
-        // FIXME: does the same thing as other constructor?
-        super(pos);
-    }
-
 
     // FIXME: getter and setter in superclass?
     /**
