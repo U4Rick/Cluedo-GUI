@@ -665,9 +665,9 @@ public class Game {
             try { Thread.sleep(2000); } catch (Exception e) { System.out.println(e.toString()); }
             return;
         }
-        result.append("Choose one: ");
+        result.append("Choose one:\n");
         for (Hypothesis hypothesis : unrefutedSuggestions) {
-            result.append(count).append(".").append(hypothesis.toString()).append(" ");
+            result.append("\t").append(count).append(".").append(hypothesis.toString()).append("\n");
             count++;
         }
         result.delete(result.length() - 1, result.length());
