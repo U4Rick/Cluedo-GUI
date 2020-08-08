@@ -181,11 +181,18 @@ public class Game {
      *
      */
     private void playerSuggestion() {
+
         currentPlayer.displayHand();
         printPotentialCharacters();
         printPotentialWeapons();
         Hypothesis activeSuggestion = createNewSuggestion();
         System.out.println(activeSuggestion);
+        for (Player p: players) {
+            if (p.getCharacter().equals(activeSuggestion.getCharacter())) {
+                playerTeleport(p, currentPlayer.getTile().position);
+                break;
+            }
+        }
 
         //take turns refuting
         int index = players.indexOf(currentPlayer);
@@ -199,7 +206,7 @@ public class Game {
 
             Player refutingPlayer = players.get(index);
             if (refute(refutingPlayer, activeSuggestion)) {
-                break;
+                return;
             }
 
         } while (index != players.indexOf(currentPlayer));
@@ -209,6 +216,28 @@ public class Game {
         //TODO add optional make accusation
     }
 
+    /**
+     * @param p
+     * @param pos
+     */
+    public void playerTeleport(Player p, Position pos) {
+        if (p.getTile() != board.getTileAt(pos)) {
+            p.getTile().setPlayerOnThisTile(null);
+            p.setTile(board.getTileAt(pos));
+            System.out.println(p.toString() + " moved to suggested room.");
+        }
+        else {
+            System.out.println(p.toString() + " is already in the room.");
+        }
+
+
+    }
+
+    /**
+     * @param refutingPlayer
+     * @param activeSuggestion
+     * @return
+     */
     private boolean refute(Player refutingPlayer, Hypothesis activeSuggestion) {
         StringBuilder result = new StringBuilder();
         result.append(refutingPlayer.getCharacter());
@@ -231,6 +260,10 @@ public class Game {
         return false;
     }
 
+    /**
+     * @param refutableCards
+     * @return
+     */
     private String refuteWithMultiple(ArrayList<Card> refutableCards) {
         printRefutableCards(refutableCards);
         Scanner scan = new Scanner(System.in);
@@ -281,6 +314,9 @@ public class Game {
         System.out.println(result);
     }
 
+    /**
+     * @param cards
+     */
     private void printRefutableCards(ArrayList<Card> cards) {
         StringBuilder result = new StringBuilder();
         int count = 1;
