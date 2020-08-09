@@ -41,7 +41,6 @@ public class Move {
         System.out.println("You rolled a " + movementRange);
 
         //ask for tile to move to
-        Scanner sc = new Scanner(System.in);
         hasMadeValidMove = false;
         while (!hasMadeValidMove) {
 
