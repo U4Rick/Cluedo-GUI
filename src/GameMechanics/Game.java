@@ -108,7 +108,8 @@ public class Game {
     /**
      * Create all of the cards, select a solution, then deal the rest of the cards to the players.
      */
-    private void setupCards() {
+    private void
+    setupCards() {
         solution = new Hypothesis(null, null, null);
 
         ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());

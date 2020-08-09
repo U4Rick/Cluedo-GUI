@@ -47,9 +47,17 @@ public class Move {
             System.out.println("Your position \nRow: " + currentPlayer.getTile().position.getY()
                     + "\nCol: " + currentPlayer.getTile().position.getX());
             System.out.println("\nEnter column to move to:");
-            int moveCol = sc.nextInt();
-            System.out.println("Enter row to move to:");
-            int moveRow = sc.nextInt();
+
+            int moveCol = -1;
+            int moveRow = -1;
+                    Scanner scan = new Scanner(System.in);
+            if(scan.hasNextInt()) {
+                moveCol = scan.nextInt();
+                System.out.println("Enter row to move to:");    //repeats until valid inputs
+                if(scan.hasNextInt()) {
+                    moveRow = scan.nextInt();
+                }
+            }
 
             if (moveRow < 25 && moveRow >= 0 && moveCol < 24 && moveCol >= 0) {
                 move(moveCol, moveRow); //check if requested tile is within board bounds
