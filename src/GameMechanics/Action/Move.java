@@ -18,7 +18,7 @@ public class Move {
 
     private final Player currentPlayer;
     private final Board board;
-    private int movementRange = 999;
+    private int movementRange;
 
     /**
      * Initialise a new move instance.
@@ -37,7 +37,7 @@ public class Move {
      */
     public void playerMovement() {
         //roll dice
-        //movementRange = rollDice(); TODO uncomment at the end
+        movementRange = rollDice();
         System.out.println("You rolled a " + movementRange);
 
         //ask for tile to move to
