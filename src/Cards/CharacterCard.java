@@ -47,13 +47,21 @@ public class CharacterCard implements Card {
 
     @Override
     public String toString() {
-        return switch (character) {
-            case SCARLETT -> "Miss Scarlett";
-            case WHITE -> "Mrs White";
-            case GREEN -> "Mr Green";
-            case PLUM -> "Professor Plum";
-            case MUSTARD -> "Colonel Mustard";
-            case PEACOCK -> "Mrs Peacock";
-        };
+        switch (character) {
+            case SCARLETT:
+                return "Miss Scarlett";
+            case WHITE:
+                return "Mrs White";
+            case GREEN:
+                return "Mr Green";
+            case PLUM:
+                return "Professor Plum";
+            case MUSTARD:
+                return "Colonel Mustard";
+            case PEACOCK:
+                return "Mrs Peacock";
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

@@ -63,15 +63,12 @@ public class Refute extends Action {
 
         while (true) {
             switch (userInput) {
-                case "1" -> {
+                case "1":
                     return result.append(refutableCards.get(0)).toString();
-                }
-                case "2" -> {
+                case "2":
                     return result.append(refutableCards.get(1)).toString();
-                }
-                case "3" -> {
+                case "3":
                     return result.append(refutableCards.get(2)).toString();
-                }
             }
         }
     }

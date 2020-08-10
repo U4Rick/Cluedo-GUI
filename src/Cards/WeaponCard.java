@@ -39,13 +39,21 @@ public class WeaponCard implements Card {
 
     @Override
     public String toString() {
-        return switch (weapon) {
-            case CANDLESTICK -> "Candlestick";
-            case LEADPIPE -> "Leadpipe";
-            case DAGGER -> "Dagger";
-            case REVOLVER -> "Revolver";
-            case ROPE -> "Rope";
-            case SPANNER -> "Spanner";
-        };
+        switch (weapon) {
+            case CANDLESTICK:
+                return "Candlestick";
+            case LEADPIPE:
+                return "Leadpipe";
+            case DAGGER:
+                return "Dagger";
+            case REVOLVER:
+                return "Revolver";
+            case ROPE:
+                return "Rope";
+            case SPANNER:
+                return "Spanner";
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

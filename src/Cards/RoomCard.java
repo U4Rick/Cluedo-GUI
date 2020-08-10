@@ -39,16 +39,27 @@ public class RoomCard implements Card {
 
     @Override
     public String toString() {
-        return switch (room) {
-            case KITCHEN -> "Kitchen";
-            case BALLROOM -> "Ballroom";
-            case CONSERVATORY -> "Conservatory";
-            case DININGROOM -> "Dining Room";
-            case BILLIARDROOM -> "Billiard Room";
-            case LIBRARY -> "Library";
-            case STUDY -> "Study";
-            case HALL -> "Hall";
-            case LOUNGE -> "Lounge";
-        };
+        switch (room) {
+            case KITCHEN:
+                return "Kitchen";
+            case BALLROOM:
+                return "Ballroom";
+            case CONSERVATORY:
+                return "Conservatory";
+            case DININGROOM:
+                return "Dining Room";
+            case BILLIARDROOM:
+                return "Billiard Room";
+            case LIBRARY:
+                return "Library";
+            case STUDY:
+                return "Study";
+            case HALL:
+                return "Hall";
+            case LOUNGE:
+                return "Lounge";
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

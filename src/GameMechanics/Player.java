@@ -148,13 +148,21 @@ public class Player {
 
     @Override
     public String toString() {
-        return switch (character.getCharacter()) {
-            case PEACOCK -> "PC";
-            case MUSTARD -> "MU";
-            case PLUM -> "PL";
-            case GREEN -> "GR";
-            case WHITE -> "WH";
-            case SCARLETT -> "SC";
-        };
+        switch (character.getCharacter()) {
+            case PEACOCK:
+                return "PC";
+            case MUSTARD:
+                return "MU";
+            case PLUM:
+                return "PL";
+            case GREEN:
+                return "GR";
+            case WHITE:
+                return "WH";
+            case SCARLETT:
+                return "SC";
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

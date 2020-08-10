@@ -108,12 +108,24 @@ public class Suggestion extends Action {
             //System.out.println(userInput);
 
             switch (userInput) {
-                case "MU" -> character = new CharacterCard(CharacterCard.CharacterEnum.MUSTARD);
-                case "WH" -> character = new CharacterCard(CharacterCard.CharacterEnum.WHITE);
-                case "GR" -> character = new CharacterCard(CharacterCard.CharacterEnum.GREEN);
-                case "PC" -> character = new CharacterCard(CharacterCard.CharacterEnum.PEACOCK);
-                case "PL" -> character = new CharacterCard(CharacterCard.CharacterEnum.PLUM);
-                case "SC" -> character = new CharacterCard(CharacterCard.CharacterEnum.SCARLETT);
+                case "MU":
+                    character = new CharacterCard(CharacterCard.CharacterEnum.MUSTARD);
+                    break;
+                case "WH":
+                    character = new CharacterCard(CharacterCard.CharacterEnum.WHITE);
+                    break;
+                case "GR":
+                    character = new CharacterCard(CharacterCard.CharacterEnum.GREEN);
+                    break;
+                case "PC":
+                    character = new CharacterCard(CharacterCard.CharacterEnum.PEACOCK);
+                    break;
+                case "PL":
+                    character = new CharacterCard(CharacterCard.CharacterEnum.PLUM);
+                    break;
+                case "SC":
+                    character = new CharacterCard(CharacterCard.CharacterEnum.SCARLETT);
+                    break;
             }
         } while (character == null);
 
@@ -134,12 +146,24 @@ public class Suggestion extends Action {
             String userInput = scan.next();
 
             switch (userInput) {
-                case "1" -> weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
-                case "2" -> weapon = new WeaponCard(WeaponCard.WeaponEnum.LEADPIPE);
-                case "3" -> weapon = new WeaponCard(WeaponCard.WeaponEnum.DAGGER);
-                case "4" -> weapon = new WeaponCard(WeaponCard.WeaponEnum.REVOLVER);
-                case "5" -> weapon = new WeaponCard(WeaponCard.WeaponEnum.ROPE);
-                case "6" -> weapon = new WeaponCard(WeaponCard.WeaponEnum.SPANNER);
+                case "1":
+                    weapon = new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK);
+                    break;
+                case "2":
+                    weapon = new WeaponCard(WeaponCard.WeaponEnum.LEADPIPE);
+                    break;
+                case "3":
+                    weapon = new WeaponCard(WeaponCard.WeaponEnum.DAGGER);
+                    break;
+                case "4":
+                    weapon = new WeaponCard(WeaponCard.WeaponEnum.REVOLVER);
+                    break;
+                case "5":
+                    weapon = new WeaponCard(WeaponCard.WeaponEnum.ROPE);
+                    break;
+                case "6":
+                    weapon = new WeaponCard(WeaponCard.WeaponEnum.SPANNER);
+                    break;
             }
         } while (weapon == null);
 
