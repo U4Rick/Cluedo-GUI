@@ -1,32 +1,31 @@
 package GameMechanics;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public abstract class GUI {
 
     private JFrame selectWindow;
     private JFrame gameWindow;
 
+
     public GUI() { buildCharacterSelectWindow(); }
 
     private void buildCharacterSelectWindow() {
-        //TODO radio buttons, action listener
+
         JRadioButton char1 = new JRadioButton("Peacock");
         JRadioButton char2 = new JRadioButton("Mustard");
         JRadioButton char3 = new JRadioButton("Scarlett");
         JRadioButton char4 = new JRadioButton("Plum");
         JRadioButton char5 = new JRadioButton("White");
         JRadioButton char6 = new JRadioButton("Green");
-
-        ButtonGroup choices = new ButtonGroup();
-        choices.add(char1);
-        choices.add(char2);
-        choices.add(char3);
-        choices.add(char4);
-        choices.add(char5);
-        choices.add(char6);
+        char1.setSelected(true);
 
 
         JButton submit = new JButton("Submit");
@@ -61,15 +60,33 @@ public abstract class GUI {
     }
 
     private void buildGameBoard() {
+        JMenuBar menuBar = new JMenuBar();
 
-        JPanel boardPanel = new JPanel();
+        Panel boardPanel = new Panel();
+        final BufferedImage image;
+        try {
+            image = ImageIO.read(new File("./assets/cluedo_board.jpg"));
+            boardPanel.paintComponent(image.getGraphics(), image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
         JPanel optionPanel = new JPanel();
+
+
+
         JPanel cardPanel = new JPanel();
+
+
+
 
         //TODO format JPanels.
 
         JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, boardPanel, optionPanel);
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, innerPane, cardPanel);
+
 
         gameWindow = new JFrame();
         selectWindow.setVisible(false);
@@ -79,10 +96,20 @@ public abstract class GUI {
         //TODO set minimum size
 
         //TODO add elements to frame
+        gameWindow.add(menuBar);
         gameWindow.add(mainPane);
+
 
         gameWindow.pack();
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
+    }
+
+    private class Panel extends JPanel {
+
+        protected void paintComponent(Graphics g, BufferedImage image) {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, null);
+        }
     }
 }
