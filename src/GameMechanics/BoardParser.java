@@ -14,6 +14,7 @@ public class BoardParser {
     public Tile[][] board;
     public Map<CharacterCard.CharacterEnum, Position> startingTiles;
     public Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
+    public Map<RoomCard.RoomEnum, ArrayList<Position>> rooms;
 
     /**
      * Initialise the BoardParser object.
@@ -23,6 +24,7 @@ public class BoardParser {
         board = new Tile[25][24];
         startingTiles = new HashMap<>();
         entrances = new HashMap<>();
+        rooms = new HashMap<>();
     }
 
     /**
@@ -53,9 +55,9 @@ public class BoardParser {
                     // Room entry/player start tile
                     board[row][col] = parseInitials(token, col, row);
                 }
-                else if (token.matches("\\s\\s")) {
+                else if (token.matches("[a-z]{2}")) {
                     // Room tile
-                    board[row][col] = new RoomTile(new Position(col, row));
+                    board[row][col] = parseRoom(token, col, row);
                 }
                 else {
                     System.out.println("no matching regex " + col + " " + row + " " + token);
@@ -66,6 +68,74 @@ public class BoardParser {
             }
         }
         return board;
+    }
+
+    /**
+     *
+     * @param token
+     * @param x
+     * @param y
+     * @return
+     */
+    private Tile parseRoom(String token, int x, int y) {
+        Position position = new Position(x, y);
+        switch (token) {
+            case "kt":
+                if (!rooms.containsKey(RoomCard.RoomEnum.KITCHEN)) {
+                    rooms.put(RoomCard.RoomEnum.KITCHEN, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.KITCHEN).add(position);
+                return new RoomTile(RoomCard.RoomEnum.KITCHEN, position);
+            case "br":
+                if (!rooms.containsKey(RoomCard.RoomEnum.BALLROOM)) {
+                    rooms.put(RoomCard.RoomEnum.BALLROOM, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.BALLROOM).add(position);
+                return new RoomTile(RoomCard.RoomEnum.BALLROOM, position);
+            case "ct":
+                if (!rooms.containsKey(RoomCard.RoomEnum.CONSERVATORY)) {
+                    rooms.put(RoomCard.RoomEnum.CONSERVATORY, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.CONSERVATORY).add(position);
+                return new RoomTile(RoomCard.RoomEnum.CONSERVATORY, position);
+            case "bl":
+                if (!rooms.containsKey(RoomCard.RoomEnum.BILLIARDROOM)) {
+                    rooms.put(RoomCard.RoomEnum.BILLIARDROOM, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.BILLIARDROOM).add(position);
+                return new RoomTile(RoomCard.RoomEnum.BILLIARDROOM, position);
+            case "lb":
+                if (!rooms.containsKey(RoomCard.RoomEnum.LIBRARY)) {
+                    rooms.put(RoomCard.RoomEnum.LIBRARY, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.LIBRARY).add(position);
+                return new RoomTile(RoomCard.RoomEnum.LIBRARY, position);
+            case "st":
+                if (!rooms.containsKey(RoomCard.RoomEnum.STUDY)) {
+                    rooms.put(RoomCard.RoomEnum.STUDY, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.STUDY).add(position);
+                return new RoomTile(RoomCard.RoomEnum.STUDY, position);
+            case "hl":
+                if (!rooms.containsKey(RoomCard.RoomEnum.HALL)) {
+                    rooms.put(RoomCard.RoomEnum.HALL, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.HALL).add(position);
+                return new RoomTile(RoomCard.RoomEnum.HALL, position);
+            case "lg":
+                if (!rooms.containsKey(RoomCard.RoomEnum.LOUNGE)) {
+                    rooms.put(RoomCard.RoomEnum.LOUNGE, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.LOUNGE).add(position);
+                return new RoomTile(RoomCard.RoomEnum.LOUNGE, position);
+            case "dr":
+                if (!rooms.containsKey(RoomCard.RoomEnum.DININGROOM)) {
+                    rooms.put(RoomCard.RoomEnum.DININGROOM, new ArrayList<>());
+                }
+                rooms.get(RoomCard.RoomEnum.DININGROOM).add(position);
+                return new RoomTile(RoomCard.RoomEnum.DININGROOM, position);
+        }
+        return null;
     }
 
 
