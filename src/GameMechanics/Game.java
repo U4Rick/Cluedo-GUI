@@ -21,7 +21,7 @@ import static Cards.WeaponCard.*;
  * Handles game initialisation, game over, and refers to all other
  * classes in running the game via game logic
  */
-public class Game {
+public class Game extends GUI {
 
     //GameMechanics.Game Attributes
     private Hypothesis solution;
