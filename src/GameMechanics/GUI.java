@@ -16,7 +16,9 @@ public abstract class GUI {
     private JFrame gameWindow;
 
 
-    public GUI() { buildCharacterSelectWindow(); }
+    public GUI() {
+        buildCharacterSelectWindow();
+    }
 
     private void buildCharacterSelectWindow() {
 
@@ -34,26 +36,43 @@ public abstract class GUI {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int count = 0;
                 for (JRadioButton charac : characters) {
                     if (charac.isSelected()) {
+                        count++;
                         JOptionPane option = new JOptionPane();
                         option.setOptionType(JOptionPane.DEFAULT_OPTION);
                         String username;
+
                         do {
                             username = JOptionPane.showInputDialog(option, "Please enter the user name for player playing as " + charac.getText() + ".");
                         } while (username.length() == 0);
-                        option.setMessage(username + " is playing as " +  charac.getText() + ".");
+
+                        option.setMessage(username + " is playing as " + charac.getText() + ".");
                         JDialog dialog = option.createDialog("Name");
                         dialog.pack();
                         dialog.setVisible(true);
                         if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
                             dialog.setVisible(false);
-                            //TODO do something with the username here
+                            //TODO do something with the username here, need to create a player object, passing username in
                         }
 
                     }
                 }
-                buildGameBoard();
+                if (count >= 3) { //make sure there are enough players
+                    buildGameBoard();
+                } else {
+                    JOptionPane option = new JOptionPane();
+                    option.setOptionType(JOptionPane.DEFAULT_OPTION);
+                    option.setMessage("You must have 3 or more players!");
+                    JDialog dialog = option.createDialog("Not enough players.");
+                    dialog.pack();
+                    dialog.setVisible(true);
+                    int choice = (Integer) option.getValue();
+                    if (choice == JOptionPane.OK_OPTION) {
+                        dialog.setVisible(false);
+                    }
+                }
             }
         });
 
@@ -62,7 +81,9 @@ public abstract class GUI {
         JPanel selectPanel = new JPanel();
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.PAGE_AXIS));
         selectPanel.add(title);
-        for (JRadioButton but : characters) { selectPanel.add(but); }
+        for (JRadioButton but : characters) {
+            selectPanel.add(but);
+        }
         selectPanel.add(submit);
         selectWindow = new JFrame("Select Players");
 
@@ -89,21 +110,34 @@ public abstract class GUI {
             e.printStackTrace();
         }
 
+        JPanel infoPanel = new JPanel();
+
+        JPanel componentPanel = new JPanel();
+
+        //TODO might need an abstract void to get the current player?
+
+        JLabel characterName = new JLabel();
+
+        JLabel userNameLabel = new JLabel();
+
+        JButton accuseButton = new JButton();
+
+        JButton suggestButton = new JButton();
 
 
-        JPanel suggestionPane = new JPanel();
-
-
+        //TODO implement GridBagLayout and workout the necessary insets for each element
 
         JPanel cardPanel = new JPanel();
+        //TODO figure this out
 
-
+        infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
+        infoPanel.add(componentPanel);
+        infoPanel.add(cardPanel);
 
 
         //TODO format JPanels.
 
-        JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, boardPanel, suggestionPane);
-        JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, innerPane, cardPanel);
+        JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, boardPanel, infoPanel);
 
 
         gameWindow = new JFrame();

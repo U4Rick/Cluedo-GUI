@@ -17,6 +17,9 @@ public class Player {
     private Tile tile;
     private boolean madeFalseAccusation = false;
 
+    private String username;
+    //TODO implement constructor to bring in the username field from the gui
+
     private final List<Card> hand;
     private final Board board;
 
