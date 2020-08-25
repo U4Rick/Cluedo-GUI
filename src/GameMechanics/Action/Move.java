@@ -16,7 +16,7 @@ public class Move {
 
     private final Player currentPlayer;
     private final Board board;
-    private int movementRange = 11;
+    private int movementRange;
 
     /**
      * Initialise a new move instance.
@@ -35,7 +35,7 @@ public class Move {
      */
     public void playerMovement() {
         //roll dice
-       // movementRange = rollDice();
+        movementRange = rollDice();
         System.out.println("You rolled a " + movementRange);
 
         //ask for tile to move to
@@ -77,7 +77,7 @@ public class Move {
      */
     public Boolean isValidMovement(int startX, int startY, int endX, int endY) {
 
-        Position startPos = new Position(startX,startY);
+        Position startPos = new Position(startX, startY);
         Position endPos = new Position(endX, endY);
 
         //if endTile == inaccessible
@@ -97,7 +97,7 @@ public class Move {
             return false;
         }
 
-        if(!pathfinding(board, startPos, endPos)){
+        if (!pathfinding(board, startPos, endPos)) {
             System.out.println("No valid path to that tile, try again.");
             return false;   //todo stop Mrs White cheating
         }
@@ -108,9 +108,10 @@ public class Move {
 
     /**
      * Dijkstras pathfinding algorithm to prevent players clipping through rooms on high rolls
+     *
      * @param board the board
      * @param start the position the movement starts from
-     * @param goal the position movement ends at
+     * @param goal  the position movement ends at
      * @return true if a valid path can be made
      */
     public boolean pathfinding(Board board, Position start, Position goal) {
@@ -129,18 +130,18 @@ public class Move {
                         node = new Node(tiles[y][x], 999);
                     }
                     fringe.offer(node);
-                    pathing.put(tiles[y][x].getPosition(),node);
+                    pathing.put(tiles[y][x].getPosition(), node);
 
                 }
 
             }
         }
 
-        while(!fringe.isEmpty()){
+        while (!fringe.isEmpty()) {
             Node node = fringe.poll();
             visited.add(node);
 
-            if(node.getTile().getPosition().equals(goal)){
+            if (node.getTile().getPosition().equals(goal)) {
                 return Objects.requireNonNull(fringe.peek()).getDistance() < movementRange + 1;
             }
 
@@ -148,7 +149,7 @@ public class Move {
 
             for (int i = 0; i < 4; i++) {
                 Node child = neigh[i];
-                if(visited.contains(child) || child  ==  null) {
+                if (visited.contains(child) || child == null) {
                     continue;
                 }
                 child.setDistance(node.getDistance() + 1);
@@ -173,7 +174,7 @@ public class Move {
         Tile endTile = board.getTileAt(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
-        if (isValidMovement(playerX, playerY, x, y) && (pathfinding(board,startPos,endPos))) {
+        if (isValidMovement(playerX, playerY, x, y) && (pathfinding(board, startPos, endPos))) {
             currentPlayer.setTile(endTile);
             endTile.setPlayerOnThisTile(currentPlayer);
             startTile.setPlayerOnThisTile(null);

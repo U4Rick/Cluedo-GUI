@@ -124,6 +124,7 @@ public abstract class GUI {
 
         JButton suggestButton = new JButton();
 
+       // JLabel userNameLabel = new JLabel();
 
         //TODO implement GridBagLayout and workout the necessary insets for each element
 
@@ -134,11 +135,14 @@ public abstract class GUI {
         infoPanel.add(componentPanel);
         infoPanel.add(cardPanel);
 
+        //JButton suggestButton = new JButton();
 
         //TODO format JPanels.
 
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, boardPanel, infoPanel);
 
+
+        //TODO implement GridBagLayout and workout the necessary insets for each element
 
         gameWindow = new JFrame();
         selectWindow.setVisible(false);
