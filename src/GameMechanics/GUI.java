@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class GUI {
 
@@ -19,19 +20,41 @@ public abstract class GUI {
 
     private void buildCharacterSelectWindow() {
 
-        JRadioButton char1 = new JRadioButton("Peacock");
-        JRadioButton char2 = new JRadioButton("Mustard");
-        JRadioButton char3 = new JRadioButton("Scarlett");
-        JRadioButton char4 = new JRadioButton("Plum");
-        JRadioButton char5 = new JRadioButton("White");
-        JRadioButton char6 = new JRadioButton("Green");
-        char1.setSelected(true);
+        ArrayList<JRadioButton> characters = new ArrayList<>();
+        characters.add(new JRadioButton("Peacock"));
+        characters.add(new JRadioButton("Mustard"));
+        characters.add(new JRadioButton("Scarlett"));
+        characters.add(new JRadioButton("Plum"));
+        characters.add(new JRadioButton("White"));
+        characters.add(new JRadioButton("Green"));
 
+        characters.get(0).setSelected(true);
 
         JButton submit = new JButton("Submit");
         submit.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { buildGameBoard(); }
+            public void actionPerformed(ActionEvent e) {
+                for (JRadioButton charac : characters) {
+                    if (charac.isSelected()) {
+                        JOptionPane option = new JOptionPane();
+                        option.setOptionType(JOptionPane.DEFAULT_OPTION);
+                        String username;
+                        do {
+                            username = JOptionPane.showInputDialog(option, "Please enter the user name for player playing as " + charac.getText() + ".");
+                        } while (username.length() == 0);
+                        option.setMessage(username + " is playing as " +  charac.getText() + ".");
+                        JDialog dialog = option.createDialog("Name");
+                        dialog.pack();
+                        dialog.setVisible(true);
+                        if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
+                            dialog.setVisible(false);
+                            //TODO do something with the username here
+                        }
+
+                    }
+                }
+                buildGameBoard();
+            }
         });
 
         JLabel title = new JLabel("Select Players!");
@@ -39,12 +62,7 @@ public abstract class GUI {
         JPanel selectPanel = new JPanel();
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.PAGE_AXIS));
         selectPanel.add(title);
-        selectPanel.add(char1);
-        selectPanel.add(char2);
-        selectPanel.add(char3);
-        selectPanel.add(char4);
-        selectPanel.add(char5);
-        selectPanel.add(char6);
+        for (JRadioButton but : characters) { selectPanel.add(but); }
         selectPanel.add(submit);
         selectWindow = new JFrame("Select Players");
 
@@ -73,7 +91,7 @@ public abstract class GUI {
 
 
 
-        JPanel optionPanel = new JPanel();
+        JPanel suggestionPane = new JPanel();
 
 
 
@@ -84,7 +102,7 @@ public abstract class GUI {
 
         //TODO format JPanels.
 
-        JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, boardPanel, optionPanel);
+        JSplitPane innerPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, boardPanel, suggestionPane);
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, innerPane, cardPanel);
 
 
