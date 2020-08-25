@@ -21,6 +21,16 @@ public class Position {
     }
 
     /**
+     * Adds values to this position
+     * @param x     The x position to add
+     * @param y     The y position to add
+     * @return      The new position
+     */
+    public Position add(int x, int y){
+        return new Position(this.x + x, this.y + y);
+    }
+
+    /**
      * Return the x coordinate.
      * @return x value
      */

@@ -9,6 +9,15 @@ public class Tile {
 
     protected Player playerOnThisTile;
     public final Position position;
+    public int distanceFromGoal;
+
+    public int getDistanceFromGoal() {
+        return distanceFromGoal;
+    }
+
+    public void setDistanceFromGoal(int distanceFromGoal) {
+        this.distanceFromGoal = distanceFromGoal;
+    }
 
     /**
      * Creates a tile at position given.

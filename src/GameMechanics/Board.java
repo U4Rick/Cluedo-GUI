@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class Board {
 
-    Tile[][] board;
+    public Tile[][] board;
     private final Map<CharacterCard.CharacterEnum, Position> startingTiles;
     private final Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
 
