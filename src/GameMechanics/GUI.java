@@ -1,13 +1,9 @@
 package GameMechanics;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class GUI {
@@ -40,7 +36,7 @@ public abstract class GUI {
                 for (JRadioButton charac : characters) {
                     if (charac.isSelected()) {
                         count++;
-                        JOptionPane option = new JOptionPane();
+                        /*JOptionPane option = new JOptionPane();
                         option.setOptionType(JOptionPane.DEFAULT_OPTION);
                         String username;
 
@@ -55,7 +51,7 @@ public abstract class GUI {
                         if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
                             dialog.setVisible(false);
                             //TODO do something with the username here, need to create a player object, passing username in
-                        }
+                        }*/
 
                     }
                 }
@@ -101,48 +97,77 @@ public abstract class GUI {
     private void buildGameBoard() {
         JMenuBar menuBar = new JMenuBar();
 
-        Panel boardPanel = new Panel();
-        final BufferedImage image;
-        try {
-            image = ImageIO.read(new File("./assets/cluedo_board.jpg"));
-            boardPanel.paintComponent(image.getGraphics(), image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        JPanel upperPanel = new JPanel();
+        Panel boardPanel = new Panel(new ImageIcon("./assets/cluedo_board.jpg").getImage());
+
+        JPanel logPanel = new JPanel();
+        JEditorPane log = new JEditorPane();
+        log.setPreferredSize(new Dimension(290,490));
+        log.setEditable(false);
+        log.setText("wah wah wah \n hewwo");
+        logPanel.add(log);
+
+        upperPanel.setLayout(new BorderLayout());
+        upperPanel.add(boardPanel, BorderLayout.CENTER);
+        upperPanel.add(logPanel, BorderLayout.LINE_END);
+
 
         JPanel infoPanel = new JPanel();
+        infoPanel.setPreferredSize(new Dimension(800,200));
 
         JPanel componentPanel = new JPanel();
+        componentPanel.setPreferredSize(new Dimension(100,200));
 
         //TODO might need an abstract void to get the current player?
 
-        JLabel characterName = new JLabel();
+        JLabel characterNameLabel = new JLabel("test");
 
-        JLabel userNameLabel = new JLabel();
+        JLabel userNameLabel = new JLabel("test");
 
-        JButton accuseButton = new JButton();
+        JButton suggestButton = new JButton("Suggest!");
 
-        JButton suggestButton = new JButton();
+        JButton accuseButton = new JButton("Accuse!");
 
-       // JLabel userNameLabel = new JLabel();
 
         //TODO implement GridBagLayout and workout the necessary insets for each element
 
+        componentPanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        //add username
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.insets = new Insets(10, 10, 0, 10);
+        componentPanel.add(userNameLabel, constraints);
+
+        //add character
+        constraints.gridy = 1;
+        componentPanel.add(characterNameLabel, constraints);
+
+        //add suggest
+        constraints.gridy = 2;
+        componentPanel.add(suggestButton, constraints);
+
+        //add accuse
+        constraints.gridy = 3;
+        constraints.insets = new Insets(10, 10, 40, 10);
+        componentPanel.add(accuseButton, constraints);
+
+
         JPanel cardPanel = new JPanel();
+        cardPanel.setPreferredSize(new Dimension(700,200));
         //TODO figure this out
 
-        infoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 0));
-        infoPanel.add(componentPanel);
-        infoPanel.add(cardPanel);
+        infoPanel.setLayout(new BorderLayout());
+        infoPanel.add(componentPanel, BorderLayout.LINE_START);
+        infoPanel.add(cardPanel, BorderLayout.CENTER);
 
-        //JButton suggestButton = new JButton();
 
         //TODO format JPanels.
 
-        JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, boardPanel, infoPanel);
+        JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, infoPanel);
 
-
-        //TODO implement GridBagLayout and workout the necessary insets for each element
 
         gameWindow = new JFrame();
         selectWindow.setVisible(false);
@@ -152,8 +177,8 @@ public abstract class GUI {
         //TODO set minimum size
 
         //TODO add elements to frame
-        gameWindow.add(menuBar);
-        gameWindow.add(mainPane);
+        gameWindow.getContentPane().add(menuBar);
+        gameWindow.getContentPane().add(mainPane);
 
 
         gameWindow.pack();
@@ -163,9 +188,25 @@ public abstract class GUI {
 
     private class Panel extends JPanel {
 
-        protected void paintComponent(Graphics g, BufferedImage image) {
-            super.paintComponent(g);
-            g.drawImage(image, 0, 0, null);
+        private Image img;
+
+        public Panel(String img) {
+            this(new ImageIcon(img).getImage());
         }
+
+        public Panel(Image img) {
+            this.img = img;
+            Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+            setPreferredSize(size);
+            setMinimumSize(size);
+            setMaximumSize(size);
+            setSize(size);
+            setLayout(null);
+        }
+
+        public void paintComponent(Graphics g) {
+            g.drawImage(img, 0, 0, null);
+        }
+
     }
 }
