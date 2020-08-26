@@ -139,7 +139,7 @@ public class Move {
 
         while (!fringe.isEmpty()) {
             Node node = fringe.poll();
-            visited.add(node);
+            visited.add(node)   ;
 
             if (node.getTile().getPosition().equals(goal)) {
                 return Objects.requireNonNull(fringe.peek()).getDistance() < movementRange + 1;
