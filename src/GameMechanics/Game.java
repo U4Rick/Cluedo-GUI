@@ -35,6 +35,7 @@ public class Game extends GUI {
     private List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
     private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
+    private final List<Sprite> playerIcons = new ArrayList<>();
 
     /**
      * Creates new instance of game.
@@ -53,11 +54,32 @@ public class Game extends GUI {
     }
 
     @Override
+    protected void updateCurrentPlayer() {
+        int i = players.indexOf(currentPlayer);
+        if (i == players.size() - 1) {
+            currentPlayer = players.get(0);
+        } else {
+            currentPlayer = players.get(i + 1);
+        }
+    }
+
+    @Override
+    protected boolean processPlayerTurn(Position cellToMoveTo) {
+        Move move  = new Move(currentPlayer, board, currentRoll);
+        return move.playerMovement(cellToMoveTo);
+    }
+
+    @Override
     protected String rollDice() {
         int dice1 = (int) (Math.random() * 6 + 1);
         int dice2 = (int) (Math.random() * 6 + 1);
         currentRoll = dice1 + dice2;
         return "You have rolled a " + currentRoll + ".";
+    }
+
+    @Override
+    protected ArrayList<Sprite> getPlayerIcons() {
+        return (ArrayList<Sprite>) playerIcons;
     }
 
     @Override
@@ -100,6 +122,7 @@ public class Game extends GUI {
         Tile startingTile = board.getTileAt(board.getStartingTiles().get(card.getCharacter()));
         if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
         players.add(p);
+        playerIcons.add(p.getPlayerIcon());
         numPlayers++;
     }
 
@@ -130,13 +153,13 @@ public class Game extends GUI {
     /**
      * Main game loop, loops until a player has won or all players have made false accusations.
      */
-    private void run() {
+    /*private void run() {
         while (!isGameOver()) {
             printTurnInfo();
             processPlayerTurn();
             updateCurrentPlayer();
         }
-    }
+    }*/
 
     //////////////////////////
     // SETUP METHODS
@@ -274,25 +297,26 @@ public class Game extends GUI {
      *  Runs the player movement and suggestion/accusation process for
      *  current player.
      */
-    private void processPlayerTurn() {
+    /*private void processPlayerTurn() {
         Move move  = new Move(currentPlayer, board, currentRoll);
         move.playerMovement();
         if (currentPlayer.canHypothesise()) {
             playerHypothesis();
         }
-    }
+    }*/
 
     /**
      * Set currentPlayer to next player in turn order.
      */
-    private void updateCurrentPlayer() {
+    //replaced by abstract
+   /* private void updateCurrentPlayer() {
         int i = players.indexOf(currentPlayer);
         if (i == players.size() - 1) {
             currentPlayer = players.get(0);
         } else {
             currentPlayer = players.get(i + 1);
         }
-    }
+    }*/
 
     /**
      *  Checks if player wants to make a suggestion and/or accusation,

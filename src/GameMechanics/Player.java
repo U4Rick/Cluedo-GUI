@@ -23,6 +23,8 @@ public class Player {
     private final List<Card> hand;
     private final Board board;
 
+    private Sprite playerIcon;
+
     /**
      * Initialises the player.
      * @param character Card of the character the player is playing as
@@ -47,6 +49,7 @@ public class Player {
         this.tile = tile;
         this.board = board;
         this.username = username;
+        this.playerIcon = new Sprite("./assets/characterSprites/" + this.getCharacter().getFileName(), tile.position);
         hand = new ArrayList<>();
     }
 
@@ -67,7 +70,9 @@ public class Player {
      * @param tile New tile to set current as.
      */
     public void setTile(Tile tile) {
+
         this.tile = tile;
+        playerIcon.updatePosition(tile.position);
     }
 
     /**
@@ -136,6 +141,8 @@ public class Player {
         }
         return false;
     }
+
+    public Sprite getPlayerIcon() { return playerIcon; }
 
     /**
      * A player can only hypothesise if they landed on a room entrance, and they have not made a false accusation.

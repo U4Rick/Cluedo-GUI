@@ -34,9 +34,9 @@ public class Move {
      * Handles user input and console output for movement.
      * Calls necessary methods to control movement.
      */
-    public void playerMovement() {
+    /*public void playerMovement() {
         //roll dice
-        /*movementRange = rollDice();*/
+        *//*movementRange = rollDice();*//*
         //System.out.println("You rolled a " + movementRange);
 
         //ask for tile to move to
@@ -63,6 +63,16 @@ public class Move {
             } else {
                 System.out.println("Invalid row/column, try again.");
             }
+        }
+    }*/
+
+    public boolean playerMovement(Position cellToMoveTo) {
+        if (cellToMoveTo.getY() < 25 && cellToMoveTo.getY() >= 0 && cellToMoveTo.getX() < 24 && cellToMoveTo.getX() >= 0) {
+            move(cellToMoveTo.getX(), cellToMoveTo.getY()); //check if requested tile is within board bounds
+            return hasMadeValidMove;
+
+        } else {
+            return false;
         }
     }
 
