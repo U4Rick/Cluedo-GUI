@@ -37,6 +37,20 @@ public class Player {
     }
 
     /**
+     * Initialises the player.
+     * @param character Card of the character the player is playing as
+     * @param tile      The tile the player starts on
+     * @param board     The board of the game
+     */
+    public Player(CharacterCard character, Tile tile, Board board, String username) {
+        this.character = character;
+        this.tile = tile;
+        this.board = board;
+        this.username = username;
+        hand = new ArrayList<>();
+    }
+
+    /**
      * Add a card to the players hand.
      *
      * @param card Card to add to the hand.
@@ -167,5 +181,9 @@ public class Player {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

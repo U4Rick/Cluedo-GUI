@@ -31,7 +31,7 @@ public class Game extends GUI {
 
     //GameMechanics.Game Associations
     private Board board;
-    private final List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
     private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
@@ -40,20 +40,82 @@ public class Game extends GUI {
      * Run initialise methods and then run the game.
      */
     public Game() {
-        initialise();
-        run();
+        /*initialise();
+        run();*/
+    }
+
+    @Override
+    protected void create() {
+        board = new Board();
+        numPlayers = 0;
+        players = new ArrayList<>();
+    }
+
+    @Override
+    protected Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    @Override
+    protected void createPlayer(String character, String username) {
+        CharacterCard card;
+        switch (character) {
+            case "Plum":
+                card = new CharacterCard(CharacterEnum.PLUM);
+                break;
+
+            case "Peacock":
+                card = new CharacterCard(CharacterEnum.PEACOCK);
+                break;
+
+            case "Mustard":
+                card = new CharacterCard(CharacterEnum.MUSTARD);
+                break;
+
+            case "Scarlett":
+                card = new CharacterCard(CharacterEnum.SCARLETT);
+                break;
+
+            case "White":
+                card = new CharacterCard(CharacterEnum.WHITE);
+                break;
+
+            case "Green":
+                card = new CharacterCard(CharacterEnum.GREEN);
+                break;
+
+            default:
+                throw new NoSuchElementException();
+        }
+        Player p = new Player(card, board.getTileAt(board.getStartingTiles().get(card)), board, username);
+        Tile startingTile = board.getTileAt(board.getStartingTiles().get(card));
+        if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
+        players.add(p);
+        numPlayers++;
+    }
+
+    @Override
+    protected void setupCards() {
+        solution = new Hypothesis(null, null, null);
+
+        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
+        cards.addAll(setupWeaponCards());
+        cards.addAll(setupRoomCards());
+
+        dealCards(cards);
     }
 
     /**
      * Setup the game.
      */
-    public void initialise() {
+    //replaced by abstract methods
+   /* public void initialise() {
         board = new Board();
-        setNumPlayers();
-        setupPlayers();
+        //setNumPlayers();
+        //setupPlayers();
         setupCards();
         currentPlayer = players.get(0);
-    }
+    }*/
 
     /**
      * Main game loop, loops until a player has won or all players have made false accusations.
@@ -95,7 +157,8 @@ public class Game extends GUI {
     /**
      * Create the players and add them to the list of players.
      */
-    private void setupPlayers() {
+    //replaced with create player abstract void
+    /*private void setupPlayers() {
         CharacterEnum[] values = CharacterEnum.values();
         for (int i = 0; i < numPlayers; i++) {
             Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.getStartingTiles().get(values[i])), board);
@@ -103,21 +166,9 @@ public class Game extends GUI {
             if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
             players.add(p);
         }
-    }
+    }*/
 
-    /**
-     * Create all of the cards, select a solution, then deal the rest of the cards to the players.
-     */
-    private void
-    setupCards() {
-        solution = new Hypothesis(null, null, null);
 
-        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
-        cards.addAll(setupWeaponCards());
-        cards.addAll(setupRoomCards());
-
-        dealCards(cards);
-    }
 
     /**
      * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.

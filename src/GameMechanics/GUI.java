@@ -4,12 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public abstract class GUI {
 
     private JFrame selectWindow;
     private JFrame gameWindow;
+    private JFrame suggestWindow;
+    private JFrame accuseWindow;
+    private JFrame refuteWindow;
 
 
     public GUI() {
@@ -17,7 +22,6 @@ public abstract class GUI {
     }
 
     private void buildCharacterSelectWindow() {
-
         ArrayList<JRadioButton> characters = new ArrayList<>();
         characters.add(new JRadioButton("Peacock"));
         characters.add(new JRadioButton("Mustard"));
@@ -32,12 +36,13 @@ public abstract class GUI {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                create();
                 int count = 0;
                 for (JRadioButton charac : characters) {
                     if (charac.isSelected()) {
                         count++;
                         //this is just commented out for debugging
-                        /*JOptionPane option = new JOptionPane();
+                        JOptionPane option = new JOptionPane();
                         option.setOptionType(JOptionPane.DEFAULT_OPTION);
                         String username;
 
@@ -51,12 +56,13 @@ public abstract class GUI {
                         dialog.setVisible(true);
                         if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
                             dialog.setVisible(false);
-                            //TODO do something with the username here, need to create a player object, passing username in
-                        }*/
+                            createPlayer(charac.getText(), username);
+                        }
 
                     }
                 }
                 if (count >= 3) { //make sure there are enough players
+                    setupCards();
                     buildGameBoard();
                 } else {
                     JOptionPane option = new JOptionPane();
@@ -93,15 +99,31 @@ public abstract class GUI {
 
     }
 
+    /**
+     * Create all of the cards, select a solution, then deal the rest of the cards to the players.
+     */
+    protected abstract void setupCards();
+
+    protected abstract void create();
+
+
     private void buildGameBoard() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("hewwo");
+        //TODO Start menu button
+        //TODO Rules menu
         menuBar.add(menu);
 
         JPanel upperPanel = new JPanel();
 
         Panel boardPanel = new Panel(new ImageIcon("./assets/cluedo_board.jpg").getImage());
         JButton dice = new JButton("Roll");
+        dice.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         dice.setPreferredSize(new Dimension(50,30));
         boardPanel.setLayout(new GridBagLayout());
         GridBagConstraints boardInsets = new GridBagConstraints();
@@ -160,16 +182,17 @@ public abstract class GUI {
         componentPanel.setPreferredSize(new Dimension(100,200));
 
         //TODO might need an abstract void to get the current player?
+        Player currentPlayer = getCurrentPlayer();
 
-        JLabel characterNameLabel = new JLabel("test");
+        JLabel characterNameLabel = new JLabel(currentPlayer.getCharacter().toString());
 
-        JLabel userNameLabel = new JLabel("test");
+        JLabel userNameLabel = new JLabel(currentPlayer.getUsername());
 
         JButton suggestButton = new JButton("Suggest!");
         suggestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                buildSuggestWindow();
             }
         });
 
@@ -177,7 +200,8 @@ public abstract class GUI {
         accuseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                //TODO if statement for if no preexisting suggestions, dialog pops up instead
+                buildAccuseWindow();
             }
         });
 
@@ -223,10 +247,21 @@ public abstract class GUI {
         gameWindow = new JFrame();
         selectWindow.setVisible(false);
 
-        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         gameWindow.getContentPane().add(menuBar);
         gameWindow.getContentPane().add(mainPane);
         gameWindow.setJMenuBar(menuBar);
+
+        gameWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int choice = JOptionPane.showConfirmDialog(gameWindow, "Are you sure you want to leave?", "Confirm", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                }
+                super.windowClosing(e);
+            }
+        });
 
 
         gameWindow.pack();
@@ -234,13 +269,38 @@ public abstract class GUI {
         gameWindow.setVisible(true);
     }
 
+
+
+    private void buildAccuseWindow() {
+        //TODO list of suggestions
+    }
+
+    private void buildSuggestWindow() {
+        //TODO combobox of rooms (cannot be interracted with)
+        //TODO combobox of characters in play
+        //TODO combobox of weapons.
+        //TODO go button
+        //TODO cancel button (consider as making no suggestion)
+    }
+
+    private void buildRefuteWindow(Player p) {
+        //TODO display cards
+        //TODO combobox with options (may be empty)
+        //TODO label with refute possibilities (no refute, one refute, pick a refute)
+        //TODO go button
+    }
+
+
+
+    protected abstract Player getCurrentPlayer();
+
+    protected abstract void createPlayer(String text, String username);
+
+
+
     private class Panel extends JPanel {
 
         private Image img;
-
-        public Panel(String img) {
-            this(new ImageIcon(img).getImage());
-        }
 
         public Panel(Image img) {
             this.img = img;
