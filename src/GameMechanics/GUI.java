@@ -36,6 +36,7 @@ public abstract class GUI {
                 for (JRadioButton charac : characters) {
                     if (charac.isSelected()) {
                         count++;
+                        //this is just commented out for debugging
                         /*JOptionPane option = new JOptionPane();
                         option.setOptionType(JOptionPane.DEFAULT_OPTION);
                         String username;
@@ -86,8 +87,6 @@ public abstract class GUI {
         selectWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         selectWindow.add(selectPanel);
 
-        //TODO set minimum size
-
         selectWindow.pack(); //makes all frame contents at or above their preferred size
         selectWindow.setLocationRelativeTo(null); //centers window on screen
         selectWindow.setVisible(true);
@@ -102,7 +101,7 @@ public abstract class GUI {
         JPanel upperPanel = new JPanel();
 
         Panel boardPanel = new Panel(new ImageIcon("./assets/cluedo_board.jpg").getImage());
-        JButton dice = new JButton("Roll Dice!");
+        JButton dice = new JButton("Roll");
         dice.setPreferredSize(new Dimension(50,30));
         boardPanel.setLayout(new GridBagLayout());
         GridBagConstraints boardInsets = new GridBagConstraints();
@@ -123,11 +122,31 @@ public abstract class GUI {
 
 
         JPanel logPanel = new JPanel();
+        logPanel.setPreferredSize(new Dimension(300, 500));
+        logPanel.setLayout(new BorderLayout());
         JEditorPane log = new JEditorPane();
-        log.setPreferredSize(new Dimension(290,490));
+        log.setPreferredSize(new Dimension(290,450));
         log.setEditable(false);
         log.setText("wah wah wah \n hewwo");
-        logPanel.add(log);
+        logPanel.add(log, BorderLayout.PAGE_START);
+
+        JTextField chatBox = new JTextField();
+        chatBox.setText("Hewwo");
+        logPanel.add(chatBox, BorderLayout.CENTER);
+
+        JButton okButton = new JButton("OK!");
+        okButton.setPreferredSize(new Dimension(60,40));
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (chatBox.getText().length() != 0) {
+                    //TODO change this so it says " username : message "
+                    log.setText(log.getText() + "\n" + chatBox.getText());
+                    chatBox.setText("");
+                }
+            }
+        });
+        logPanel.add(okButton, BorderLayout.LINE_END);
 
         upperPanel.setLayout(new BorderLayout());
         upperPanel.add(boardPanel, BorderLayout.CENTER);
@@ -198,8 +217,6 @@ public abstract class GUI {
         infoPanel.add(cardPanel, BorderLayout.CENTER);
 
 
-        //TODO format JPanels.
-
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, infoPanel);
 
 
@@ -207,10 +224,6 @@ public abstract class GUI {
         selectWindow.setVisible(false);
 
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //TODO set layout
-        //TODO set minimum size
-
-        //TODO add elements to frame
         gameWindow.getContentPane().add(menuBar);
         gameWindow.getContentPane().add(mainPane);
         gameWindow.setJMenuBar(menuBar);
