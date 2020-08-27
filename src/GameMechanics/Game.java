@@ -28,6 +28,7 @@ public class Game extends GUI {
     private Player currentPlayer;
     private int numPlayers;
     private boolean playerHasWon = false;
+    private int currentRoll;
 
     //GameMechanics.Game Associations
     private Board board;
@@ -49,6 +50,14 @@ public class Game extends GUI {
         board = new Board();
         numPlayers = 0;
         players = new ArrayList<>();
+    }
+
+    @Override
+    protected String rollDice() {
+        int dice1 = (int) (Math.random() * 6 + 1);
+        int dice2 = (int) (Math.random() * 6 + 1);
+        currentRoll = dice1 + dice2;
+        return "You have rolled a " + currentRoll + ".";
     }
 
     @Override
@@ -87,15 +96,16 @@ public class Game extends GUI {
             default:
                 throw new NoSuchElementException();
         }
-        Player p = new Player(card, board.getTileAt(board.getStartingTiles().get(card)), board, username);
-        Tile startingTile = board.getTileAt(board.getStartingTiles().get(card));
+        Player p = new Player(card, board.getTileAt(board.getStartingTiles().get(card.getCharacter())), board, username);
+        Tile startingTile = board.getTileAt(board.getStartingTiles().get(card.getCharacter()));
         if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
         players.add(p);
         numPlayers++;
     }
 
     @Override
-    protected void setupCards() {
+    protected void setupCardsAndGame() {
+        currentPlayer = players.get(0);
         solution = new Hypothesis(null, null, null);
 
         ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
@@ -135,7 +145,8 @@ public class Game extends GUI {
     /**
      * Ask the player for amount of players, must be between 3-6.
      */
-    public void setNumPlayers() {
+    //replaced in gui
+    /*public void setNumPlayers() {
         System.out.println("How many players?");
 
 
@@ -152,7 +163,7 @@ public class Game extends GUI {
             }
             System.out.println("Enter a number between 3 and 6");
         }
-    }
+    }*/
 
     /**
      * Create the players and add them to the list of players.
@@ -264,7 +275,7 @@ public class Game extends GUI {
      *  current player.
      */
     private void processPlayerTurn() {
-        Move move  = new Move(currentPlayer, board);
+        Move move  = new Move(currentPlayer, board, currentRoll);
         move.playerMovement();
         if (currentPlayer.canHypothesise()) {
             playerHypothesis();

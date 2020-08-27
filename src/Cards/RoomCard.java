@@ -17,6 +17,11 @@ public class RoomCard implements Card {
         this.room = room;
     }
 
+    @Override
+    public String getFileName() {
+        return this.toString().replaceAll("\\s", "") + ".png";
+    }
+
     /**
      * Possible rooms.
      */

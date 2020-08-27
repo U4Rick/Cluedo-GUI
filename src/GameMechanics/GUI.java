@@ -1,5 +1,7 @@
 package GameMechanics;
 
+import Cards.Card;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.concurrent.Flow;
 
 public abstract class GUI {
 
@@ -62,7 +65,7 @@ public abstract class GUI {
                     }
                 }
                 if (count >= 3) { //make sure there are enough players
-                    setupCards();
+                    setupCardsAndGame();
                     buildGameBoard();
                 } else {
                     JOptionPane option = new JOptionPane();
@@ -102,17 +105,46 @@ public abstract class GUI {
     /**
      * Create all of the cards, select a solution, then deal the rest of the cards to the players.
      */
-    protected abstract void setupCards();
+    protected abstract void setupCardsAndGame();
 
     protected abstract void create();
 
 
     private void buildGameBoard() {
+        Player currentPlayer = getCurrentPlayer();
+
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("hewwo");
         //TODO Start menu button
         //TODO Rules menu
         menuBar.add(menu);
+
+
+        JPanel logPanel = new JPanel();
+        logPanel.setPreferredSize(new Dimension(300, 500));
+        logPanel.setLayout(new BorderLayout());
+        JEditorPane log = new JEditorPane();
+        log.setPreferredSize(new Dimension(290,450));
+        log.setEditable(false);
+        log.setText("wah wah wah \nhewwo");
+        logPanel.add(log, BorderLayout.PAGE_START);
+
+        JTextField chatBox = new JTextField();
+        chatBox.setText("Hewwo");
+        logPanel.add(chatBox, BorderLayout.CENTER);
+
+        JButton okButton = new JButton("OK!");
+        okButton.setPreferredSize(new Dimension(60,40));
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (chatBox.getText().length() != 0) {
+                    appendToLog(currentPlayer.getUsername() + ": " + chatBox.getText(), log);
+                    chatBox.setText("");
+                }
+            }
+        });
+        logPanel.add(okButton, BorderLayout.LINE_END);
 
         JPanel upperPanel = new JPanel();
 
@@ -121,7 +153,9 @@ public abstract class GUI {
         dice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                appendToLog(rollDice(), log);
+                dice.setEnabled(false);
+                //TODO find an appropriate place to re-enable dice for next player
             }
         });
         dice.setPreferredSize(new Dimension(50,30));
@@ -141,35 +175,6 @@ public abstract class GUI {
         boardInsets.insets = new Insets(255, 235, 215, 215);
         boardPanel.add(dice, boardInsets);
 
-
-
-        JPanel logPanel = new JPanel();
-        logPanel.setPreferredSize(new Dimension(300, 500));
-        logPanel.setLayout(new BorderLayout());
-        JEditorPane log = new JEditorPane();
-        log.setPreferredSize(new Dimension(290,450));
-        log.setEditable(false);
-        log.setText("wah wah wah \n hewwo");
-        logPanel.add(log, BorderLayout.PAGE_START);
-
-        JTextField chatBox = new JTextField();
-        chatBox.setText("Hewwo");
-        logPanel.add(chatBox, BorderLayout.CENTER);
-
-        JButton okButton = new JButton("OK!");
-        okButton.setPreferredSize(new Dimension(60,40));
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (chatBox.getText().length() != 0) {
-                    //TODO change this so it says " username : message "
-                    log.setText(log.getText() + "\n" + chatBox.getText());
-                    chatBox.setText("");
-                }
-            }
-        });
-        logPanel.add(okButton, BorderLayout.LINE_END);
-
         upperPanel.setLayout(new BorderLayout());
         upperPanel.add(boardPanel, BorderLayout.CENTER);
         upperPanel.add(logPanel, BorderLayout.LINE_END);
@@ -181,14 +186,13 @@ public abstract class GUI {
         JPanel componentPanel = new JPanel();
         componentPanel.setPreferredSize(new Dimension(100,200));
 
-        //TODO might need an abstract void to get the current player?
-        Player currentPlayer = getCurrentPlayer();
-
         JLabel characterNameLabel = new JLabel(currentPlayer.getCharacter().toString());
 
         JLabel userNameLabel = new JLabel(currentPlayer.getUsername());
 
         JButton suggestButton = new JButton("Suggest!");
+        suggestButton.setEnabled(false);
+        //TODO button should get re-enabled once player has moved
         suggestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -197,6 +201,8 @@ public abstract class GUI {
         });
 
         JButton accuseButton = new JButton("Accuse!");
+        accuseButton.setEnabled(false);
+        //TODO button should get re-enabled once player has moved
         accuseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,9 +210,6 @@ public abstract class GUI {
                 buildAccuseWindow();
             }
         });
-
-
-        //TODO implement GridBagLayout and workout the necessary insets for each element
 
         componentPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -232,9 +235,21 @@ public abstract class GUI {
 
 
         JPanel cardPanel = new JPanel();
-        cardPanel.setPreferredSize(new Dimension(700,200));
-        //TODO figure this out
-        //DO NOT NEED INTERACTION ON CARDS< JUST DISPLAY
+        Dimension cardPanelSize = new Dimension(700,200);
+        cardPanel.setPreferredSize(cardPanelSize);
+        FlowLayout layout = new FlowLayout();
+        layout.setAlignment(FlowLayout.RIGHT);
+        cardPanel.setLayout(layout);
+        for (Card card : currentPlayer.getHand()) {
+            //all of this is awful math to make sure the cards size nicely on the panel
+            ImageIcon icon = new ImageIcon("./assets/cards/" + card.getFileName());
+            int width = (int)(((double)(cardPanelSize.width/currentPlayer.getHand().size()))*0.7);
+            double ratio = ((double)width/icon.getIconWidth());
+            ratio = cardPanelSize.height > ratio*icon.getIconHeight() ? ratio : ((double)cardPanelSize.height/icon.getIconHeight())*0.9;
+            icon = new ImageIcon(icon.getImage().getScaledInstance((int)(icon.getIconWidth()*ratio), (int)(icon.getIconHeight()*ratio), Image.SCALE_DEFAULT));
+
+            cardPanel.add(new JLabel(icon));
+        }
 
         infoPanel.setLayout(new BorderLayout());
         infoPanel.add(componentPanel, BorderLayout.LINE_START);
@@ -242,6 +257,7 @@ public abstract class GUI {
 
 
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, infoPanel);
+        mainPane.setEnabled(false);
 
 
         gameWindow = new JFrame();
@@ -263,12 +279,17 @@ public abstract class GUI {
             }
         });
 
-
+        gameWindow.setResizable(false);
         gameWindow.pack();
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
     }
 
+    protected abstract String rollDice();
+
+    private void appendToLog(String s, JEditorPane log) {
+        log.setText(log.getText() + "\n" + s);
+    }
 
 
     private void buildAccuseWindow() {

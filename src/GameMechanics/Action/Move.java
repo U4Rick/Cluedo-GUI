@@ -20,13 +20,14 @@ public class Move {
 
     /**
      * Initialise a new move instance.
-     *
-     * @param currentPlayer Player that's moving
+     *  @param currentPlayer Player that's moving
      * @param board         Board to move around on
+     * @param currentRoll
      */
-    public Move(Player currentPlayer, Board board) {
+    public Move(Player currentPlayer, Board board, int currentRoll) {
         this.currentPlayer = currentPlayer;
         this.board = board;
+        this.movementRange = currentRoll;
     }
 
     /**
@@ -35,8 +36,8 @@ public class Move {
      */
     public void playerMovement() {
         //roll dice
-        movementRange = rollDice();
-        System.out.println("You rolled a " + movementRange);
+        /*movementRange = rollDice();*/
+        //System.out.println("You rolled a " + movementRange);
 
         //ask for tile to move to
         hasMadeValidMove = false;
@@ -224,10 +225,11 @@ public class Move {
      *
      * @return Sum of two dice.
      */
-    private int rollDice() {
+    //replaced in game
+    /*private int rollDice() {
         int dice1 = (int) (Math.random() * 6 + 1);
         int dice2 = (int) (Math.random() * 6 + 1);
         return dice1 + dice2;
-    }
+    }*/
 
 }

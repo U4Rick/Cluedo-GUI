@@ -186,4 +186,8 @@ public class Player {
     public String getUsername() {
         return username;
     }
+
+    public List<Card> getHand() {
+        return hand;
+    }
 }
