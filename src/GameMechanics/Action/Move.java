@@ -99,7 +99,7 @@ public class Move {
 
         if (!pathfinding(board, startPos, endPos)) {
             System.out.println("No valid path to that tile, try again.");
-            return false;   //todo stop Mrs White cheating
+            return false;
         }
 
         hasMadeValidMove = true;
@@ -116,14 +116,14 @@ public class Move {
      */
     public boolean pathfinding(Board board, Position start, Position goal) {
         Set<Node> visited = new HashSet<>();
-        Queue<Node> fringe = new PriorityQueue<>();
+        PriorityQueue<Node> fringe = new PriorityQueue<>();
         HashMap<Position, Node> pathing = new HashMap<>();
         Tile[][] tiles = board.board;
 
         for (int y = 0; y < tiles.length; y++) {
             for (int x = 0; x < tiles[0].length; x++) {
-                Node node;
-                if (tiles[y][x] instanceof AccessibleTile) {
+                if (!(tiles[y][x] instanceof InaccessibleTile)) {
+                    Node node;
                     if (tiles[y][x].getPosition().equals(start)) {
                         node = new Node(tiles[y][x], 0);
                     } else {
@@ -131,32 +131,71 @@ public class Move {
                     }
                     fringe.offer(node);
                     pathing.put(tiles[y][x].getPosition(), node);
-
                 }
-
             }
         }
 
         while (!fringe.isEmpty()) {
-            Node node = fringe.poll();
-            visited.add(node)   ;
 
-            if (node.getTile().getPosition().equals(goal)) {
-                return Objects.requireNonNull(fringe.peek()).getDistance() < movementRange + 1;
+            if (fringe.peek().getDistance() >= 12) {
+                fringe.removeIf(node -> node.getDistance() > 12);
             }
 
-            Node[] neigh = node.getNeighbours(node, pathing);
+            if (fringe.peek() !=  null) {
+                Node node = fringe.poll();
+                visited.add(node);
 
-            for (int i = 0; i < 4; i++) {
-                Node child = neigh[i];
-                if (visited.contains(child) || child == null) {
-                    continue;
+                if (node.getTile().getPosition().equals(goal)) {
+                    ArrayList<Node> temp = new ArrayList<>();
+                    for (Node node1 : visited) {
+                        if (node1.getDistance() >= 999) {
+                            temp.add(node1);
+                        }
+                    }
+                    visited.removeAll(temp);    //todo all of this chunk is for debugging/tracking the path. Might use later?
+
+                    return node.getDistance() <= movementRange;
                 }
-                child.setDistance(node.getDistance() + 1);
-                fringe.offer(child);
+
+                Node[] neigh = getNeighbours(node, pathing);
+
+                for (int i = 0; i < 4; i++) {
+                    Node child = neigh[i];
+                    if (child == null || visited.contains(child)) continue;
+
+                    child.setDistance(node.getDistance() + 1);
+                    fringe.offer(child);
+                }
             }
         }
         return false;
+    }
+
+    /**
+     * Gets the neighbouring nodes of the current node
+     * @param node  the  current node
+     * @param pathing map of nodes and their positions on the board
+     * @return the neighbouring nodes
+     */
+    private static Node[] getNeighbours(Node node, Map<Position, Node> pathing) {
+
+        Position position = node.getTile().getPosition();
+
+        Node[] neighbours = new Node[4];
+
+        //RIGHT
+        if (pathing.containsKey(position.add(1, 0))) neighbours[1] = pathing.get(position.add(1, 0));
+
+        //DOWN
+        if (pathing.containsKey(position.add(0, 1))) neighbours[2] = pathing.get(position.add(0, 1));
+
+        //LEFT
+        if (pathing.containsKey(position.add(-1, 0))) neighbours[3] = pathing.get(position.add(-1, 0));
+
+        //UP
+        if (pathing.containsKey(position.add(0, -1))) neighbours[0] = pathing.get(position.add(0, -1));
+
+        return neighbours;
     }
 
     /**
@@ -168,13 +207,12 @@ public class Move {
     public void move(int x, int y) {
 
         Tile startTile = currentPlayer.getTile();   //tile before moving
-
         Position endPos = new Position(x, y); // position to move to
-        Position startPos = startTile.position;
+
         Tile endTile = board.getTileAt(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
-        if (isValidMovement(playerX, playerY, x, y) && (pathfinding(board, startPos, endPos))) {
+        if (isValidMovement(playerX, playerY, x, y) /*&& (pathfinding(board, startPos, endPos))*/) {
             currentPlayer.setTile(endTile);
             endTile.setPlayerOnThisTile(currentPlayer);
             startTile.setPlayerOnThisTile(null);
