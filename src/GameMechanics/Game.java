@@ -70,6 +70,18 @@ public class Game extends GUI {
     }
 
     @Override
+    protected String[] getWeapons() {
+        String[] weapons = new String[allWeapons.size()];
+        for (int i = 0; i < allWeapons.size(); i++) { weapons[i] = allWeapons.get(i).toString(); }
+        return weapons;
+     }
+
+    @Override
+    protected ArrayList getPlayers() {
+        return (ArrayList)players;
+    }
+
+    @Override
     protected String rollDice() {
         int dice1 = (int) (Math.random() * 6 + 1);
         int dice2 = (int) (Math.random() * 6 + 1);
