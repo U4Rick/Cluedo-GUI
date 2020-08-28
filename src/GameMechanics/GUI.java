@@ -385,8 +385,8 @@ public abstract class GUI {
     }
 
     private Position getPositionAtClick(int x, int y) {
-        int col = (x - left)/(int)cellSize;
-        int row = (y - top)/(int)cellSize;
+        int col = (int)((x - left)/cellSize);
+        int row = (int)((y - top)/cellSize);
         return new Position(col, row);
 
     }
