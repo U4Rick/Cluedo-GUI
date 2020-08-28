@@ -18,6 +18,7 @@ public class Board {
     public Tile[][] board;
     private final Map<CharacterCard.CharacterEnum, Position> startingTiles;
     private final Map<RoomCard.RoomEnum, ArrayList<Position>> entrances;
+    private final Map<RoomCard.RoomEnum, ArrayList<Position>> roomTiles;
 
     /**
      *  Initialise the board.
@@ -55,6 +56,7 @@ public class Board {
         board = b.parseBoard(boardText);
         startingTiles = b.startingTiles;
         entrances = b.entrances;
+        roomTiles = b.rooms;
     }
 
     /**
@@ -83,6 +85,10 @@ public class Board {
      */
     public Map<RoomCard.RoomEnum, ArrayList<Position>> getEntrances() {
         return entrances;
+    }
+
+    public Map<RoomCard.RoomEnum, ArrayList<Position>> getRoomTiles() {
+        return roomTiles;
     }
 
     @Override

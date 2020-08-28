@@ -5,11 +5,14 @@ import Cards.RoomCard;
 import GameMechanics.Action.Hypothesis;
 import Tiles.EntranceTile;
 import Tiles.Position;
+import Tiles.RoomTile;
+import Tiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -292,9 +295,12 @@ public abstract class GUI {
             public void mouseClicked(MouseEvent e) {
                 if(!dice.isEnabled() && !currentPlayerMoveEnded) {
                     if (processPlayerTurn(getPositionAtClick(e.getX(), e.getY()))) {
-                        if (currentPlayer.isInRoom() && currentPlayer.canHypothesise()) {
-                            accuseButton.setEnabled(true);
-                            suggestButton.setEnabled(true);
+                        if (currentPlayer.isInRoom()) {
+                            placePlayerInRoom(currentPlayer, currentPlayer.roomPlayerIsIn());
+                            if (currentPlayer.hasNotMadeFalseAccusation()) {
+                                accuseButton.setEnabled(true);
+                                suggestButton.setEnabled(true);
+                            }
                         }
                         nextButton.setEnabled(true);
                         redraw();
@@ -344,6 +350,8 @@ public abstract class GUI {
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
     }
+
+
 
 
     /**
@@ -432,8 +440,15 @@ public abstract class GUI {
      *
      */
     private void buildSuggestWindow() {
-        EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
-        RoomCard room = new RoomCard(entranceTile.getRoom());
+        Tile playerTile = currentPlayer.getTile();
+        RoomCard room;
+        if (playerTile instanceof EntranceTile) {
+            room = new RoomCard(((EntranceTile) playerTile).getRoom());
+        }
+        else if (playerTile instanceof RoomTile) {
+            room = new RoomCard(((RoomTile) playerTile).room);
+        }
+        else { throw new NoSuchElementException(); }
         String [] roomArray = new String[1];
         roomArray[0] = room.toString();
         JComboBox<String> rooms = new JComboBox<>(roomArray);
@@ -463,6 +478,13 @@ public abstract class GUI {
         JButton okayButton = new JButton("OK");
         okayButton.addActionListener(e -> {
             Hypothesis suggestion = playerSuggest(room, (String)characters.getSelectedItem(), (String)weapons.getSelectedItem());
+            for (Player p : players) {
+                if (p.getCharacter().toString().equals(characters.getSelectedItem())) {
+                    appendToLog(playerTeleport(p, currentPlayer.getTile().position), log);
+                    redraw();
+                    break;
+                }
+            }
             int index = players.indexOf(currentPlayer);
             for (int i = 0; i < players.size() - 1; i++) {
                 //Roll over to index 0
@@ -521,6 +543,8 @@ public abstract class GUI {
         suggestWindow.setVisible(true);
 
     }
+
+
 
     /**
      *
@@ -780,6 +804,26 @@ public abstract class GUI {
      */
     protected abstract String printPlayersInRooms();
 
+    /**
+     *
+     * @return
+     */
+    protected abstract ArrayList<Weapon> getWeaponObjects();
+
+    /**
+     *  @param p
+     * @param position
+     * @return
+     */
+    protected abstract String playerTeleport(Player p, Position position);
+
+    /**
+     *
+     * @param currentPlayer
+     * @param roomPlayerIsIn
+     */
+    protected abstract void placePlayerInRoom(Player currentPlayer, RoomCard.RoomEnum roomPlayerIsIn);
+
 
     /**
      *
@@ -824,9 +868,17 @@ public abstract class GUI {
             }
             Sprite activePlayer = currentPlayer.getPlayerIcon();
             g.drawImage(activePlayer.getActiveIcon(), (int)(activePlayer.getPos().getX() * cellSize) + left, (int)(activePlayer.getPos().getY()* cellSize) + top, null);
+
+            for (Weapon w : getWeaponObjects()) {
+                Sprite s = w.getIcon();
+                g.drawImage(s.getIcon(), (int)(s.getPos().getX() * cellSize) + left, (int)(s.getPos().getY()* cellSize) + top, null);
+
+            }
         }
 
     }
+
+
 
 
 }

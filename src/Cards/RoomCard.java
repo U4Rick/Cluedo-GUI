@@ -29,6 +29,8 @@ public class RoomCard implements Card {
         KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLIARDROOM, LIBRARY, STUDY, HALL, LOUNGE
     }
 
+    public RoomEnum getRoom() { return room; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -2,6 +2,7 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.CharacterCard;
+import Cards.RoomCard;
 import GameMechanics.Action.Hypothesis;
 import Tiles.Position;
 import Tiles.Tile;
@@ -49,7 +50,7 @@ public class Player {
         this.tile = tile;
         this.board = board;
         this.username = username;
-        this.playerIcon = new Sprite(this.getCharacter().getFileName(), tile.position);
+        this.playerIcon = new Sprite(this.getCharacter().getFileName(), tile.position, "c");
         hand = new ArrayList<>();
     }
 
@@ -140,6 +141,15 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public RoomCard.RoomEnum roomPlayerIsIn() {
+        for (RoomCard.RoomEnum room : board.getEntrances().keySet()) {
+            if (board.getEntrances().get(room).contains(tile.getPosition())) {
+                return room;
+            }
+        }
+        return null;
     }
 
     public Sprite getPlayerIcon() { return playerIcon; }

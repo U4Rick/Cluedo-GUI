@@ -1,6 +1,7 @@
 package Tiles;
 
 import GameMechanics.Player;
+import GameMechanics.Weapon;
 
 /**
  * Tiles which represent areas on the board grid.

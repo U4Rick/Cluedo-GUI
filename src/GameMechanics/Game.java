@@ -4,10 +4,8 @@ import Cards.Card;
 import Cards.CharacterCard;
 import Cards.RoomCard;
 import Cards.WeaponCard;
-import GameMechanics.Action.Accusation;
 import GameMechanics.Action.Hypothesis;
 import GameMechanics.Action.Move;
-import GameMechanics.Action.Suggestion;
 import Tiles.*;
 
 import java.util.*;
@@ -34,8 +32,8 @@ public class Game extends GUI {
     private Board board;
     private List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
-    //private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
     private final List<Sprite> playerIcons = new ArrayList<>();
+    private final List<Weapon> weapons = new ArrayList<>();
 
     /**
      * Creates new instance of game.
@@ -80,7 +78,6 @@ public class Game extends GUI {
         for (Player p : players) {
             if (p.getCharacter().toString().equals(character)) {
                 charac = p.getCharacter();
-                playerTeleport(p, currentPlayer.getTile().position);
                 break;
             }
         }
@@ -105,9 +102,9 @@ public class Game extends GUI {
      }
 
     @Override
-    protected ArrayList getPlayers() {
+    protected ArrayList<Player> getPlayers() {
         if (players instanceof ArrayList) {
-            return (ArrayList) players;
+            return (ArrayList<Player>) players;
         }
         return null;
     }
@@ -177,6 +174,7 @@ public class Game extends GUI {
         ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
         cards.addAll(setupWeaponCards());
         cards.addAll(setupRoomCards());
+        setUpWeapons();
 
         dealCards(cards);
     }
@@ -201,20 +199,88 @@ public class Game extends GUI {
                     break;
                 }
             }
+            for (RoomEnum room : board.getRoomTiles().keySet()) {
+                if (board.getRoomTiles().get(room).contains(player.getTile().position)) {
+                    playersInRooms.append(player.getCharacter().toString()).append(" is in the ").append(new RoomCard(room)).append('\n');
+                    break;
+                }
+
+            }
         }
         return playersInRooms.toString();
     }
 
-    private String playerTeleport(Player player, Position position) {
-        System.out.print("\n");
-        if (player.getTile() != board.getTileAt(position)) {
-            player.getTile().setPlayerOnThisTile(null);
-            player.setTile(board.getTileAt(position));
-            return (player.toString() + " moved to suggested room.");
+    @Override
+    protected ArrayList<Weapon> getWeaponObjects() {
+        return (ArrayList<Weapon>) weapons;
+    }
+
+    @Override
+    protected String playerTeleport(Player player, Position position) {
+        Tile pos = board.getTileAt(position);
+        RoomEnum room;
+        if (pos instanceof RoomTile) {
+            room = ((RoomTile) pos).room;
+        } else if (pos instanceof EntranceTile) {
+            room = ((EntranceTile) pos).getRoom();
+        }
+        else { throw new InputMismatchException(); }
+        if (board.getRoomTiles().get(room).contains(player.getTile().getPosition())) {
+            return (player.getCharacter().toString() + " is already in the room.");
         }
         else {
-            return (player.toString() + " is already in the room.");
+            player.getTile().setPlayerOnThisTile(null);
+            placePlayerInRoom(player, room);
+            return (player.getCharacter().toString() + " moved to suggested room.");
         }
+    }
+
+    private void setUpWeapons() {
+        ArrayList<RoomCard> rooms = new ArrayList<>();
+        for (RoomEnum room : RoomEnum.values()) {
+            RoomCard roomCard = new RoomCard(room);
+            rooms.add(roomCard);
+        }
+
+        for (WeaponCard w: allWeapons) {
+            RoomCard room = rooms.get((int) (Math.random() * rooms.size()));
+            rooms.remove(room);
+            Weapon weapon = new Weapon(w);
+            placeWeaponInRoom(weapon, room);
+            weapons.add(weapon);
+        }
+    }
+
+    private void placeWeaponInRoom(Weapon weapon, RoomCard room) {
+
+        Tile location;
+        while (true) {
+            ArrayList<Position> tiles = board.getRoomTiles().get(room.getRoom());
+            location = board.getTileAt(tiles.get((int) (Math.random() * tiles.size())));
+            if(location instanceof RoomTile) {
+                if (location.getPlayerOnThisTile() == null && ((RoomTile) location).getWeaponOnThisTile() == null) {
+                    break;
+                }
+            }
+        }
+        ((RoomTile) location).setWeaponOnThisTile(weapon);
+        weapon.setTile(location);
+    }
+
+    protected void placePlayerInRoom(Player player, RoomEnum room) {
+
+        Tile location;
+        while (true) {
+            ArrayList<Position> tiles = board.getRoomTiles().get(room);
+            location = board.getTileAt(tiles.get((int) (Math.random() * tiles.size())));
+            if(location instanceof RoomTile) {
+                if (location.getPlayerOnThisTile() == null && ((RoomTile) location).getWeaponOnThisTile() == null) {
+                    break;
+                }
+            }
+        }
+        location.setPlayerOnThisTile(player);
+        player.setTile(location);
     }
 
     /**
