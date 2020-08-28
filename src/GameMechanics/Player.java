@@ -49,7 +49,7 @@ public class Player {
         this.tile = tile;
         this.board = board;
         this.username = username;
-        this.playerIcon = new Sprite("./assets/characterSprites/" + this.getCharacter().getFileName(), tile.position);
+        this.playerIcon = new Sprite(this.getCharacter().getFileName(), tile.position);
         hand = new ArrayList<>();
     }
 
