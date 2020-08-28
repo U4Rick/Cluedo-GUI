@@ -17,6 +17,11 @@ public class WeaponCard implements Card {
         this.weapon = weapon;
     }
 
+    @Override
+    public String getFileName() {
+        return this.toString() + ".png";
+    }
+
     /**
      * Possible weapons.
      */

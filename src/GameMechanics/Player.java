@@ -23,6 +23,8 @@ public class Player {
     private final List<Card> hand;
     private final Board board;
 
+    private Sprite playerIcon;
+
     /**
      * Initialises the player.
      * @param character Card of the character the player is playing as
@@ -33,6 +35,21 @@ public class Player {
         this.character = character;
         this.tile = tile;
         this.board = board;
+        hand = new ArrayList<>();
+    }
+
+    /**
+     * Initialises the player.
+     * @param character Card of the character the player is playing as
+     * @param tile      The tile the player starts on
+     * @param board     The board of the game
+     */
+    public Player(CharacterCard character, Tile tile, Board board, String username) {
+        this.character = character;
+        this.tile = tile;
+        this.board = board;
+        this.username = username;
+        this.playerIcon = new Sprite("./assets/characterSprites/" + this.getCharacter().getFileName(), tile.position);
         hand = new ArrayList<>();
     }
 
@@ -53,7 +70,9 @@ public class Player {
      * @param tile New tile to set current as.
      */
     public void setTile(Tile tile) {
+
         this.tile = tile;
+        playerIcon.updatePosition(tile.position);
     }
 
     /**
@@ -123,6 +142,8 @@ public class Player {
         return false;
     }
 
+    public Sprite getPlayerIcon() { return playerIcon; }
+
     /**
      * A player can only hypothesise if they landed on a room entrance, and they have not made a false accusation.
      *
@@ -167,5 +188,13 @@ public class Player {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public List<Card> getHand() {
+        return hand;
     }
 }

@@ -24,6 +24,10 @@ public class CharacterCard implements Card {
         SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
     }
 
+    public String getFileName() {
+        return this.toString().replaceAll("\\s", "") + ".png";
+    }
+
     /**
      * Get the character associated with this card.
      * @return  the character

@@ -28,43 +28,138 @@ public class Game extends GUI {
     private Player currentPlayer;
     private int numPlayers;
     private boolean playerHasWon = false;
+    private int currentRoll;
 
     //GameMechanics.Game Associations
     private Board board;
-    private final List<Player> players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
     private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
+    private final List<Sprite> playerIcons = new ArrayList<>();
 
     /**
      * Creates new instance of game.
      * Run initialise methods and then run the game.
      */
     public Game() {
-        initialise();
-        run();
+        /*initialise();
+        run();*/
+    }
+
+    @Override
+    protected void create() {
+        board = new Board();
+        numPlayers = 0;
+        players = new ArrayList<>();
+    }
+
+    @Override
+    protected void updateCurrentPlayer() {
+        int i = players.indexOf(currentPlayer);
+        if (i == players.size() - 1) {
+            currentPlayer = players.get(0);
+        } else {
+            currentPlayer = players.get(i + 1);
+        }
+    }
+
+    @Override
+    protected boolean processPlayerTurn(Position cellToMoveTo) {
+        Move move  = new Move(currentPlayer, board, currentRoll);
+        return move.playerMovement(cellToMoveTo);
+    }
+
+    @Override
+    protected String rollDice() {
+        int dice1 = (int) (Math.random() * 6 + 1);
+        int dice2 = (int) (Math.random() * 6 + 1);
+        currentRoll = dice1 + dice2;
+        return "You have rolled a " + currentRoll + ".";
+    }
+
+    @Override
+    protected ArrayList<Sprite> getPlayerIcons() {
+        return (ArrayList<Sprite>) playerIcons;
+    }
+
+    @Override
+    protected Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    @Override
+    protected void createPlayer(String character, String username) {
+        CharacterCard card;
+        switch (character) {
+            case "Plum":
+                card = new CharacterCard(CharacterEnum.PLUM);
+                break;
+
+            case "Peacock":
+                card = new CharacterCard(CharacterEnum.PEACOCK);
+                break;
+
+            case "Mustard":
+                card = new CharacterCard(CharacterEnum.MUSTARD);
+                break;
+
+            case "Scarlett":
+                card = new CharacterCard(CharacterEnum.SCARLETT);
+                break;
+
+            case "White":
+                card = new CharacterCard(CharacterEnum.WHITE);
+                break;
+
+            case "Green":
+                card = new CharacterCard(CharacterEnum.GREEN);
+                break;
+
+            default:
+                throw new NoSuchElementException();
+        }
+        Player p = new Player(card, board.getTileAt(board.getStartingTiles().get(card.getCharacter())), board, username);
+        Tile startingTile = board.getTileAt(board.getStartingTiles().get(card.getCharacter()));
+        if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
+        players.add(p);
+        playerIcons.add(p.getPlayerIcon());
+        numPlayers++;
+    }
+
+    @Override
+    protected void setupCardsAndGame() {
+        currentPlayer = players.get(0);
+        solution = new Hypothesis(null, null, null);
+
+        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
+        cards.addAll(setupWeaponCards());
+        cards.addAll(setupRoomCards());
+
+        dealCards(cards);
     }
 
     /**
      * Setup the game.
      */
-    public void initialise() {
+    //replaced by abstract methods
+   /* public void initialise() {
         board = new Board();
-        setNumPlayers();
-        setupPlayers();
+        //setNumPlayers();
+        //setupPlayers();
         setupCards();
         currentPlayer = players.get(0);
-    }
+    }*/
 
     /**
      * Main game loop, loops until a player has won or all players have made false accusations.
      */
-    private void run() {
+    /*private void run() {
         while (!isGameOver()) {
             printTurnInfo();
             processPlayerTurn();
             updateCurrentPlayer();
         }
-    }
+    }*/
 
     //////////////////////////
     // SETUP METHODS
@@ -73,7 +168,8 @@ public class Game extends GUI {
     /**
      * Ask the player for amount of players, must be between 3-6.
      */
-    public void setNumPlayers() {
+    //replaced in gui
+    /*public void setNumPlayers() {
         System.out.println("How many players?");
 
 
@@ -90,12 +186,13 @@ public class Game extends GUI {
             }
             System.out.println("Enter a number between 3 and 6");
         }
-    }
+    }*/
 
     /**
      * Create the players and add them to the list of players.
      */
-    private void setupPlayers() {
+    //replaced with create player abstract void
+    /*private void setupPlayers() {
         CharacterEnum[] values = CharacterEnum.values();
         for (int i = 0; i < numPlayers; i++) {
             Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.getStartingTiles().get(values[i])), board);
@@ -103,21 +200,9 @@ public class Game extends GUI {
             if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
             players.add(p);
         }
-    }
+    }*/
 
-    /**
-     * Create all of the cards, select a solution, then deal the rest of the cards to the players.
-     */
-    private void
-    setupCards() {
-        solution = new Hypothesis(null, null, null);
 
-        ArrayList<Card> cards = new ArrayList<>(setupCharacterCards());
-        cards.addAll(setupWeaponCards());
-        cards.addAll(setupRoomCards());
-
-        dealCards(cards);
-    }
 
     /**
      * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.
@@ -212,25 +297,26 @@ public class Game extends GUI {
      *  Runs the player movement and suggestion/accusation process for
      *  current player.
      */
-    private void processPlayerTurn() {
-        Move move  = new Move(currentPlayer, board);
+    /*private void processPlayerTurn() {
+        Move move  = new Move(currentPlayer, board, currentRoll);
         move.playerMovement();
         if (currentPlayer.canHypothesise()) {
             playerHypothesis();
         }
-    }
+    }*/
 
     /**
      * Set currentPlayer to next player in turn order.
      */
-    private void updateCurrentPlayer() {
+    //replaced by abstract
+   /* private void updateCurrentPlayer() {
         int i = players.indexOf(currentPlayer);
         if (i == players.size() - 1) {
             currentPlayer = players.get(0);
         } else {
             currentPlayer = players.get(i + 1);
         }
-    }
+    }*/
 
     /**
      *  Checks if player wants to make a suggestion and/or accusation,
