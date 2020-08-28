@@ -355,16 +355,16 @@ public abstract class GUI {
         RoomCard room = new RoomCard(entranceTile.getRoom());
         String [] roomArray = new String[1];
         roomArray[0] = room.toString();
-        JComboBox rooms = new JComboBox(roomArray);
+        JComboBox<String> rooms = new JComboBox<>(roomArray);
 
 
         ArrayList<Player> players = getPlayers();
         String[] characterArray = new String[players.size()];
         for (int i = 0; i < players.size(); i++) { characterArray[i] = players.get(i).getCharacter().toString(); }
-        JComboBox characters = new JComboBox(characterArray);
+        JComboBox<String> characters = new JComboBox<>(characterArray);
 
         String[] weaponArray = getWeapons();
-        JComboBox weapons = new JComboBox(weaponArray);
+        JComboBox<String> weapons = new JComboBox<>(weaponArray);
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
