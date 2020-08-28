@@ -19,7 +19,7 @@ public abstract class GUI {
     private JFrame gameWindow;
     private JFrame suggestWindow;
     private JFrame accuseWindow;
-    private JFrame refuteWindow;
+    private JDialog refuteWindow;
 
     private final double cellSize = 18.2;
     private final int left = 33;
@@ -27,6 +27,10 @@ public abstract class GUI {
 
     Player currentPlayer;
     private JPanel cardPanel;
+    private boolean checkBool;
+    private ButtonModel selectedCard;
+    JButton suggestButton;
+    JEditorPane log;
 
 
     public GUI() {
@@ -132,7 +136,7 @@ public abstract class GUI {
         JPanel logPanel = new JPanel();
         logPanel.setPreferredSize(new Dimension(300, 500));
         logPanel.setLayout(new BorderLayout());
-        JEditorPane log = new JEditorPane();
+        log = new JEditorPane();
         log.setPreferredSize(new Dimension(290,450));
         log.setEditable(false);
         log.setText("wah wah wah \nhewwo");
@@ -189,7 +193,7 @@ public abstract class GUI {
 
         JLabel userNameLabel = new JLabel(currentPlayer.getUsername());
 
-        JButton suggestButton = new JButton("Suggest!");
+        suggestButton = new JButton("Suggest!");
         suggestButton.setEnabled(false);
         suggestButton.addActionListener(new ActionListener() {
             @Override
@@ -395,11 +399,21 @@ public abstract class GUI {
                     } else {
                         index++;
                     }
-                    if (buildRefuteWindow(players.get(index))) {
-
+                    buildRefuteWindow(players.get(index), suggestion);
+                    if (checkBool) {
+                        appendToLog(players.get(i).getCharacter().toString() + " refuted with " + selectedCard.toString(), log);
                         break;
                     }
                 }
+                if (!checkBool) {
+                    //add to JList
+
+                }
+                else {
+                    checkBool = false;
+                }
+                suggestWindow.setVisible(false);
+                suggestButton.setEnabled(false);
             }
         });
 
@@ -444,11 +458,87 @@ public abstract class GUI {
 
     protected abstract ArrayList<Player> getPlayers();
 
-    private boolean buildRefuteWindow(Player p) {
-        //TODO display cards
-        //TODO combobox with options (may be empty)
-        //TODO label with refute possibilities (no refute, one refute, pick a refute)
-        //TODO go button
+    private boolean buildRefuteWindow(Player p, Hypothesis suggestion) {
+        JPanel refuteCardPanel = new JPanel();
+        Dimension cardPanelSize = new Dimension(600,150);
+        refuteCardPanel.setPreferredSize(cardPanelSize);
+        FlowLayout layout = new FlowLayout();
+        layout.setAlignment(FlowLayout.CENTER);
+        refuteCardPanel.setLayout(layout);
+        for (Card card : p.getHand()) {
+            //all of this is awful math to make sure the cards size nicely on the panel
+            ImageIcon icon = new ImageIcon("./assets/cards/" + card.getFileName());
+            int width = (int)(((double)(cardPanelSize.width/p.getHand().size()))*0.7);
+            double ratio = ((double)width/icon.getIconWidth());
+            ratio = cardPanelSize.height > ratio*icon.getIconHeight() ? ratio : ((double) cardPanelSize.height/icon.getIconHeight())*0.9;
+            icon = new ImageIcon(icon.getImage().getScaledInstance((int)(icon.getIconWidth()*ratio), (int)(icon.getIconHeight()*ratio), Image.SCALE_DEFAULT));
+
+            refuteCardPanel.add(new JLabel(icon));
+        }
+
+        JPanel optionPanel = new JPanel();
+        ButtonGroup choices = new ButtonGroup();
+        ArrayList<JRadioButton> radioButtons = new ArrayList<>();
+        for (Card c : p.getRefutableCards(suggestion)) {
+            JRadioButton temp = new JRadioButton(c.toString());
+            choices.add(temp);
+            radioButtons.add(temp);
+        }
+
+        JLabel info = new JLabel();
+
+        if (choices.getButtonCount() == 0) {
+            info.setText("No Refute Possible, Press Go");
+        }
+        else if (choices.getButtonCount() == 1) {
+            info.setText("Refute Possible, Press Go");
+        }
+        else {
+            info.setText("Please Pick a Refute Option, Press Go");
+        }
+
+        JButton goButton = new JButton("GO");
+        goButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                refuteWindow.setVisible(false);
+                if (choices.getButtonCount() > 0) {
+                    checkBool = true;
+                    selectedCard = choices.getSelection();
+                }
+            }
+        });
+
+        optionPanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        constraints.gridy = 0;
+        int x = -1;
+        JRadioButton last = null;
+        for (JRadioButton j : radioButtons) {
+            constraints.gridx = x++;
+            optionPanel.add(j, constraints);
+            last = j;
+        }
+        if (last != null) { last.setSelected(true); }
+
+        constraints.gridx = 0;
+        constraints.gridy++;
+        optionPanel.add(info, constraints);
+
+        constraints.gridy++;
+        optionPanel.add(goButton,constraints);
+
+        JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, refuteCardPanel, optionPanel);
+
+        refuteWindow = new Frame();
+        JPanel window = new JPanel();
+        window.add(mainPane);
+        refuteWindow.add(window);
+
+        refuteWindow.pack();
+        refuteWindow.setLocationRelativeTo(null);
+        refuteWindow.setVisible(true);
         return false;
     }
 
@@ -475,6 +565,12 @@ public abstract class GUI {
 
     protected abstract ArrayList<Sprite> getPlayerIcons();
 
+
+    private class Frame extends JDialog {
+        public Frame() {
+            setModal(true);
+        }
+    }
 
 
     private class Panel extends JPanel {
