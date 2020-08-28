@@ -6,6 +6,8 @@ import GameMechanics.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//TODO confirm class is redundant and dispose
+
 /**
  *  Refute against a suggestion with a contradicting card.
  */

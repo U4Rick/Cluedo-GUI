@@ -1,6 +1,7 @@
 package Cards;
 
 import java.util.Objects;
+//TODO add additional javadocs where needed
 
 /**
  * Character card for the game of Cluedo.

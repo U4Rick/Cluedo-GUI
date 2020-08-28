@@ -20,6 +20,8 @@ import static Cards.WeaponCard.*;
  * classes in running the game via game logic
  */
 public class Game extends GUI {
+    //TODO clean up redundant methods, and reorganize useful ones.
+    //TODO correct javadocs of surviving methods where needed
 
     //GameMechanics.Game Attributes
     private Hypothesis solution;
@@ -39,10 +41,7 @@ public class Game extends GUI {
      * Creates new instance of game.
      * Run initialise methods and then run the game.
      */
-    public Game() {
-        /*initialise();
-        run();*/
-    }
+    public Game() { }
 
     @Override
     protected void create() {
@@ -67,7 +66,7 @@ public class Game extends GUI {
     }
 
     @Override
-    protected boolean processPlayerTurn(Position cellToMoveTo) {
+    protected String processPlayerTurn(Position cellToMoveTo) {
         Move move  = new Move(currentPlayer, board, currentRoll);
         return move.playerMovement(cellToMoveTo);
     }

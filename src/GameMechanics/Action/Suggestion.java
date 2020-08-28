@@ -10,6 +10,8 @@ import Tiles.EntranceTile;
 import java.util.List;
 import java.util.Scanner;
 
+//TODO confirm class is redundant and dispose
+
 /**
  *  A suggested murder circumstance.
  */

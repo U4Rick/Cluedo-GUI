@@ -3,6 +3,8 @@ package Tiles;
 import Cards.RoomCard;
 import GameMechanics.Weapon;
 
+//TODO finish javadocs
+
 /**
  * Textual placeholder for room tiles (which are inaccessible by direct player movement).
  */

@@ -4,6 +4,8 @@ import GameMechanics.Board;
 import GameMechanics.Player;
 import Tiles.Position;
 
+//TODO confirm class is redundant and dispose
+
 /**
  *  Super class to some player actions.
  *  Contains helper methods that multiple actions utilise.

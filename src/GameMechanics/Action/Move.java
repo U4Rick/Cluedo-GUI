@@ -7,6 +7,9 @@ import Tiles.*;
 
 import java.util.*;
 
+//TODO clean up code
+//TODO is validMovement can be converted back to boolean, Strings were used elsewhere
+
 /**
  * Move players around the board and check the validity of those moves.
  */
@@ -17,6 +20,7 @@ public class Move {
     private final Player currentPlayer;
     private final Board board;
     private int movementRange;
+    private String movementOutcome = "";
 
     /**
      * Initialise a new move instance.
@@ -66,14 +70,11 @@ public class Move {
         }
     }*/
 
-    public boolean playerMovement(Position cellToMoveTo) {
+    public String playerMovement(Position cellToMoveTo) {
         if (cellToMoveTo.getY() < 25 && cellToMoveTo.getY() >= 0 && cellToMoveTo.getX() < 24 && cellToMoveTo.getX() >= 0) {
             move(cellToMoveTo.getX(), cellToMoveTo.getY()); //check if requested tile is within board bounds
-            return hasMadeValidMove;
-
-        } else {
-            return false;
         }
+        return movementOutcome;
     }
 
     /**
@@ -99,17 +100,17 @@ public class Move {
 
         Tile endTile = board.getTileAt(endPos);
         if ((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)) {
-            System.out.println("Tile already has player on it");
+           movementOutcome = ("Tile already has player on it");
             return "Tile already has player on it";//else if endPos already has player && endPos is not entranceTile
         }
 
         if (Math.abs((startX - endX) + (startY - endY)) > this.movementRange) {
-            System.out.println("You can not move that far!");
+            movementOutcome = ("You can not move that far!");
             return "You can not move that far!";
         }
 
         if (!pathfinding(board, startPos, endPos)) {
-            System.out.println("No valid path to that tile, try again.");
+            movementOutcome = ("No valid path to that tile, try again.");
             return "No valid path to that tile, try again.";
         }
 

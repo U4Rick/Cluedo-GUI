@@ -7,6 +7,8 @@ import Tiles.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+//TODO finish javadocs
+
 /**
  *  The board which the game is played on.
  *  Contains the 2D array of tiles that make up the board,

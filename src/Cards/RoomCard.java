@@ -1,6 +1,7 @@
 package Cards;
 
 import java.util.Objects;
+//TODO add additional javadocs where needed
 
 /**
  * Room card for the game of Cluedo.
@@ -17,7 +18,6 @@ public class RoomCard implements Card {
         this.room = room;
     }
 
-    @Override
     public String getFileName() {
         return this.toString().replaceAll("\\s", "") + ".png";
     }

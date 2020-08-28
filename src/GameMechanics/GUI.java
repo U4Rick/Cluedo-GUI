@@ -14,8 +14,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+//TODO finish javadocs
+//TODO comment inner code so it's readable
+
 /**
- *
+ *  The GUI for the Cluedo game.
  */
 public abstract class GUI {
 
@@ -37,20 +40,36 @@ public abstract class GUI {
     private JButton accuseButton;
     private JEditorPane log;
     private boolean currentPlayerMoveEnded = false;
-    private ArrayList<Hypothesis> unrefutedSuggestions = new ArrayList<>();
+    private final ArrayList<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
 
     /**
-     *
+     *  Run the first window creation method on initialisation.
      */
     public GUI() {
         buildCharacterSelectWindow();
     }
 
     /**
-     *
+     *  Build the initial game setup window.
+     *  Includes a set of JRadioButtons to select characters playing in the game,
+     *  a JLabel informing the user to select characters, and a submit JButton.
+     *  On pressing the submit button, the program pops up a number of InputDialogs
+     *  (equal to the number of characters selected), prompting usernames of the
+     *  players for each character.
+     *  These InputDialogs will not proceed if the input box is empty, avoiding blank
+     *  usernames.
+     *  If the user tries to start the game with less than 3 characters selected,
+     *  a JDialog will appear informing the user that they need 3 or more characters
+     *  to play the game, and take them back to the character selection window.
+     *  The calling of abstract methods to do initial game setup (e.g setUpCardsAndGame())
+     *  is done within this method.
+     *  When the user has provided sufficient information, the buildGameBoard() method is
+     *  called to setup the main game area.
      */
     private void buildCharacterSelectWindow() {
+
+        //TODO change these to checkboxes?
         ArrayList<JRadioButton> characters = new ArrayList<>();
         characters.add(new JRadioButton("Peacock"));
         characters.add(new JRadioButton("Mustard"));
@@ -125,7 +144,39 @@ public abstract class GUI {
 
 
     /**
-     *
+     *  Builds the main game area.
+     *  This method handles all of the outer window calls, and calls most
+     *  of the abstract methods regarding game logic within listeners of
+     *  various kinds.
+     *  The game area is split into 4 sections, using a JSplitPane, split vertically,
+     *  with a JPanel containing two other JPanels on either side.
+     *  - On the top left section of the game area is the game board, a overridden
+     *  JPanel with one JButton. The majority of the work here happens with graphics
+     *  painted directly onto the panel, and a MouseListener that uses a helper method
+     *  to determine the click position to board cell location. The user interacts with
+     *  the board via mouse clicks, in order to move their character.
+     *  - On the top right, there is a panel containing the game log. The log features
+     *  three main components: a JEditorPane (in a JScrollPane), a JTextField, and a
+     *  JButton. The text inputted in the text field is added to the end of the existing
+     *  text in the editorPane when the button is pressed, noted as being sent by the
+     *  user currently playing at that time. The log also features game relevant information,
+     *  such as dice rolls, whose turn it is, and if a move is invalid, which are all
+     *  pulled from Game using abstract methods.
+     *  - On the bottom left is the info/main button control panel. This features two
+     *  JLabels showing the current player's Character name and username. There are
+     *  also three JButtons: One for Suggestions, one for Accusations, and one to
+     *  proceed to the next player's turn. These buttons (along with the dice button
+     *  on the game board) get disabled when it is not appropriate to use them based on
+     *  game conditions. The suggestion button will run the buildSuggestionWindow() method
+     *  on press. The accusations button will run the buildAccusationsWindow() method if
+     *  there are active unrefuted suggestions, otherwise it will display a JDialog
+     *  notifying the player than they cannot make an accusation at this time (and disabling
+     *  the button). The next button runs a chunk of code which setups the game for the next
+     *  player, and proceeds to the next round.
+     *  - On the bottom right, there is the cardPanel, which is a JPanel containing a number
+     *  of ImageIcon JLabels, in order to display the current player's card hand. This panel
+     *  is purely decorative and serves no functional purpose outside of information for the
+     *  player.
      */
     private void buildGameBoard() {
         currentPlayer = getCurrentPlayer();
@@ -148,16 +199,15 @@ public abstract class GUI {
         menu.add(submenu);
 
 
-
         JPanel logPanel = new JPanel();
         logPanel.setPreferredSize(new Dimension(300, 500));
         logPanel.setLayout(new BorderLayout());
         log = new JEditorPane();
-        log.setPreferredSize(new Dimension(290,450));
+        log.setPreferredSize(new Dimension(290, 450));
         log.setEditable(false);
         log.setText("Text log begins here.");
         JScrollPane logPane = new JScrollPane(log);
-        logPane.setPreferredSize(new Dimension(290,450));
+        logPane.setPreferredSize(new Dimension(290, 450));
         logPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         logPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         logPanel.add(logPane, BorderLayout.PAGE_START);
@@ -169,7 +219,7 @@ public abstract class GUI {
         logPanel.add(chatBox, BorderLayout.CENTER);
 
         JButton okButton = new JButton("OK!");
-        okButton.setPreferredSize(new Dimension(60,40));
+        okButton.setPreferredSize(new Dimension(60, 40));
         okButton.addActionListener(e -> {
             if (chatBox.getText().length() != 0) {
                 appendToLog(currentPlayer.getUsername() + ": " + chatBox.getText(), log);
@@ -191,7 +241,7 @@ public abstract class GUI {
             appendToLog(rollDice(), log);
             dice.setEnabled(false);
         });
-        dice.setPreferredSize(new Dimension(80,30));
+        dice.setPreferredSize(new Dimension(80, 30));
 
         boardPanel.setLayout(new GridBagLayout());
         GridBagConstraints diceInsets = new GridBagConstraints();
@@ -205,10 +255,10 @@ public abstract class GUI {
 
 
         JPanel infoPanel = new JPanel();
-        infoPanel.setPreferredSize(new Dimension(800,150));
+        infoPanel.setPreferredSize(new Dimension(800, 150));
 
         JPanel componentPanel = new JPanel();
-        componentPanel.setPreferredSize(new Dimension(100,150));
+        componentPanel.setPreferredSize(new Dimension(100, 150));
 
         JLabel characterNameLabel = new JLabel(currentPlayer.getCharacter().toString());
 
@@ -232,8 +282,7 @@ public abstract class GUI {
                     dialog.setVisible(false);
                     accuseButton.setEnabled(false);
                 }
-            }
-            else {
+            } else {
                 buildAccuseWindow();
             }
         });
@@ -293,8 +342,9 @@ public abstract class GUI {
         boardPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(!dice.isEnabled() && !currentPlayerMoveEnded) {
-                    if (processPlayerTurn(getPositionAtClick(e.getX(), e.getY()))) {
+                if (!dice.isEnabled() && !currentPlayerMoveEnded) {
+                    String outcome = processPlayerTurn(getPositionAtClick(e.getX(), e.getY()));
+                    if (outcome.equals("")) {
                         if (currentPlayer.isInRoom()) {
                             placePlayerInRoom(currentPlayer, currentPlayer.roomPlayerIsIn());
                             if (currentPlayer.hasNotMadeFalseAccusation()) {
@@ -305,9 +355,8 @@ public abstract class GUI {
                         nextButton.setEnabled(true);
                         redraw();
                         currentPlayerMoveEnded = true;
-                    }
-                    else {
-
+                    } else {
+                        appendToLog(outcome, log);
                     }
                 }
             }
@@ -330,7 +379,6 @@ public abstract class GUI {
         selectWindow.setVisible(false);
 
         gameWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        gameWindow.getContentPane().add(menuBar);
         gameWindow.getContentPane().add(mainPane);
         gameWindow.setJMenuBar(menuBar);
 
@@ -352,15 +400,13 @@ public abstract class GUI {
     }
 
 
-
-
     /**
      *
      */
     private void buildAccuseWindow() {
 
         DefaultListModel<String> accuseModel = new DefaultListModel<>();
-        JList<? extends String>  accusationsList = new JList<>(accuseModel);
+        JList<? extends String> accusationsList = new JList<>(accuseModel);
         ArrayList<String> stringUnrefutedAccusations = new ArrayList<>();
         for (Hypothesis h : unrefutedSuggestions) {
             stringUnrefutedAccusations.add(h.toString());
@@ -384,8 +430,7 @@ public abstract class GUI {
                         dialog.setVisible(false);
                         System.exit(0);
                     }
-                }
-                else {
+                } else {
                     currentPlayer.madeFalseAccusation();
                     JOptionPane option = new JOptionPane();
                     option.setOptionType(JOptionPane.DEFAULT_OPTION);
@@ -398,8 +443,7 @@ public abstract class GUI {
                             dialog.setVisible(false);
                             System.exit(0);
                         }
-                    }
-                    else {
+                    } else {
                         option.setMessage(currentPlayer.getCharacter().toString() + " made a false accusation, they can no longer accuse or suggest!");
                         JDialog dialog = option.createDialog("False Accusation!");
                         dialog.pack();
@@ -435,7 +479,6 @@ public abstract class GUI {
     }
 
 
-
     /**
      *
      */
@@ -444,19 +487,21 @@ public abstract class GUI {
         RoomCard room;
         if (playerTile instanceof EntranceTile) {
             room = new RoomCard(((EntranceTile) playerTile).getRoom());
-        }
-        else if (playerTile instanceof RoomTile) {
+        } else if (playerTile instanceof RoomTile) {
             room = new RoomCard(((RoomTile) playerTile).room);
+        } else {
+            throw new NoSuchElementException();
         }
-        else { throw new NoSuchElementException(); }
-        String [] roomArray = new String[1];
+        String[] roomArray = new String[1];
         roomArray[0] = room.toString();
         JComboBox<String> rooms = new JComboBox<>(roomArray);
 
 
         ArrayList<Player> players = getPlayers();
         String[] characterArray = new String[players.size()];
-        for (int i = 0; i < players.size(); i++) { characterArray[i] = players.get(i).getCharacter().toString(); }
+        for (int i = 0; i < players.size(); i++) {
+            characterArray[i] = players.get(i).getCharacter().toString();
+        }
         JComboBox<String> characters = new JComboBox<>(characterArray);
 
         String[] weaponArray = getWeapons();
@@ -477,7 +522,7 @@ public abstract class GUI {
         });
         JButton okayButton = new JButton("OK");
         okayButton.addActionListener(e -> {
-            Hypothesis suggestion = playerSuggest(room, (String)characters.getSelectedItem(), (String)weapons.getSelectedItem());
+            Hypothesis suggestion = playerSuggest(room, (String) characters.getSelectedItem(), (String) weapons.getSelectedItem());
             for (Player p : players) {
                 if (p.getCharacter().toString().equals(characters.getSelectedItem())) {
                     appendToLog(playerTeleport(p, currentPlayer.getTile().position), log);
@@ -501,8 +546,7 @@ public abstract class GUI {
             }
             if (!checkBool) {
                 unrefutedSuggestions.add(suggestion);
-            }
-            else {
+            } else {
                 checkBool = false;
             }
             suggestWindow.setVisible(false);
@@ -545,7 +589,6 @@ public abstract class GUI {
     }
 
 
-
     /**
      *
      * @param p
@@ -553,7 +596,7 @@ public abstract class GUI {
      */
     private void buildRefuteWindow(Player p, Hypothesis suggestion) {
         JPanel refuteCardPanel = new JPanel();
-        Dimension cardPanelSize = new Dimension(600,150);
+        Dimension cardPanelSize = new Dimension(600, 150);
         refuteCardPanel.setPreferredSize(cardPanelSize);
         FlowLayout layout = new FlowLayout();
         layout.setAlignment(FlowLayout.CENTER);
@@ -561,10 +604,10 @@ public abstract class GUI {
         for (Card card : p.getHand()) {
             //all of this is awful math to make sure the cards size nicely on the panel
             ImageIcon icon = new ImageIcon("./assets/cards/" + card.getFileName());
-            int width = (int)(((double)(cardPanelSize.width/p.getHand().size()))*0.7);
-            double ratio = ((double)width/icon.getIconWidth());
-            ratio = cardPanelSize.height > ratio*icon.getIconHeight() ? ratio : ((double) cardPanelSize.height/icon.getIconHeight())*0.9;
-            icon = new ImageIcon(icon.getImage().getScaledInstance((int)(icon.getIconWidth()*ratio), (int)(icon.getIconHeight()*ratio), Image.SCALE_DEFAULT));
+            int width = (int) (((double) (cardPanelSize.width / p.getHand().size())) * 0.7);
+            double ratio = ((double) width / icon.getIconWidth());
+            ratio = cardPanelSize.height > ratio * icon.getIconHeight() ? ratio : ((double) cardPanelSize.height / icon.getIconHeight()) * 0.9;
+            icon = new ImageIcon(icon.getImage().getScaledInstance((int) (icon.getIconWidth() * ratio), (int) (icon.getIconHeight() * ratio), Image.SCALE_DEFAULT));
 
             refuteCardPanel.add(new JLabel(icon));
         }
@@ -582,11 +625,9 @@ public abstract class GUI {
 
         if (choices.getButtonCount() == 0) {
             info.setText("No Refute Possible, Press Go");
-        }
-        else if (choices.getButtonCount() == 1) {
+        } else if (choices.getButtonCount() == 1) {
             info.setText("Refute Possible, Press Go");
-        }
-        else {
+        } else {
             info.setText("Please Pick a Refute Option, Press Go");
         }
 
@@ -632,14 +673,16 @@ public abstract class GUI {
                 last = radioButtons.get(0);
                 break;
         }
-        if (last != null) { last.setSelected(true); }
+        if (last != null) {
+            last.setSelected(true);
+        }
 
 
         constraints.gridy++;
         optionPanel.add(info, constraints);
 
         constraints.gridy++;
-        optionPanel.add(goButton,constraints);
+        optionPanel.add(goButton, constraints);
 
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, refuteCardPanel, optionPanel);
 
@@ -661,8 +704,8 @@ public abstract class GUI {
      * @return
      */
     private Position getPositionAtClick(int x, int y) {
-        int col = (int)((x - left)/cellSize);
-        int row = (int)((y - top)/cellSize);
+        int col = (int) ((x - left) / cellSize);
+        int row = (int) ((y - top) / cellSize);
         return new Position(col, row);
 
     }
@@ -688,7 +731,7 @@ public abstract class GUI {
      */
     private void setupCardPanel() {
         cardPanel = new JPanel();
-        Dimension cardPanelSize = new Dimension(700,150);
+        Dimension cardPanelSize = new Dimension(700, 150);
         cardPanel.setPreferredSize(cardPanelSize);
         FlowLayout layout = new FlowLayout();
         layout.setAlignment(FlowLayout.RIGHT);
@@ -696,10 +739,10 @@ public abstract class GUI {
         for (Card card : currentPlayer.getHand()) {
             //all of this is awful math to make sure the cards size nicely on the panel
             ImageIcon icon = new ImageIcon("./assets/cards/" + card.getFileName());
-            int width = (int)(((double)(cardPanelSize.width/currentPlayer.getHand().size()))*0.7);
-            double ratio = ((double)width/icon.getIconWidth());
-            ratio = cardPanelSize.height > ratio*icon.getIconHeight() ? ratio : ((double) cardPanelSize.height/icon.getIconHeight())*0.9;
-            icon = new ImageIcon(icon.getImage().getScaledInstance((int)(icon.getIconWidth()*ratio), (int)(icon.getIconHeight()*ratio), Image.SCALE_DEFAULT));
+            int width = (int) (((double) (cardPanelSize.width / currentPlayer.getHand().size())) * 0.7);
+            double ratio = ((double) width / icon.getIconWidth());
+            ratio = cardPanelSize.height > ratio * icon.getIconHeight() ? ratio : ((double) cardPanelSize.height / icon.getIconHeight()) * 0.9;
+            icon = new ImageIcon(icon.getImage().getScaledInstance((int) (icon.getIconWidth() * ratio), (int) (icon.getIconHeight() * ratio), Image.SCALE_DEFAULT));
 
             cardPanel.add(new JLabel(icon));
         }
@@ -751,7 +794,7 @@ public abstract class GUI {
      * @param cellToMoveTO
      * @return
      */
-    protected abstract boolean processPlayerTurn(Position cellToMoveTO);
+    protected abstract String processPlayerTurn(Position cellToMoveTO);
 
     /**
      *
@@ -863,22 +906,18 @@ public abstract class GUI {
 
             g.drawImage(img, 0, 0, null);
             for (Sprite s : getPlayerIcons()) {
-                g.drawImage(s.getIcon(), (int)(s.getPos().getX() * cellSize) + left, (int)(s.getPos().getY()* cellSize) + top, null);
+                g.drawImage(s.getIcon(), (int) (s.getPos().getX() * cellSize) + left, (int) (s.getPos().getY() * cellSize) + top, null);
 
             }
             Sprite activePlayer = currentPlayer.getPlayerIcon();
-            g.drawImage(activePlayer.getActiveIcon(), (int)(activePlayer.getPos().getX() * cellSize) + left, (int)(activePlayer.getPos().getY()* cellSize) + top, null);
+            g.drawImage(activePlayer.getActiveIcon(), (int) (activePlayer.getPos().getX() * cellSize) + left, (int) (activePlayer.getPos().getY() * cellSize) + top, null);
 
             for (Weapon w : getWeaponObjects()) {
                 Sprite s = w.getIcon();
-                g.drawImage(s.getIcon(), (int)(s.getPos().getX() * cellSize) + left, (int)(s.getPos().getY()* cellSize) + top, null);
+                g.drawImage(s.getIcon(), (int) (s.getPos().getX() * cellSize) + left, (int) (s.getPos().getY() * cellSize) + top, null);
 
             }
         }
 
     }
-
-
-
-
 }

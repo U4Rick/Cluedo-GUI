@@ -1,7 +1,8 @@
 package Tiles;
 
 import GameMechanics.Player;
-import GameMechanics.Weapon;
+
+//TODO dispose of redundant methods
 
 /**
  * Tiles which represent areas on the board grid.

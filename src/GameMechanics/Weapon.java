@@ -1,8 +1,9 @@
 package GameMechanics;
 
 import Cards.WeaponCard;
-import Tiles.Position;
 import Tiles.Tile;
+
+//TODO javadoc
 
 public class Weapon {
 

@@ -5,6 +5,8 @@ import GameMechanics.Player;
 import java.util.List;
 import java.util.Scanner;
 
+//TODO confirm class is redundant, and if so, dispose of
+
 /**
  *  Allow the player to make an accusation.
  *  Holds methods to take, print and execute an accusation.

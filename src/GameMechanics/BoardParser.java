@@ -6,6 +6,8 @@ import Tiles.*;
 
 import java.util.*;
 
+//TODO finish javdocs
+
 /**
  * Parses an ascii board to create a functional game board for Cluedo.
  */

@@ -1,7 +1,7 @@
 package Cards;
 
 import java.util.Objects;
-
+//TODO add additional javadocs where needed
 /**
  * Weapon card for the game of Cluedo.
  */
@@ -17,7 +17,7 @@ public class WeaponCard implements Card {
         this.weapon = weapon;
     }
 
-    @Override
+
     public String getFileName() {
         return this.toString() + ".png";
     }

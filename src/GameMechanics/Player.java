@@ -9,6 +9,9 @@ import Tiles.Tile;
 
 import java.util.*;
 
+//TODO finish javadocs
+//TODO dispose of redundant methods
+
 /**
  * Holds the information unique to each player.
  */
@@ -19,8 +22,6 @@ public class Player {
     private boolean madeFalseAccusation = false;
 
     private String username;
-    //TODO implement constructor to bring in the username field from the gui
-
     private final List<Card> hand;
     private final Board board;
 

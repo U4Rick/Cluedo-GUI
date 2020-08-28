@@ -6,6 +6,8 @@ import Tiles.Tile;
 import java.util.HashMap;
 import java.util.Objects;
 
+//TODO javadoc
+
 public class Node implements Comparable<Node> {
 
     private Tile tile;
