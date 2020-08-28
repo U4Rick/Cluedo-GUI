@@ -1,12 +1,16 @@
 package GameMechanics;
 
 import Cards.Card;
+import Cards.RoomCard;
+import Cards.WeaponCard;
+import Tiles.EntranceTile;
 import Tiles.Position;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class GUI {
 
@@ -165,20 +169,8 @@ public abstract class GUI {
         });
         dice.setPreferredSize(new Dimension(80,30));
 
-
-
         boardPanel.setLayout(new GridBagLayout());
         GridBagConstraints boardInsets = new GridBagConstraints();
-
-        //Following insets should offset the edges of the boards image that aren't in the grid
-        Insets left = new Insets(0,33,0,0);
-        Insets right = new Insets(0,0,0,39);
-        Insets top = new Insets(18,0,0,0);
-        Insets bottom = new Insets(0,0,30,0);
-        Insets topLeft = new Insets(18,33,0,0);
-        Insets bottomLeft = new Insets(0,33,30,0);
-        Insets topRight = new Insets(18,0,0,39);
-        Insets bottomRight = new Insets(0,0,30,39);
 
         boardInsets.insets = new Insets(255, 235, 215, 215);
         boardPanel.add(dice, boardInsets);
@@ -248,15 +240,11 @@ public abstract class GUI {
         constraints.insets = new Insets(10, 10, 40, 10);
         componentPanel.add(accuseButton, constraints);
 
-
-        //JPanel cardPanel = new JPanel();
-
         setupCardPanel();
 
         infoPanel.setLayout(new BorderLayout());
         infoPanel.add(componentPanel, BorderLayout.LINE_START);
         infoPanel.add(cardPanel, BorderLayout.CENTER);
-
 
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, infoPanel);
         mainPane.setEnabled(false);
@@ -279,6 +267,8 @@ public abstract class GUI {
                             infoPanel.add(cardPanel, BorderLayout.CENTER);
                             characterNameLabel.setText(currentPlayer.getCharacter().toString());
                             userNameLabel.setText(currentPlayer.getUsername());
+                            accuseButton.setEnabled(false);
+                            suggestButton.setEnabled(false);
 
                         }
                         redraw();
@@ -290,24 +280,16 @@ public abstract class GUI {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
+            public void mousePressed(MouseEvent e) { }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) { }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
+            public void mouseEntered(MouseEvent e) { }
 
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+            public void mouseExited(MouseEvent e) { }
         });
 
 
@@ -370,12 +352,34 @@ public abstract class GUI {
     }
 
     private void buildSuggestWindow() {
-        //TODO combobox of rooms (cannot be interracted with)
-        //TODO combobox of characters in play
-        //TODO combobox of weapons.
-        //TODO go button
-        //TODO cancel button (consider as making no suggestion)
+        EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
+        RoomCard room = new RoomCard(entranceTile.getRoom());
+        String [] roomArray = new String[1];
+        roomArray[0] = room.toString();
+        JComboBox rooms = new JComboBox(roomArray);
+
+
+        ArrayList<Player> players = getPlayers();
+        String[] characterArray = new String[players.size()];
+        for (int i = 0; i < players.size(); i++) { characterArray[i] = players.get(i).getCharacter().toString(); }
+        JComboBox characters = new JComboBox(characterArray);
+
+        String[] weaponArray = getWeapons();
+        JComboBox weapons = new JComboBox(weaponArray);
+
+        JButton cancelButton = new JButton("Cancel");
+        JButton okayButton = new JButton("OK");
+
+        suggestWindow = new JFrame();
+
+        suggestWindow.pack();
+        suggestWindow.setVisible(true);
+
     }
+
+    protected abstract String[] getWeapons();
+
+    protected abstract ArrayList<Player> getPlayers();
 
     private void buildRefuteWindow(Player p) {
         //TODO display cards
