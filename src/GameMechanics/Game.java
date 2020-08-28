@@ -80,6 +80,7 @@ public class Game extends GUI {
         for (Player p : players) {
             if (p.getCharacter().toString().equals(character)) {
                 charac = p.getCharacter();
+                playerTeleport(p, currentPlayer.getTile().position);
                 break;
             }
         }
@@ -105,7 +106,10 @@ public class Game extends GUI {
 
     @Override
     protected ArrayList getPlayers() {
-        return (ArrayList)players;
+        if (players instanceof ArrayList) {
+            return (ArrayList) players;
+        }
+        return null;
     }
 
     @Override
@@ -175,6 +179,42 @@ public class Game extends GUI {
         cards.addAll(setupRoomCards());
 
         dealCards(cards);
+    }
+
+    @Override
+    protected boolean isGameInvalid() {
+        for (Player player : players) {
+            if (player.hasNotMadeFalseAccusation()) {
+                return false;                     //At least one player is still playing
+            }
+        }
+        return true;
+    }
+
+    @Override
+    protected String printPlayersInRooms() {
+        StringBuilder playersInRooms = new StringBuilder();
+        for (Player player : players) {
+            for (RoomEnum room : board.getEntrances().keySet()) {
+                if (board.getEntrances().get(room).contains(player.getTile().position)) {
+                    playersInRooms.append(player.getCharacter().toString()).append(" is in the ").append(new RoomCard(room)).append('\n');
+                    break;
+                }
+            }
+        }
+        return playersInRooms.toString();
+    }
+
+    private String playerTeleport(Player player, Position position) {
+        System.out.print("\n");
+        if (player.getTile() != board.getTileAt(position)) {
+            player.getTile().setPlayerOnThisTile(null);
+            player.setTile(board.getTileAt(position));
+            return (player.toString() + " moved to suggested room.");
+        }
+        else {
+            return (player.toString() + " is already in the room.");
+        }
     }
 
     /**
@@ -361,7 +401,7 @@ public class Game extends GUI {
      *  Checks if player wants to make a suggestion and/or accusation,
      *  and runs relevant methods to those choices.
      */
-    private void playerHypothesis() {
+   /* private void playerHypothesis() {
         Scanner scan = new Scanner(System.in);
 
         //Check if player wants to make a suggestion.
@@ -387,7 +427,7 @@ public class Game extends GUI {
         }
 
         System.out.println("No action selected.");
-    }
+    }*/
 
     //////////////////////////
     // GAME OVER
@@ -398,24 +438,9 @@ public class Game extends GUI {
      *
      * @return True if game over, otherwise false.
      */
-    private boolean isGameOver() {
+    /*private boolean isGameOver() {
         return playerHasWon || isGameInvalid();
-    }
-
-    /**
-     * Checks if all players have made a false accusation.
-     *
-     * @return True if all players have lost, otherwise false.
-     */
-    private boolean isGameInvalid() {
-        for (Player player : players) {
-            if (player.hasNotMadeFalseAccusation()) {
-                return false;                     //At least one player is still playing
-            }
-        }
-        System.out.println("The murderer got away with it! Everybody loses!");
-        return true;
-    }
+    }*/
 
 
 
@@ -435,20 +460,7 @@ public class Game extends GUI {
         currentPlayer.displayHand();
     }
 
-    /**
-     * Prints an informative line for each player who is in a room.
-     */
-    private void printPlayersInRooms() {
-        for (Player player : players) {
-            for (RoomEnum room : board.getEntrances().keySet()) {
-                if (board.getEntrances().get(room).contains(player.getTile().position)) {
-                    System.out.println(player.getCharacter().toString() + " is in the " + new RoomCard(room));
-                    break;
-                }
-            }
-        }
-        System.out.println();
-    }
+
 
     /**
      * Run the game.
