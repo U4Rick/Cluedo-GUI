@@ -86,7 +86,7 @@ public class Move {
      * @param endY   Ending y position
      * @return true if valid move, false if invalid move.
      */
-    public Boolean isValidMovement(int startX, int startY, int endX, int endY) {
+    public String isValidMovement(int startX, int startY, int endX, int endY) {
 
         Position startPos = new Position(startX, startY);
         Position endPos = new Position(endX, endY);
@@ -94,27 +94,27 @@ public class Move {
         //if endTile == inaccessible
         if (board.getTileAt(endPos) instanceof InaccessibleTile) {
             System.out.println("Inaccessible Tile");
-            return false;
+            return "Inaccessible Tile";
         }
 
         Tile endTile = board.getTileAt(endPos);
         if ((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)) {
             System.out.println("Tile already has player on it");
-            return false;//else if endPos already has player && endPos is not entranceTile
+            return "Tile already has player on it";//else if endPos already has player && endPos is not entranceTile
         }
 
         if (Math.abs((startX - endX) + (startY - endY)) > this.movementRange) {
             System.out.println("You can not move that far!");
-            return false;
+            return "You can not move that far!";
         }
 
         if (!pathfinding(board, startPos, endPos)) {
             System.out.println("No valid path to that tile, try again.");
-            return false;
+            return "No valid path to that tile, try again.";
         }
 
         hasMadeValidMove = true;
-        return true;
+        return "";
     }
 
     /**
@@ -223,7 +223,7 @@ public class Move {
         Tile endTile = board.getTileAt(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
-        if (isValidMovement(playerX, playerY, x, y)) {
+        if (isValidMovement(playerX, playerY, x, y).equals("")) {
             currentPlayer.setTile(endTile);
             endTile.setPlayerOnThisTile(currentPlayer);
             startTile.setPlayerOnThisTile(null);
