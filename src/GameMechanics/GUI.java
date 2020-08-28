@@ -274,7 +274,9 @@ public abstract class GUI {
                             updateCurrentPlayer();
                             dice.setEnabled(true);
                             playerUpdate();
+                            infoPanel.remove(cardPanel);
                             setupCardPanel();
+                            infoPanel.add(cardPanel, BorderLayout.CENTER);
                             characterNameLabel.setText(currentPlayer.getCharacter().toString());
                             userNameLabel.setText(currentPlayer.getUsername());
 
