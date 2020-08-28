@@ -133,39 +133,39 @@ public class Move {
 
         for (int y = 0; y < tiles.length; y++) {
             for (int x = 0; x < tiles[0].length; x++) {
-                if (!(tiles[y][x] instanceof InaccessibleTile)) {
+                if (!(tiles[y][x] instanceof InaccessibleTile)) {       //collects all accessible tiles of board
                     Node node;
                     if (tiles[y][x].getPosition().equals(start)) {
                         node = new Node(tiles[y][x], 0);
                     } else {
-                        node = new Node(tiles[y][x], 999);
+                        node = new Node(tiles[y][x], 999);  //initialise distances from root
                     }
                     fringe.offer(node);
-                    pathing.put(tiles[y][x].getPosition(), node);
+                    pathing.put(tiles[y][x].getPosition(), node);   //populate fringe and node map
                 }
             }
         }
 
-        while (!fringe.isEmpty()) {
+        while (!fringe.isEmpty()) { //until no valid paths
 
             if (fringe.peek().getDistance() >= 12) {
-                fringe.removeIf(node -> node.getDistance() > 12);
+                fringe.removeIf(node -> node.getDistance() > 12);   //bad logic work around
             }
 
             if (fringe.peek() !=  null) {
                 Node node = fringe.poll();
-                visited.add(node);
+                visited.add(node);  //visit nearest fringe tile
 
                 if (node.getTile().getPosition().equals(goal)) {
                     ArrayList<Node> temp = new ArrayList<>();
                     for (Node node1 : visited) {
-                        if (node1.getDistance() >= 999) {
+                        if (node1.getDistance() >= 999) {   //collects the path at the end
                             temp.add(node1);
                         }
                     }
                     visited.removeAll(temp);    //todo all of this chunk is for debugging/tracking the path. Might use later?
 
-                    return node.getDistance() <= movementRange;
+                    return node.getDistance() <= movementRange; //check if reached end correctly
                 }
 
                 Node[] neigh = getNeighbours(node, pathing);
@@ -175,7 +175,7 @@ public class Move {
                     if (child == null || visited.contains(child)) continue;
 
                     child.setDistance(node.getDistance() + 1);
-                    fringe.offer(child);
+                    fringe.offer(child);    //adds neighbouring tiles to fringe if possible path
                 }
             }
         }
@@ -223,7 +223,7 @@ public class Move {
         Tile endTile = board.getTileAt(endPos);    //tile to move to
         int playerX = currentPlayer.getTile().position.getX();    //current X
         int playerY = currentPlayer.getTile().position.getY();    //current Y
-        if (isValidMovement(playerX, playerY, x, y) /*&& (pathfinding(board, startPos, endPos))*/) {
+        if (isValidMovement(playerX, playerY, x, y)) {
             currentPlayer.setTile(endTile);
             endTile.setPlayerOnThisTile(currentPlayer);
             startTile.setPlayerOnThisTile(null);
