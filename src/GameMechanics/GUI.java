@@ -371,6 +371,32 @@ public abstract class GUI {
         JButton okayButton = new JButton("OK");
 
         suggestWindow = new JFrame();
+        suggestWindow.setTitle("Make a suggestion.");
+        suggestWindow.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        //add room combobox
+        constraints.gridy = 0;
+        constraints.gridx = 0;
+        suggestWindow.add(rooms, constraints);
+
+        //add characters combobox
+        constraints.gridy++;
+        suggestWindow.add(characters, constraints);
+
+        //add weapons combobox
+        constraints.gridy++;
+        suggestWindow.add(weapons, constraints);
+
+        //add cancel button
+        constraints.gridy++;
+        constraints.gridx++;
+        suggestWindow.add(cancelButton, constraints);
+
+        //add ok button
+        constraints.gridx++;
+        suggestWindow.add(okayButton, constraints);
+
 
         suggestWindow.pack();
         suggestWindow.setVisible(true);
