@@ -163,7 +163,7 @@ public abstract class GUI {
                 //TODO find an appropriate place to re-enable dice for next player
             }
         });
-        dice.setPreferredSize(new Dimension(50,30));
+        dice.setPreferredSize(new Dimension(80,30));
 
 
 
