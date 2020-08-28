@@ -37,7 +37,7 @@ public class Board {
                 "|dr|dr|dr|dr|dr|__|__|__|__|__|__|__|__|__|__|__|__|__|BL|bl|bl|bl|bl|bl|\n" +
                 "|dr|dr|dr|dr|dr|dr|dr|dr|__|__|~~|~~|~~|~~|~~|__|__|__|bl|bl|bl|bl|bl|bl|\n" +
                 "|dr|dr|dr|dr|dr|dr|dr|dr|__|__|~~|~~|~~|~~|~~|__|__|__|bl|bl|bl|bl|bl|bl|\n" +
-                "|dr|dr|dr|dr|dr|dr|dr|DR|__|__|~~|~~|~~|~~|~~|__|__|__|bl|bl|bl|bl|bl|bl|\n" +
+                "|dr|dr|dr|dr|dr|dr|dr|DR|__|__|~~|~~|~~|~~|~~|__|__|__|bl|bl|bl|bl|BL|bl|\n" +
                 "|dr|dr|dr|dr|dr|dr|dr|dr|__|__|~~|~~|~~|~~|~~|__|__|__|__|__|__|__|__|~~|\n" +
                 "|dr|dr|dr|dr|dr|dr|dr|dr|__|__|~~|~~|~~|~~|~~|__|__|__|lb|lb|LB|lb|lb|~~|\n" +
                 "|dr|dr|dr|dr|dr|dr|DR|dr|__|__|~~|~~|~~|~~|~~|__|__|lb|lb|lb|lb|lb|lb|lb|\n" +
