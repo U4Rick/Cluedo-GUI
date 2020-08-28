@@ -429,6 +429,8 @@ public abstract class GUI {
             for (Sprite s : getPlayerIcons()) {
                 g.drawImage(s.getIcon(), (int)(s.getPos().getX() * cellSize) + left, (int)(s.getPos().getY()* cellSize) + top, null);
             }
+            Sprite activePlayer = currentPlayer.getPlayerIcon();
+            g.drawImage(activePlayer.getActiveIcon(), (int)(activePlayer.getPos().getX() * cellSize) + left, (int)(activePlayer.getPos().getY()* cellSize) + top, null);
         }
 
     }
