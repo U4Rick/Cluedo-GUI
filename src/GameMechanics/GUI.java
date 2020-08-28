@@ -123,10 +123,22 @@ public abstract class GUI {
         playerUpdate();
 
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("hewwo");
-        //TODO Start menu button
+        JMenu menu = new JMenu("Menu");
         //TODO Rules menu
         menuBar.add(menu);
+
+        JMenuItem menuItem = new JMenuItem("A text-only menu item");
+        menu.add(menuItem);
+        menu.addSeparator();
+
+        JMenu submenu = new JMenu("Rules");
+        menuItem = new JMenuItem("Don't do drugs");
+        submenu.add(menuItem);
+        menuItem = new JMenuItem("Wear clothes when in public");
+        submenu.add(menuItem);
+
+        menu.add(submenu);
+
 
 
         JPanel logPanel = new JPanel();
@@ -496,6 +508,7 @@ public abstract class GUI {
             g.drawImage(img, 0, 0, null);
             for (Sprite s : getPlayerIcons()) {
                 g.drawImage(s.getIcon(), (int)(s.getPos().getX() * cellSize) + left, (int)(s.getPos().getY()* cellSize) + top, null);
+
             }
             Sprite activePlayer = currentPlayer.getPlayerIcon();
             g.drawImage(activePlayer.getActiveIcon(), (int)(activePlayer.getPos().getX() * cellSize) + left, (int)(activePlayer.getPos().getY()* cellSize) + top, null);
