@@ -2,7 +2,6 @@ package GameMechanics;
 
 import Cards.Card;
 import Cards.RoomCard;
-import Cards.WeaponCard;
 import GameMechanics.Action.Hypothesis;
 import Tiles.EntranceTile;
 import Tiles.Position;
@@ -11,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public abstract class GUI {
 
@@ -28,9 +26,12 @@ public abstract class GUI {
     Player currentPlayer;
     private JPanel cardPanel;
     private boolean checkBool;
-    private ButtonModel selectedCard;
+    private JRadioButton selectedCard;
     JButton suggestButton;
+    JButton accuseButton;
     JEditorPane log;
+    boolean currentPlayerMoveEnded = false;
+    ArrayList<Hypothesis> unrefutedSuggestions = new ArrayList<>();
 
 
     public GUI() {
@@ -57,7 +58,6 @@ public abstract class GUI {
                 for (JRadioButton charac : characters) {
                     if (charac.isSelected()) {
                         count++;
-                        //this is just commented out for debugging
                         JOptionPane option = new JOptionPane();
                         option.setOptionType(JOptionPane.DEFAULT_OPTION);
                         String username;
@@ -81,8 +81,7 @@ public abstract class GUI {
                     setupCardsAndGame();
                     buildGameBoard();
                 } else {
-                    JOptionPane option = new JOptionPane();
-                    option.setOptionType(JOptionPane.DEFAULT_OPTION);
+                    JOptionPane option = new JOptionPane(JOptionPane.DEFAULT_OPTION);
                     option.setMessage("You must have 3 or more players!");
                     JDialog dialog = option.createDialog("Not enough players.");
                     dialog.pack();
@@ -124,7 +123,7 @@ public abstract class GUI {
 
 
     private void buildGameBoard() {
-        playerUpdate();
+        currentPlayer = getCurrentPlayer();
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Menu");
@@ -151,11 +150,13 @@ public abstract class GUI {
         log = new JEditorPane();
         log.setPreferredSize(new Dimension(290,450));
         log.setEditable(false);
-        log.setText("wah wah wah \nhewwo");
+        log.setText("Text log begins here.");
         logPanel.add(log, BorderLayout.PAGE_START);
+        appendToLog(currentPlayer.getCharacter().toString() + " begins their turn.", log);
+
 
         JTextField chatBox = new JTextField();
-        chatBox.setText("Hewwo");
+        chatBox.setText("");
         logPanel.add(chatBox, BorderLayout.CENTER);
 
         JButton okButton = new JButton("OK!");
@@ -175,12 +176,18 @@ public abstract class GUI {
 
         Panel boardPanel = new Panel(new ImageIcon("./assets/cluedo_board.jpg").getImage());
 
+        JButton nextButton = new JButton("Next!");
+        nextButton.setEnabled(false);
+
+
         JButton dice = new JButton("Roll");
         dice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 appendToLog(rollDice(), log);
-                dice.setEnabled(false); }
+                dice.setEnabled(false);
+                nextButton.setEnabled(true);
+            }
         });
         dice.setPreferredSize(new Dimension(80,30));
 
@@ -214,22 +221,45 @@ public abstract class GUI {
             }
         });
 
-        JButton accuseButton = new JButton("Accuse!");
+        accuseButton = new JButton("Accuse!");
         accuseButton.setEnabled(false);
         accuseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO if statement for if no preexisting suggestions, dialog pops up instead
-                buildAccuseWindow();
+                if (unrefutedSuggestions.size() == 0) {
+                    JOptionPane option = new JOptionPane();
+                    option.setOptionType(JOptionPane.DEFAULT_OPTION);
+                    option.setMessage("There are no suggestions to accuse based on!");
+                    JDialog dialog = option.createDialog("");
+                    dialog.pack();
+                    dialog.setVisible(true);
+                    if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
+                        dialog.setVisible(false);
+                        accuseButton.setEnabled(false);
+                    }
+                }
+                else {
+                    buildAccuseWindow();
+                }
             }
         });
 
-        JButton nextButton = new JButton("Next!");
-        nextButton.setEnabled(false);
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dice.setEnabled(true);
+                playerUpdate();
+                infoPanel.remove(cardPanel);
+                setupCardPanel();
+                infoPanel.add(cardPanel, BorderLayout.CENTER);
+                characterNameLabel.setText(currentPlayer.getCharacter().toString());
+                userNameLabel.setText(currentPlayer.getUsername());
+                accuseButton.setEnabled(false);
+                suggestButton.setEnabled(false);
+                nextButton.setEnabled(false);
+                appendToLog(currentPlayer.getCharacter().toString() + " begins their turn.", log);
+                currentPlayerMoveEnded = false;
+                redraw();
             }
         });
 
@@ -239,21 +269,25 @@ public abstract class GUI {
         //add username
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.insets = new Insets(10, 10, 0, 10);
+        constraints.insets = new Insets(8, 10, 0, 10);
         componentPanel.add(userNameLabel, constraints);
 
         //add character
-        constraints.gridy = 1;
+        constraints.gridy++;
         componentPanel.add(characterNameLabel, constraints);
 
         //add suggest
-        constraints.gridy = 2;
+        constraints.gridy++;
         componentPanel.add(suggestButton, constraints);
 
         //add accuse
-        constraints.gridy = 3;
-        constraints.insets = new Insets(10, 10, 40, 10);
+        constraints.gridy++;
         componentPanel.add(accuseButton, constraints);
+
+        //add next
+        constraints.gridy++;
+        constraints.insets = new Insets(8, 10, 20, 10);
+        componentPanel.add(nextButton, constraints);
 
         setupCardPanel();
 
@@ -267,26 +301,15 @@ public abstract class GUI {
         boardPanel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(!dice.isEnabled()) {
+                if(!dice.isEnabled() && !currentPlayerMoveEnded) {
                     if (processPlayerTurn(getPositionAtClick(e.getX(), e.getY()))) {
-                        if (currentPlayer.isInRoom()) {
+                        if (currentPlayer.isInRoom() && currentPlayer.canHypothesise()) {
                             accuseButton.setEnabled(true);
                             suggestButton.setEnabled(true);
                         }
-                        else {
-                            updateCurrentPlayer();
-                            dice.setEnabled(true);
-                            playerUpdate();
-                            infoPanel.remove(cardPanel);
-                            setupCardPanel();
-                            infoPanel.add(cardPanel, BorderLayout.CENTER);
-                            characterNameLabel.setText(currentPlayer.getCharacter().toString());
-                            userNameLabel.setText(currentPlayer.getUsername());
-                            accuseButton.setEnabled(false);
-                            suggestButton.setEnabled(false);
-
-                        }
+                        nextButton.setEnabled(true);
                         redraw();
+                        currentPlayerMoveEnded = true;
                     }
                     else {
 
@@ -352,10 +375,6 @@ public abstract class GUI {
         }
     }
 
-    protected abstract void updateCurrentPlayer();
-
-    protected abstract boolean processPlayerTurn(Position cellToMoveTO);
-
 
     private void appendToLog(String s, JEditorPane log) {
         log.setText(log.getText() + "\n" + s);
@@ -363,8 +382,93 @@ public abstract class GUI {
 
 
     private void buildAccuseWindow() {
-        //TODO list of suggestions
+
+        DefaultListModel<String> accuseModel = new DefaultListModel<>();
+        JList<? extends String>  accusationsList = new JList<>(accuseModel);
+        ArrayList<String> stringUnrefutedAccusations = new ArrayList<>();
+        for (Hypothesis h : unrefutedSuggestions) {
+            stringUnrefutedAccusations.add(h.toString());
+        }
+        accuseModel.addAll(stringUnrefutedAccusations);
+        accusationsList.setPreferredSize(new Dimension(200, 400));
+
+
+        JButton okButton = new JButton("OK!");
+        okButton.setPreferredSize(new Dimension(80, 40));
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (accusationsList.getSelectedIndex() >= 0) {
+                    if (compareToSolution(unrefutedSuggestions.get(accusationsList.getSelectedIndex()))) {
+                        JOptionPane option = new JOptionPane();
+                        option.setOptionType(JOptionPane.DEFAULT_OPTION);
+                        option.setMessage(currentPlayer.getCharacter().toString() + " figured out the murder circumstances and won the game! \nWindow will now close.");
+                        JDialog dialog = option.createDialog("Game Over!");
+                        dialog.pack();
+                        dialog.setVisible(true);
+                        if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
+                            dialog.setVisible(false);
+                            System.exit(0);
+                        }
+                    }
+                    else {
+                        currentPlayer.madeFalseAccusation();
+                        boolean playerRemaining = false;
+                        for (Player p : getPlayers()) {
+                            if (p.hasNotMadeFalseAccusation()) {
+                                playerRemaining = true;
+                                break;
+                            }
+                        }
+                        JOptionPane option = new JOptionPane();
+                        option.setOptionType(JOptionPane.DEFAULT_OPTION);
+                        if (!playerRemaining) {
+                            option.setMessage("Everyone made a false accusation! The murderer got away with it! \nGame Over!\nThe window will now close.");
+                            JDialog dialog = option.createDialog("Game Over");
+                            dialog.pack();
+                            dialog.setVisible(true);
+                            if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
+                                dialog.setVisible(false);
+                                System.exit(0);
+                            }
+                        }
+                        else {
+                            option.setMessage(currentPlayer.getCharacter().toString() + " made a false accusation, they can no longer accuse or suggest!");
+                            JDialog dialog = option.createDialog("False Accusation!");
+                            dialog.pack();
+                            dialog.setVisible(true);
+                            if ((Integer) option.getValue() == JOptionPane.OK_OPTION) {
+                                dialog.setVisible(false);
+                                accuseWindow.setVisible(false);
+                                accuseButton.setEnabled(false);
+                                suggestButton.setEnabled(false);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        accuseWindow = new JFrame();
+        accuseWindow.setTitle("Pick a suggestion to accuse based upon");
+        accuseWindow.setLayout(new BorderLayout());
+        accuseWindow.add(accusationsList, BorderLayout.CENTER);
+        accuseWindow.add(okButton, BorderLayout.PAGE_END);
+
+        accuseWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                accuseButton.setEnabled(false);
+                super.windowClosed(e);
+            }
+        });
+
+        accuseWindow.pack();
+        accuseWindow.setLocationRelativeTo(null);
+        accuseWindow.setVisible(true);
     }
+
+    protected abstract boolean compareToSolution(Hypothesis s);
 
     private void buildSuggestWindow() {
         EntranceTile entranceTile = (EntranceTile) currentPlayer.getTile();
@@ -413,13 +517,12 @@ public abstract class GUI {
                     }
                     buildRefuteWindow(players.get(index), suggestion);
                     if (checkBool) {
-                        appendToLog(players.get(i).getCharacter().toString() + " refuted with " + selectedCard.toString(), log);
+                        appendToLog(players.get(index).getCharacter().toString() + " refuted with " + selectedCard.getText(), log);
                         break;
                     }
                 }
                 if (!checkBool) {
-                    //add to JList
-
+                    unrefutedSuggestions.add(suggestion);
                 }
                 else {
                     checkBool = false;
@@ -463,12 +566,6 @@ public abstract class GUI {
         suggestWindow.setVisible(true);
 
     }
-
-    protected abstract Hypothesis playerSuggest(RoomCard room, String selectedItem, String selectedItem1);
-
-    protected abstract String[] getWeapons();
-
-    protected abstract ArrayList<Player> getPlayers();
 
     private boolean buildRefuteWindow(Player p, Hypothesis suggestion) {
         JPanel refuteCardPanel = new JPanel();
@@ -516,7 +613,12 @@ public abstract class GUI {
                 refuteWindow.setVisible(false);
                 if (choices.getButtonCount() > 0) {
                     checkBool = true;
-                    selectedCard = choices.getSelection();
+                    for (JRadioButton j : radioButtons) {
+                        if (j.isSelected()) {
+                            selectedCard = j;
+                            break;
+                        }
+                    }
                 }
             }
         });
@@ -525,16 +627,33 @@ public abstract class GUI {
         GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.gridy = 0;
-        int x = -1;
+        constraints.gridx = 1;
         JRadioButton last = null;
-        for (JRadioButton j : radioButtons) {
-            constraints.gridx = x++;
-            optionPanel.add(j, constraints);
-            last = j;
+        switch (radioButtons.size()) {
+            case 3:
+                optionPanel.add(radioButtons.get(0), constraints);
+                constraints.gridx = 2;
+                optionPanel.add(radioButtons.get(1), constraints);
+                constraints.gridx = 3;
+                optionPanel.add(radioButtons.get(2), constraints);
+                last = radioButtons.get(2);
+                constraints.gridx = 2;
+                break;
+            case 2:
+                optionPanel.add(radioButtons.get(0), constraints);
+                constraints.gridx = 3;
+                optionPanel.add(radioButtons.get(1), constraints);
+                last = radioButtons.get(1);
+                constraints.gridx = 2;
+                break;
+            case 1:
+                optionPanel.add(radioButtons.get(0), constraints);
+                last = radioButtons.get(0);
+                break;
         }
         if (last != null) { last.setSelected(true); }
 
-        constraints.gridx = 0;
+
         constraints.gridy++;
         optionPanel.add(info, constraints);
 
@@ -544,6 +663,7 @@ public abstract class GUI {
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, refuteCardPanel, optionPanel);
 
         refuteWindow = new Frame();
+        refuteWindow.setTitle(p.getCharacter().toString());
         JPanel window = new JPanel();
         window.add(mainPane);
         refuteWindow.add(window);
@@ -566,7 +686,10 @@ public abstract class GUI {
         gameWindow.repaint();
     }
 
-    public void playerUpdate() { currentPlayer = getCurrentPlayer(); }
+    public void playerUpdate() {
+        updateCurrentPlayer();
+        currentPlayer = getCurrentPlayer();
+    }
 
 
     protected abstract Player getCurrentPlayer();
@@ -576,6 +699,16 @@ public abstract class GUI {
     protected abstract String rollDice();
 
     protected abstract ArrayList<Sprite> getPlayerIcons();
+
+    protected abstract void updateCurrentPlayer();
+
+    protected abstract boolean processPlayerTurn(Position cellToMoveTO);
+
+    protected abstract Hypothesis playerSuggest(RoomCard room, String selectedItem, String selectedItem1);
+
+    protected abstract String[] getWeapons();
+
+    protected abstract ArrayList<Player> getPlayers();
 
 
     private class Frame extends JDialog {

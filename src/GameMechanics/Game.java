@@ -34,7 +34,7 @@ public class Game extends GUI {
     private Board board;
     private List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
-    private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
+    //private final List<Hypothesis> unrefutedSuggestions = new ArrayList<>();
     private final List<Sprite> playerIcons = new ArrayList<>();
 
     /**
@@ -51,6 +51,11 @@ public class Game extends GUI {
         board = new Board();
         numPlayers = 0;
         players = new ArrayList<>();
+    }
+
+    @Override
+    protected boolean compareToSolution(Hypothesis s) {
+        return s == solution;
     }
 
     @Override
