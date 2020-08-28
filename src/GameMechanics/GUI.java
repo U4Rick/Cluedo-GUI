@@ -3,6 +3,7 @@ package GameMechanics;
 import Cards.Card;
 import Cards.RoomCard;
 import Cards.WeaponCard;
+import GameMechanics.Action.Hypothesis;
 import Tiles.EntranceTile;
 import Tiles.Position;
 
@@ -163,9 +164,7 @@ public abstract class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 appendToLog(rollDice(), log);
-                dice.setEnabled(false);
-                //TODO find an appropriate place to re-enable dice for next player
-            }
+                dice.setEnabled(false); }
         });
         dice.setPreferredSize(new Dimension(80,30));
 
@@ -368,9 +367,44 @@ public abstract class GUI {
         JComboBox weapons = new JComboBox(weaponArray);
 
         JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane option = new JOptionPane();
+                option.setOptionType(JOptionPane.YES_NO_OPTION);
+                option.setMessage("You won't be able to suggest again if you close this.");
+                JDialog dialog = option.createDialog("Are you sure?");
+                dialog.pack();
+                dialog.setVisible(true);
+                if ((Integer) option.getValue() == JOptionPane.YES_OPTION) {
+                    dialog.setVisible(false);
+                    suggestWindow.setVisible(false);
+                }
+            }
+        });
         JButton okayButton = new JButton("OK");
+        okayButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Hypothesis suggestion = playerSuggest(room, (String)characters.getSelectedItem(), (String)weapons.getSelectedItem());
+                int index = players.indexOf(currentPlayer);
+                for (int i = 0; i < players.size() - 1; i++) {
+                    //Roll over to index 0
+                    if (index == players.size() - 1) {
+                        index = 0;
+                    } else {
+                        index++;
+                    }
+                    if (buildRefuteWindow(players.get(index))) {
+
+                        break;
+                    }
+                }
+            }
+        });
 
         suggestWindow = new JFrame();
+        suggestWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         suggestWindow.setTitle("Make a suggestion.");
         suggestWindow.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -399,19 +433,23 @@ public abstract class GUI {
 
 
         suggestWindow.pack();
+        suggestWindow.setLocationRelativeTo(null);
         suggestWindow.setVisible(true);
 
     }
+
+    protected abstract Hypothesis playerSuggest(RoomCard room, String selectedItem, String selectedItem1);
 
     protected abstract String[] getWeapons();
 
     protected abstract ArrayList<Player> getPlayers();
 
-    private void buildRefuteWindow(Player p) {
+    private boolean buildRefuteWindow(Player p) {
         //TODO display cards
         //TODO combobox with options (may be empty)
         //TODO label with refute possibilities (no refute, one refute, pick a refute)
         //TODO go button
+        return false;
     }
 
     private Position getPositionAtClick(int x, int y) {

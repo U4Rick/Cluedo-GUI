@@ -70,6 +70,28 @@ public class Game extends GUI {
     }
 
     @Override
+    protected Hypothesis playerSuggest(RoomCard room, String character, String weapon) {
+        CharacterCard charac = null;
+        for (Player p : players) {
+            if (p.getCharacter().toString().equals(character)) {
+                charac = p.getCharacter();
+                break;
+            }
+        }
+        WeaponCard weaponCard = null;
+        for (WeaponCard w : allWeapons) {
+            if (w.toString().equals(weapon)) {
+                weaponCard = w;
+                break;
+            }
+        }
+        if (charac == null || weaponCard == null) {
+            throw new InputMismatchException();
+        }
+        return new Hypothesis(charac, weaponCard, room);
+    }
+
+    @Override
     protected String[] getWeapons() {
         String[] weapons = new String[allWeapons.size()];
         for (int i = 0; i < allWeapons.size(); i++) { weapons[i] = allWeapons.get(i).toString(); }
