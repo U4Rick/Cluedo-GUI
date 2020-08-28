@@ -170,16 +170,6 @@ public abstract class GUI {
         boardPanel.setLayout(new GridBagLayout());
         GridBagConstraints boardInsets = new GridBagConstraints();
 
-        //Following insets should offset the edges of the boards image that aren't in the grid
-        Insets left = new Insets(0,33,0,0);
-        Insets right = new Insets(0,0,0,39);
-        Insets top = new Insets(18,0,0,0);
-        Insets bottom = new Insets(0,0,30,0);
-        Insets topLeft = new Insets(18,33,0,0);
-        Insets bottomLeft = new Insets(0,33,30,0);
-        Insets topRight = new Insets(18,0,0,39);
-        Insets bottomRight = new Insets(0,0,30,39);
-
         boardInsets.insets = new Insets(255, 235, 215, 215);
         boardPanel.add(dice, boardInsets);
 
