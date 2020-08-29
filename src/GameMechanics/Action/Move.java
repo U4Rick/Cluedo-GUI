@@ -1,5 +1,6 @@
 package GameMechanics.Action;
 
+import Cards.RoomCard;
 import GameMechanics.Board;
 import GameMechanics.Node;
 import GameMechanics.Player;
@@ -24,7 +25,8 @@ public class Move {
 
     /**
      * Initialise a new move instance.
-     *  @param currentPlayer Player that's moving
+     *
+     * @param currentPlayer Player that's moving
      * @param board         Board to move around on
      * @param currentRoll
      */
@@ -69,7 +71,6 @@ public class Move {
             }
         }
     }*/
-
     public String playerMovement(Position cellToMoveTo) {
         if (cellToMoveTo.getY() < 25 && cellToMoveTo.getY() >= 0 && cellToMoveTo.getX() < 24 && cellToMoveTo.getX() >= 0) {
             move(cellToMoveTo.getX(), cellToMoveTo.getY()); //check if requested tile is within board bounds
@@ -94,15 +95,16 @@ public class Move {
 
         //if endTile == inaccessible
         if (board.getTileAt(endPos) instanceof InaccessibleTile) {
-            System.out.println("Inaccessible Tile");
+            movementOutcome  = ("Inaccessible Tile");
             return "Inaccessible Tile";
         }
-
+        Tile startTile = board.getTileAt(startPos);
         Tile endTile = board.getTileAt(endPos);
         if ((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)) {
-           movementOutcome = ("Tile already has player on it");
+            movementOutcome = ("Tile already has player on it");
             return "Tile already has player on it";//else if endPos already has player && endPos is not entranceTile
         }
+
 
         if (Math.abs((startX - endX) + (startY - endY)) > this.movementRange) {
             movementOutcome = ("You can not move that far!");
@@ -134,7 +136,7 @@ public class Move {
 
         for (int y = 0; y < tiles.length; y++) {
             for (int x = 0; x < tiles[0].length; x++) {
-                if (!(tiles[y][x] instanceof InaccessibleTile)) {       //collects all accessible tiles of board
+                if (!(tiles[y][x] instanceof InaccessibleTile) || (tiles[y][x] instanceof RoomTile)) {       //collects all accessible tiles of board
                     Node node;
                     if (tiles[y][x].getPosition().equals(start)) {
                         node = new Node(tiles[y][x], 0);
@@ -153,7 +155,7 @@ public class Move {
                 fringe.removeIf(node -> node.getDistance() > 12);   //bad logic work around
             }
 
-            if (fringe.peek() !=  null) {
+            if (fringe.peek() != null) {
                 Node node = fringe.poll();
                 visited.add(node);  //visit nearest fringe tile
 
@@ -185,7 +187,8 @@ public class Move {
 
     /**
      * Gets the neighbouring nodes of the current node
-     * @param node  the  current node
+     *
+     * @param node    the  current node
      * @param pathing map of nodes and their positions on the board
      * @return the neighbouring nodes
      */
@@ -222,15 +225,26 @@ public class Move {
         Position endPos = new Position(x, y); // position to move to
 
         Tile endTile = board.getTileAt(endPos);    //tile to move to
-        int playerX = currentPlayer.getTile().position.getX();    //current X
-        int playerY = currentPlayer.getTile().position.getY();    //current Y
-        if (isValidMovement(playerX, playerY, x, y).equals("")) {
-            currentPlayer.setTile(endTile);
-            endTile.setPlayerOnThisTile(currentPlayer);
-            startTile.setPlayerOnThisTile(null);
+        Map<RoomCard.RoomEnum, ArrayList<Position>> roomEntrances = board.getEntrances();
+
+        if (startTile instanceof RoomTile && endTile instanceof EntranceTile) {
+            RoomCard.RoomEnum playerRoom = ((RoomTile) startTile).getRoom();
+            ArrayList<Position> currentRoomEntrances = roomEntrances.get(playerRoom);
+            if (currentRoomEntrances.contains(endPos)) {
+                currentPlayer.setTile(endTile);
+                endTile.setPlayerOnThisTile(currentPlayer);
+                startTile.setPlayerOnThisTile(null);
+            }
+        } else {
+            int playerX = currentPlayer.getTile().position.getX();    //current X
+            int playerY = currentPlayer.getTile().position.getY();    //current Y
+            if (isValidMovement(playerX, playerY, x, y).equals("")) {
+                currentPlayer.setTile(endTile);
+                endTile.setPlayerOnThisTile(currentPlayer);
+                startTile.setPlayerOnThisTile(null);
+            }
         }
     }
-
     /**
      * Rolls two dice and returns the sum of them.
      *

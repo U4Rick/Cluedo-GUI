@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 //TODO comment inner code so it's readable
 
 /**
- *  The GUI for the Cluedo game.
+ * The GUI for the Cluedo game.
  */
 public abstract class GUI {
 
@@ -44,28 +44,28 @@ public abstract class GUI {
 
 
     /**
-     *  Run the first window creation method on initialisation.
+     * Run the first window creation method on initialisation.
      */
     public GUI() {
         buildCharacterSelectWindow();
     }
 
     /**
-     *  Build the initial game setup window.
-     *  Includes a set of JRadioButtons to select characters playing in the game,
-     *  a JLabel informing the user to select characters, and a submit JButton.
-     *  On pressing the submit button, the program pops up a number of InputDialogs
-     *  (equal to the number of characters selected), prompting usernames of the
-     *  players for each character.
-     *  These InputDialogs will not proceed if the input box is empty, avoiding blank
-     *  usernames.
-     *  If the user tries to start the game with less than 3 characters selected,
-     *  a JDialog will appear informing the user that they need 3 or more characters
-     *  to play the game, and take them back to the character selection window.
-     *  The calling of abstract methods to do initial game setup (e.g setUpCardsAndGame())
-     *  is done within this method.
-     *  When the user has provided sufficient information, the buildGameBoard() method is
-     *  called to setup the main game area.
+     * Build the initial game setup window.
+     * Includes a set of JRadioButtons to select characters playing in the game,
+     * a JLabel informing the user to select characters, and a submit JButton.
+     * On pressing the submit button, the program pops up a number of InputDialogs
+     * (equal to the number of characters selected), prompting usernames of the
+     * players for each character.
+     * These InputDialogs will not proceed if the input box is empty, avoiding blank
+     * usernames.
+     * If the user tries to start the game with less than 3 characters selected,
+     * a JDialog will appear informing the user that they need 3 or more characters
+     * to play the game, and take them back to the character selection window.
+     * The calling of abstract methods to do initial game setup (e.g setUpCardsAndGame())
+     * is done within this method.
+     * When the user has provided sufficient information, the buildGameBoard() method is
+     * called to setup the main game area.
      */
     private void buildCharacterSelectWindow() {
 
@@ -144,39 +144,39 @@ public abstract class GUI {
 
 
     /**
-     *  Builds the main game area.
-     *  This method handles all of the outer window calls, and calls most
-     *  of the abstract methods regarding game logic within listeners of
-     *  various kinds.
-     *  The game area is split into 4 sections, using a JSplitPane, split vertically,
-     *  with a JPanel containing two other JPanels on either side.
-     *  - On the top left section of the game area is the game board, a overridden
-     *  JPanel with one JButton. The majority of the work here happens with graphics
-     *  painted directly onto the panel, and a MouseListener that uses a helper method
-     *  to determine the click position to board cell location. The user interacts with
-     *  the board via mouse clicks, in order to move their character.
-     *  - On the top right, there is a panel containing the game log. The log features
-     *  three main components: a JEditorPane (in a JScrollPane), a JTextField, and a
-     *  JButton. The text inputted in the text field is added to the end of the existing
-     *  text in the editorPane when the button is pressed, noted as being sent by the
-     *  user currently playing at that time. The log also features game relevant information,
-     *  such as dice rolls, whose turn it is, and if a move is invalid, which are all
-     *  pulled from Game using abstract methods.
-     *  - On the bottom left is the info/main button control panel. This features two
-     *  JLabels showing the current player's Character name and username. There are
-     *  also three JButtons: One for Suggestions, one for Accusations, and one to
-     *  proceed to the next player's turn. These buttons (along with the dice button
-     *  on the game board) get disabled when it is not appropriate to use them based on
-     *  game conditions. The suggestion button will run the buildSuggestionWindow() method
-     *  on press. The accusations button will run the buildAccusationsWindow() method if
-     *  there are active unrefuted suggestions, otherwise it will display a JDialog
-     *  notifying the player than they cannot make an accusation at this time (and disabling
-     *  the button). The next button runs a chunk of code which setups the game for the next
-     *  player, and proceeds to the next round.
-     *  - On the bottom right, there is the cardPanel, which is a JPanel containing a number
-     *  of ImageIcon JLabels, in order to display the current player's card hand. This panel
-     *  is purely decorative and serves no functional purpose outside of information for the
-     *  player.
+     * Builds the main game area.
+     * This method handles all of the outer window calls, and calls most
+     * of the abstract methods regarding game logic within listeners of
+     * various kinds.
+     * The game area is split into 4 sections, using a JSplitPane, split vertically,
+     * with a JPanel containing two other JPanels on either side.
+     * - On the top left section of the game area is the game board, a overridden
+     * JPanel with one JButton. The majority of the work here happens with graphics
+     * painted directly onto the panel, and a MouseListener that uses a helper method
+     * to determine the click position to board cell location. The user interacts with
+     * the board via mouse clicks, in order to move their character.
+     * - On the top right, there is a panel containing the game log. The log features
+     * three main components: a JEditorPane (in a JScrollPane), a JTextField, and a
+     * JButton. The text inputted in the text field is added to the end of the existing
+     * text in the editorPane when the button is pressed, noted as being sent by the
+     * user currently playing at that time. The log also features game relevant information,
+     * such as dice rolls, whose turn it is, and if a move is invalid, which are all
+     * pulled from Game using abstract methods.
+     * - On the bottom left is the info/main button control panel. This features two
+     * JLabels showing the current player's Character name and username. There are
+     * also three JButtons: One for Suggestions, one for Accusations, and one to
+     * proceed to the next player's turn. These buttons (along with the dice button
+     * on the game board) get disabled when it is not appropriate to use them based on
+     * game conditions. The suggestion button will run the buildSuggestionWindow() method
+     * on press. The accusations button will run the buildAccusationsWindow() method if
+     * there are active unrefuted suggestions, otherwise it will display a JDialog
+     * notifying the player than they cannot make an accusation at this time (and disabling
+     * the button). The next button runs a chunk of code which setups the game for the next
+     * player, and proceeds to the next round.
+     * - On the bottom right, there is the cardPanel, which is a JPanel containing a number
+     * of ImageIcon JLabels, in order to display the current player's card hand. This panel
+     * is purely decorative and serves no functional purpose outside of information for the
+     * player.
      */
     private void buildGameBoard() {
         currentPlayer = getCurrentPlayer();
@@ -301,6 +301,7 @@ public abstract class GUI {
             appendToLog(printPlayersInRooms(), log);
             appendToLog(currentPlayer.getCharacter().toString() + " begins their turn.", log);
             currentPlayerMoveEnded = false;
+            currentPlayer.setMadeClick(false);
             redraw();
         });
 
@@ -340,17 +341,64 @@ public abstract class GUI {
         mainPane.setEnabled(false);
 
         boardPanel.addMouseListener(new MouseListener() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!dice.isEnabled() && !currentPlayerMoveEnded) {
+                    Tile currTile = currentPlayer.getTile();
                     String outcome = processPlayerTurn(getPositionAtClick(e.getX(), e.getY()));
                     if (outcome.equals("")) {
-                        if (currentPlayer.isInRoom()) {
+                        if (currentPlayer.isInRoom() && ((!(currTile instanceof RoomTile)))) {
                             placePlayerInRoom(currentPlayer, currentPlayer.roomPlayerIsIn());
                             if (currentPlayer.hasNotMadeFalseAccusation()) {
                                 accuseButton.setEnabled(true);
                                 suggestButton.setEnabled(true);
                             }
+                        }
+                        redraw();
+
+                        if (currTile instanceof RoomTile && currentPlayer.getTile() instanceof EntranceTile) {
+                            boardPanel.addMouseListener(new MouseListener() {
+
+                                @Override
+                                public void mouseClicked(MouseEvent e) {
+                                    Tile currTile2 = currentPlayer.getTile();
+                                    if (currTile2 instanceof EntranceTile) {
+                                        if (!currentPlayer.isMadeClick()) {
+                                            String outcome = processPlayerTurn(getPositionAtClick(e.getX(), e.getY()));
+                                            if (outcome.equals("")) {
+                                                redraw();
+                                                nextButton.setEnabled(true);
+                                                redraw();
+                                                currentPlayerMoveEnded = false;
+                                                currentPlayer.setMadeClick(true);
+                                            }
+                                        } else {
+                                            appendToLog(outcome, log);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void mousePressed(MouseEvent e) {
+
+                                }
+
+                                @Override
+                                public void mouseReleased(MouseEvent e) {
+
+                                }
+
+                                @Override
+                                public void mouseEntered(MouseEvent e) {
+
+                                }
+
+                                @Override
+                                public void mouseExited(MouseEvent e) {
+
+                                }
+                            });
                         }
                         nextButton.setEnabled(true);
                         redraw();
@@ -362,16 +410,20 @@ public abstract class GUI {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) { }
+            public void mousePressed(MouseEvent e) {
+            }
 
             @Override
-            public void mouseReleased(MouseEvent e) { }
+            public void mouseReleased(MouseEvent e) {
+            }
 
             @Override
-            public void mouseEntered(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e) {
+            }
 
             @Override
-            public void mouseExited(MouseEvent e) { }
+            public void mouseExited(MouseEvent e) {
+            }
         });
 
 
@@ -401,11 +453,11 @@ public abstract class GUI {
 
 
     /**
-     *  Builds the window where a player can make an accusation.
-     *  The window is simple with just two components: A JList of possible accusations,
-     *  and a JButton to confirm the selection. Based on Game circumstances and player's
-     *  choices, a JDialog is produced with the game outcome (Game won, game over for player,
-     *  game over for everyone).
+     * Builds the window where a player can make an accusation.
+     * The window is simple with just two components: A JList of possible accusations,
+     * and a JButton to confirm the selection. Based on Game circumstances and player's
+     * choices, a JDialog is produced with the game outcome (Game won, game over for player,
+     * game over for everyone).
      */
     private void buildAccuseWindow() {
 
@@ -482,17 +534,17 @@ public abstract class GUI {
 
 
     /**
-     *  Builds the window to allow the player to make a suggestion.
-     *  The suggestion window is simple, with a JComboBox for each element of
-     *  a Hypothesis (room, weapon, character), and two JButtons - one for
-     *  cancelling the suggestion, and one for confirming the suggestion.
-     *  The cancel button will produce a JDialog on click, asking the user
-     *  if they are sure they want to, which will disable the suggest button if
-     *  the user selects yes.
-     *  The confirm button takes the info from the combo boxes, processes suggestion
-     *  related actions such as moving suggested player to the suggested room, and
-     *  launches the refute process for each other player, until the suggestion is
-     *  refuted or all players have had an opportunity to refute unsuccessfully.
+     * Builds the window to allow the player to make a suggestion.
+     * The suggestion window is simple, with a JComboBox for each element of
+     * a Hypothesis (room, weapon, character), and two JButtons - one for
+     * cancelling the suggestion, and one for confirming the suggestion.
+     * The cancel button will produce a JDialog on click, asking the user
+     * if they are sure they want to, which will disable the suggest button if
+     * the user selects yes.
+     * The confirm button takes the info from the combo boxes, processes suggestion
+     * related actions such as moving suggested player to the suggested room, and
+     * launches the refute process for each other player, until the suggestion is
+     * refuted or all players have had an opportunity to refute unsuccessfully.
      */
     private void buildSuggestWindow() {
         Tile playerTile = currentPlayer.getTile();
@@ -618,8 +670,9 @@ public abstract class GUI {
      * This panel also potentially includes an amount of JRadioButtons, if the player can
      * refute the suggestion. Theses are used to allow the player to pick the card they
      * wish to refute with.
-     * @param p     Player refuting
-     * @param suggestion      Suggestion to refute against.
+     *
+     * @param p          Player refuting
+     * @param suggestion Suggestion to refute against.
      */
     private void buildRefuteWindow(Player p, Hypothesis suggestion) {
         JPanel refuteCardPanel = new JPanel();
@@ -700,7 +753,9 @@ public abstract class GUI {
                 last = radioButtons.get(0);
                 break;
         }
-        if (last != null) { last.setSelected(true); }
+        if (last != null) {
+            last.setSelected(true);
+        }
 
         constraints.gridy++;
         optionPanel.add(info, constraints);
@@ -723,9 +778,10 @@ public abstract class GUI {
 
     /**
      * Converts the pixel coordinates to a Position relative to the game board.
+     *
      * @param x X position
      * @param y Y position
-     * @return  Returns the position from coordinates
+     * @return Returns the position from coordinates
      */
     private Position getPositionAtClick(int x, int y) {
         int col = (int) ((x - left) / cellSize);
@@ -735,7 +791,7 @@ public abstract class GUI {
     }
 
     /**
-     *  Reloads and repaints the main window.
+     * Reloads and repaints the main window.
      */
     public void redraw() {
         gameWindow.revalidate();
@@ -743,7 +799,7 @@ public abstract class GUI {
     }
 
     /**
-     *  Updates to the next players turn.
+     * Updates to the next players turn.
      */
     public void playerUpdate() {
         updateCurrentPlayer();
@@ -751,7 +807,7 @@ public abstract class GUI {
     }
 
     /**
-     *  Reloads the card panel on the main board to have the current player's cards.
+     * Reloads the card panel on the main board to have the current player's cards.
      */
     private void setupCardPanel() {
         cardPanel = new JPanel();
@@ -775,8 +831,9 @@ public abstract class GUI {
 
     /**
      * Helper method to add text to the end of the log JEditorPane.
-     * @param s     Text to append
-     * @param log   JEditorPane to append to
+     *
+     * @param s   Text to append
+     * @param log JEditorPane to append to
      */
     private void appendToLog(String s, JEditorPane log) {
         log.setText(log.getText() + "\n" + s);
@@ -785,26 +842,30 @@ public abstract class GUI {
 
     /**
      * Gets the current player.
-     * @return  returns current player
+     *
+     * @return returns current player
      */
     protected abstract Player getCurrentPlayer();
 
     /**
      * Creates a new player object.
+     *
      * @param characterName Name of the character player is playing as
-     * @param username  Username of player
+     * @param username      Username of player
      */
     protected abstract void createPlayer(String characterName, String username);
 
     /**
      * Roll dice for player movement.
-     * @return  Returns a string regarding the dice roll
+     *
+     * @return Returns a string regarding the dice roll
      */
     protected abstract String rollDice();
 
     /**
      * Get the icons for all players in play.
-     * @return  Returns Arraylist of Sprites
+     *
+     * @return Returns Arraylist of Sprites
      */
     protected abstract ArrayList<Sprite> getPlayerIcons();
 
@@ -815,36 +876,41 @@ public abstract class GUI {
 
     /**
      * Checks the move attempted by currentPlayer and executes if valid.
-     * @param cellToMoveTo  Cell on the board player is attempted to move to.
-     * @return  Returns a string, blank if valid move, reason why move is invalid otherwise
+     *
+     * @param cellToMoveTo Cell on the board player is attempted to move to.
+     * @return Returns a string, blank if valid move, reason why move is invalid otherwise
      */
     protected abstract String processPlayerTurn(Position cellToMoveTo);
 
     /**
      * Creates a Hypothesis from the information gathered.
-     * @param room  Room of the hypothesis
+     *
+     * @param room      Room of the hypothesis
      * @param character Character of the hypothesis
      * @param weapon    Weapon of the hypothesis
-     * @return  Returns the hypothesis
+     * @return Returns the hypothesis
      */
     protected abstract Hypothesis playerSuggest(RoomCard room, String character, String weapon);
 
     /**
      * Gets a String array of the weapons.
-     * @return  Returns a String array of weapons
+     *
+     * @return Returns a String array of weapons
      */
     protected abstract String[] getWeapons();
 
     /**
-     *  Gets the players.
-     * @return  Returns arraylist of players
+     * Gets the players.
+     *
+     * @return Returns arraylist of players
      */
     protected abstract ArrayList<Player> getPlayers();
 
     /**
      * Compare a hypothesis to the solution of the game.
+     *
      * @param hypothesis Hypothesis to compare
-     * @return  Returns true if hypothesis matches solution, false if not.
+     * @return Returns true if hypothesis matches solution, false if not.
      */
     protected abstract boolean compareToSolution(Hypothesis hypothesis);
 
@@ -855,7 +921,7 @@ public abstract class GUI {
     protected abstract void setupCardsAndGame();
 
     /**
-     *  Initializes the game.
+     * Initializes the game.
      */
     protected abstract void createGame();
 
@@ -868,34 +934,38 @@ public abstract class GUI {
 
     /**
      * Prints an informative line for each player who is in a room.
+     *
      * @return Returns String representation of all players in rooms.
      */
     protected abstract String printPlayersInRooms();
 
     /**
      * Gets the object versions of the weapons.
-     * @return  Returns an arraylist of weapon objects
+     *
+     * @return Returns an arraylist of weapon objects
      */
     protected abstract ArrayList<Weapon> getWeaponObjects();
 
     /**
      * Moves player to a new position outside of regular movement.
-     * @param p Player to move
-     * @param position  Position to move to
-     * @return  Returns the outcome, either they moved or were already there.
+     *
+     * @param p        Player to move
+     * @param position Position to move to
+     * @return Returns the outcome, either they moved or were already there.
      */
     protected abstract String playerTeleport(Player p, Position position);
 
     /**
      * Place player in a random tile within a given room.
-     * @param currentPlayer     Player to place
-     * @param roomPlayerIsIn    Room to place in
+     *
+     * @param currentPlayer  Player to place
+     * @param roomPlayerIsIn Room to place in
      */
     protected abstract void placePlayerInRoom(Player currentPlayer, RoomCard.RoomEnum roomPlayerIsIn);
 
 
     /**
-     *  JDialog Override to allow nice windows that stop everything while existing.
+     * JDialog Override to allow nice windows that stop everything while existing.
      */
     private static class Frame extends JDialog {
         /**
@@ -908,7 +978,7 @@ public abstract class GUI {
 
 
     /**
-     *  JPanel override class that lets us paint directly onto it.
+     * JPanel override class that lets us paint directly onto it.
      */
     private class Panel extends JPanel {
 
@@ -916,7 +986,8 @@ public abstract class GUI {
 
         /**
          * Makes a new Panel with a image background.
-         * @param img   Image to have as background
+         *
+         * @param img Image to have as background
          */
         public Panel(Image img) {
             this.img = img;

@@ -13,6 +13,10 @@ public class RoomTile extends InaccessibleTile {
     public RoomCard.RoomEnum room;
     protected Weapon weaponOnThisTile;
 
+    public RoomCard.RoomEnum getRoom() {
+        return room;
+    }
+
     /**
      * Creates the tile at given position.
      * @param pos   Position of the tile.

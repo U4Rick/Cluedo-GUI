@@ -20,6 +20,15 @@ public class Player {
     private final CharacterCard character;
     private Tile tile;
     private boolean madeFalseAccusation = false;
+    private boolean madeClick = false;
+
+    public void setMadeClick(boolean madeClick) {
+        this.madeClick = madeClick;
+    }
+
+    public boolean isMadeClick() {
+        return madeClick;
+    }
 
     private String username;
     private final List<Card> hand;
@@ -83,6 +92,7 @@ public class Player {
     public void madeFalseAccusation() {
         this.madeFalseAccusation = true;
     }
+
 
     /**
      * Getter for character.
