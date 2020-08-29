@@ -82,7 +82,7 @@ public abstract class GUI {
 
         JButton submit = new JButton("Submit");
         submit.addActionListener(e -> {
-            create();
+            createGame();
             int count = 0;
             for (JRadioButton character : characters) {
                 if (character.isSelected()) {
@@ -401,17 +401,19 @@ public abstract class GUI {
 
 
     /**
-     *
+     *  Builds the window where a player can make an accusation.
+     *  The window is simple with just two components: A JList of possible accusations,
+     *  and a JButton to confirm the selection. Based on Game circumstances and player's
+     *  choices, a JDialog is produced with the game outcome (Game won, game over for player,
+     *  game over for everyone).
      */
     private void buildAccuseWindow() {
 
         DefaultListModel<String> accuseModel = new DefaultListModel<>();
         JList<? extends String> accusationsList = new JList<>(accuseModel);
-        ArrayList<String> stringUnrefutedAccusations = new ArrayList<>();
         for (Hypothesis h : unrefutedSuggestions) {
-            stringUnrefutedAccusations.add(h.toString());
+            accuseModel.addElement(h.toString());
         }
-        accuseModel.addAll(stringUnrefutedAccusations);
         accusationsList.setPreferredSize(new Dimension(200, 400));
 
 
@@ -480,7 +482,17 @@ public abstract class GUI {
 
 
     /**
-     *
+     *  Builds the window to allow the player to make a suggestion.
+     *  The suggestion window is simple, with a JComboBox for each element of
+     *  a Hypothesis (room, weapon, character), and two JButtons - one for
+     *  cancelling the suggestion, and one for confirming the suggestion.
+     *  The cancel button will produce a JDialog on click, asking the user
+     *  if they are sure they want to, which will disable the suggest button if
+     *  the user selects yes.
+     *  The confirm button takes the info from the combo boxes, processes suggestion
+     *  related actions such as moving suggested player to the suggested room, and
+     *  launches the refute process for each other player, until the suggestion is
+     *  refuted or all players have had an opportunity to refute unsuccessfully.
      */
     private void buildSuggestWindow() {
         Tile playerTile = currentPlayer.getTile();
@@ -516,6 +528,7 @@ public abstract class GUI {
             dialog.pack();
             dialog.setVisible(true);
             if ((Integer) option.getValue() == JOptionPane.YES_OPTION) {
+                suggestButton.setEnabled(false);
                 dialog.setVisible(false);
                 suggestWindow.setVisible(false);
             }
@@ -559,16 +572,16 @@ public abstract class GUI {
         suggestWindow.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        //add room combobox
+        //add room ComboBox
         constraints.gridy = 0;
         constraints.gridx = 0;
         suggestWindow.add(rooms, constraints);
 
-        //add characters combobox
+        //add characters ComboBox
         constraints.gridy++;
         suggestWindow.add(characters, constraints);
 
-        //add weapons combobox
+        //add weapons ComboBox
         constraints.gridy++;
         suggestWindow.add(weapons, constraints);
 
@@ -585,14 +598,28 @@ public abstract class GUI {
         suggestWindow.pack();
         suggestWindow.setLocationRelativeTo(null);
         suggestWindow.setVisible(true);
-
     }
 
 
     /**
-     *
-     * @param p
-     * @param suggestion
+     * Builds the window allowing a specific player to refute against a specific
+     * suggestion.
+     * The 'window' is actually a JDialog, which prevents any other code from
+     * running until the dialog has been closed, which is needed as multiple players
+     * get the option to refute.
+     * This window is made up of two panels split vertically by a JSplitPane.
+     * On the top, the is a JPanel with a number of ImageIcon JLabels, showing
+     * the user their cards.
+     * On the bottom is the info JPanel, which at minimum contains a JLabel and a JButton.
+     * The JLabel informs the player of what they are able to do (can refute with one card,
+     * needs to pick a card from 2 or 3 to refute with, or can't refute).
+     * The JButton is a go button, which processes the refute (or lack of). This button
+     * automatically closes the window on click, as is the nature of a dialog.
+     * This panel also potentially includes an amount of JRadioButtons, if the player can
+     * refute the suggestion. Theses are used to allow the player to pick the card they
+     * wish to refute with.
+     * @param p     Player refuting
+     * @param suggestion      Suggestion to refute against.
      */
     private void buildRefuteWindow(Player p, Hypothesis suggestion) {
         JPanel refuteCardPanel = new JPanel();
@@ -673,10 +700,7 @@ public abstract class GUI {
                 last = radioButtons.get(0);
                 break;
         }
-        if (last != null) {
-            last.setSelected(true);
-        }
-
+        if (last != null) { last.setSelected(true); }
 
         constraints.gridy++;
         optionPanel.add(info, constraints);
@@ -698,10 +722,10 @@ public abstract class GUI {
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @return
+     * Converts the pixel coordinates to a Position relative to the game board.
+     * @param x X position
+     * @param y Y position
+     * @return  Returns the position from coordinates
      */
     private Position getPositionAtClick(int x, int y) {
         int col = (int) ((x - left) / cellSize);
@@ -711,7 +735,7 @@ public abstract class GUI {
     }
 
     /**
-     *
+     *  Reloads and repaints the main window.
      */
     public void redraw() {
         gameWindow.revalidate();
@@ -719,7 +743,7 @@ public abstract class GUI {
     }
 
     /**
-     *
+     *  Updates to the next players turn.
      */
     public void playerUpdate() {
         updateCurrentPlayer();
@@ -727,7 +751,7 @@ public abstract class GUI {
     }
 
     /**
-     *
+     *  Reloads the card panel on the main board to have the current player's cards.
      */
     private void setupCardPanel() {
         cardPanel = new JPanel();
@@ -750,9 +774,9 @@ public abstract class GUI {
 
 
     /**
-     *
-     * @param s
-     * @param log
+     * Helper method to add text to the end of the log JEditorPane.
+     * @param s     Text to append
+     * @param log   JEditorPane to append to
      */
     private void appendToLog(String s, JEditorPane log) {
         log.setText(log.getText() + "\n" + s);
@@ -760,69 +784,69 @@ public abstract class GUI {
 
 
     /**
-     *
-     * @return
+     * Gets the current player.
+     * @return  returns current player
      */
     protected abstract Player getCurrentPlayer();
 
     /**
-     *
-     * @param text
-     * @param username
+     * Creates a new player object.
+     * @param characterName Name of the character player is playing as
+     * @param username  Username of player
      */
-    protected abstract void createPlayer(String text, String username);
+    protected abstract void createPlayer(String characterName, String username);
 
     /**
-     *
-     * @return
+     * Roll dice for player movement.
+     * @return  Returns a string regarding the dice roll
      */
     protected abstract String rollDice();
 
     /**
-     *
-     * @return
+     * Get the icons for all players in play.
+     * @return  Returns Arraylist of Sprites
      */
     protected abstract ArrayList<Sprite> getPlayerIcons();
 
     /**
-     *
+     * Switch the current player to the next player in the order.
      */
     protected abstract void updateCurrentPlayer();
 
     /**
-     *
-     * @param cellToMoveTO
-     * @return
+     * Checks the move attempted by currentPlayer and executes if valid.
+     * @param cellToMoveTo  Cell on the board player is attempted to move to.
+     * @return  Returns a string, blank if valid move, reason why move is invalid otherwise
      */
-    protected abstract String processPlayerTurn(Position cellToMoveTO);
+    protected abstract String processPlayerTurn(Position cellToMoveTo);
 
     /**
-     *
-     * @param room
-     * @param selectedItem
-     * @param selectedItem1
-     * @return
+     * Creates a Hypothesis from the information gathered.
+     * @param room  Room of the hypothesis
+     * @param character Character of the hypothesis
+     * @param weapon    Weapon of the hypothesis
+     * @return  Returns the hypothesis
      */
-    protected abstract Hypothesis playerSuggest(RoomCard room, String selectedItem, String selectedItem1);
+    protected abstract Hypothesis playerSuggest(RoomCard room, String character, String weapon);
 
     /**
-     *
-     * @return
+     * Gets a String array of the weapons.
+     * @return  Returns a String array of weapons
      */
     protected abstract String[] getWeapons();
 
     /**
-     *
-     * @return
+     *  Gets the players.
+     * @return  Returns arraylist of players
      */
     protected abstract ArrayList<Player> getPlayers();
 
     /**
-     *
-     * @param s
-     * @return
+     * Compare a hypothesis to the solution of the game.
+     * @param hypothesis Hypothesis to compare
+     * @return  Returns true if hypothesis matches solution, false if not.
      */
-    protected abstract boolean compareToSolution(Hypothesis s);
+    protected abstract boolean compareToSolution(Hypothesis hypothesis);
 
 
     /**
@@ -831,9 +855,9 @@ public abstract class GUI {
     protected abstract void setupCardsAndGame();
 
     /**
-     *
+     *  Initializes the game.
      */
-    protected abstract void create();
+    protected abstract void createGame();
 
     /**
      * Checks if all players have made a false accusation.
@@ -844,36 +868,38 @@ public abstract class GUI {
 
     /**
      * Prints an informative line for each player who is in a room.
+     * @return Returns String representation of all players in rooms.
      */
     protected abstract String printPlayersInRooms();
 
     /**
-     *
-     * @return
+     * Gets the object versions of the weapons.
+     * @return  Returns an arraylist of weapon objects
      */
     protected abstract ArrayList<Weapon> getWeaponObjects();
 
     /**
-     *  @param p
-     * @param position
-     * @return
+     * Moves player to a new position outside of regular movement.
+     * @param p Player to move
+     * @param position  Position to move to
+     * @return  Returns the outcome, either they moved or were already there.
      */
     protected abstract String playerTeleport(Player p, Position position);
 
     /**
-     *
-     * @param currentPlayer
-     * @param roomPlayerIsIn
+     * Place player in a random tile within a given room.
+     * @param currentPlayer     Player to place
+     * @param roomPlayerIsIn    Room to place in
      */
     protected abstract void placePlayerInRoom(Player currentPlayer, RoomCard.RoomEnum roomPlayerIsIn);
 
 
     /**
-     *
+     *  JDialog Override to allow nice windows that stop everything while existing.
      */
     private static class Frame extends JDialog {
         /**
-         *
+         * Frame constructor.
          */
         public Frame() {
             setModal(true);
@@ -882,15 +908,15 @@ public abstract class GUI {
 
 
     /**
-     *
+     *  JPanel override class that lets us paint directly onto it.
      */
     private class Panel extends JPanel {
 
         private final Image img;
 
         /**
-         *
-         * @param img
+         * Makes a new Panel with a image background.
+         * @param img   Image to have as background
          */
         public Panel(Image img) {
             this.img = img;

@@ -44,15 +44,15 @@ public class Game extends GUI {
     public Game() { }
 
     @Override
-    protected void create() {
+    protected void createGame() {
         board = new Board();
         numPlayers = 0;
         players = new ArrayList<>();
     }
 
     @Override
-    protected boolean compareToSolution(Hypothesis s) {
-        return s == solution;
+    protected boolean compareToSolution(Hypothesis hypothesis) {
+        return hypothesis == solution;
     }
 
     @Override
@@ -127,9 +127,9 @@ public class Game extends GUI {
     }
 
     @Override
-    protected void createPlayer(String character, String username) {
+    protected void createPlayer(String characterName, String username) {
         CharacterCard card;
-        switch (character) {
+        switch (characterName) {
             case "Plum":
                 card = new CharacterCard(CharacterEnum.PLUM);
                 break;
@@ -234,6 +234,9 @@ public class Game extends GUI {
         }
     }
 
+    /**
+     *
+     */
     private void setUpWeapons() {
         ArrayList<RoomCard> rooms = new ArrayList<>();
         for (RoomEnum room : RoomEnum.values()) {
@@ -250,6 +253,11 @@ public class Game extends GUI {
         }
     }
 
+    /**
+     *
+     * @param weapon
+     * @param room
+     */
     private void placeWeaponInRoom(Weapon weapon, RoomCard room) {
 
         Tile location;
