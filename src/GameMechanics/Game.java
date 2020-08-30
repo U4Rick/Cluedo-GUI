@@ -23,14 +23,11 @@ public class Game extends GUI {
     //TODO clean up redundant methods, and reorganize useful ones.
     //TODO correct javadocs of surviving methods where needed
 
-    //GameMechanics.Game Attributes
     private Hypothesis solution;
     private Player currentPlayer;
     private int numPlayers;
-    private boolean playerHasWon = false;
     private int currentRoll;
 
-    //GameMechanics.Game Associations
     private Board board;
     private List<Player> players = new ArrayList<>();
     private final List<WeaponCard> allWeapons = new ArrayList<>();
@@ -333,72 +330,6 @@ public class Game extends GUI {
     }
 
     /**
-     * Setup the game.
-     */
-    //replaced by abstract methods
-   /* public void initialise() {
-        board = new Board();
-        //setNumPlayers();
-        //setupPlayers();
-        setupCards();
-        currentPlayer = players.get(0);
-    }*/
-
-    /**
-     * Main game loop, loops until a player has won or all players have made false accusations.
-     */
-    /*private void run() {
-        while (!isGameOver()) {
-            printTurnInfo();
-            processPlayerTurn();
-            updateCurrentPlayer();
-        }
-    }*/
-
-    //////////////////////////
-    // SETUP METHODS
-    //////////////////////////
-
-    /**
-     * Ask the player for amount of players, must be between 3-6.
-     */
-    //replaced in gui
-    /*public void setNumPlayers() {
-        System.out.println("How many players?");
-
-
-        //Loop until number of player is set
-        while (true) {
-            Scanner scan = new Scanner(System.in);
-            if (scan.hasNextInt()) {
-                int num = scan.nextInt();
-                //check within range
-                if (num >= 3 && num <= 6) {
-                    numPlayers = num;
-                    break;
-                }
-            }
-            System.out.println("Enter a number between 3 and 6");
-        }
-    }*/
-
-    /**
-     * Create the players and add them to the list of players.
-     */
-    //replaced with create player abstract void
-    /*private void setupPlayers() {
-        CharacterEnum[] values = CharacterEnum.values();
-        for (int i = 0; i < numPlayers; i++) {
-            Player p = new Player(new CharacterCard(values[i]), board.getTileAt(board.getStartingTiles().get(values[i])), board);
-            Tile startingTile = board.getTileAt(board.getStartingTiles().get(values[i]));
-            if (startingTile instanceof HallwayTile) { startingTile.setPlayerOnThisTile(p); }
-            players.add(p);
-        }
-    }*/
-
-
-
-    /**
      * For every active player, creates a character card. Removes one at random and sets as solution. Returns the rest.
      *
      * @return List of all active characterCards, with solution removed.
@@ -482,100 +413,6 @@ public class Game extends GUI {
             }
         }
     }
-
-    //////////////////////////
-    // PLAYER TURN
-    //////////////////////////
-
-    /**
-     *  Runs the player movement and suggestion/accusation process for
-     *  current player.
-     */
-    /*private void processPlayerTurn() {
-        Move move  = new Move(currentPlayer, board, currentRoll);
-        move.playerMovement();
-        if (currentPlayer.canHypothesise()) {
-            playerHypothesis();
-        }
-    }*/
-
-    /**
-     * Set currentPlayer to next player in turn order.
-     */
-    //replaced by abstract
-   /* private void updateCurrentPlayer() {
-        int i = players.indexOf(currentPlayer);
-        if (i == players.size() - 1) {
-            currentPlayer = players.get(0);
-        } else {
-            currentPlayer = players.get(i + 1);
-        }
-    }*/
-
-    /**
-     *  Checks if player wants to make a suggestion and/or accusation,
-     *  and runs relevant methods to those choices.
-     */
-   /* private void playerHypothesis() {
-        Scanner scan = new Scanner(System.in);
-
-        //Check if player wants to make a suggestion.
-        System.out.println("Make a Suggestion? (Y or N)");
-        String userInput = scan.next();
-        System.out.println("\n");
-        if (userInput.equalsIgnoreCase("Y")) {
-            Suggestion suggestion = new Suggestion(currentPlayer, players);
-            if (suggestion.playerSuggestion(unrefutedSuggestions, allWeapons, board)) {
-                return;
-            }
-        }
-
-        //Check if player wants to make an accusation.
-        System.out.println("Make an Accusation?");
-        userInput = scan.next();
-        if (userInput.equalsIgnoreCase("Y")) {
-            Accusation accusation = new Accusation(unrefutedSuggestions, solution);
-            if (accusation.playerAccusation(currentPlayer)) {
-                playerHasWon = true;
-            }
-            return;
-        }
-
-        System.out.println("No action selected.");
-    }*/
-
-    //////////////////////////
-    // GAME OVER
-    //////////////////////////
-
-    /**
-     * Check whether a player has won, or all players have made false accusations.
-     *
-     * @return True if game over, otherwise false.
-     */
-    /*private boolean isGameOver() {
-        return playerHasWon || isGameInvalid();
-    }*/
-
-
-
-    //////////////////////////
-    // PRINT METHODS
-    //////////////////////////
-
-    /**
-     * Print current board and name of current player.
-     */
-    private void printTurnInfo() {
-        System.out.println("\n-------------------------------------------\n");
-        System.out.print("\n");
-        System.out.println(board.toString());
-        printPlayersInRooms();
-        System.out.println(currentPlayer.getCharacter());
-        currentPlayer.displayHand();
-    }
-
-
 
     /**
      * Run the game.
