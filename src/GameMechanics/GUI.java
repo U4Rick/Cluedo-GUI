@@ -92,8 +92,8 @@ public abstract class GUI {
                     String username;
 
                     do {
-                        username = JOptionPane.showInputDialog(option, "Please enter the user name for player playing as " + character.getText() + ".");
-                    } while (username.length() == 0);
+                        username = JOptionPane.showInputDialog(option, "Please enter the user name for player playing as " + character.getText() + ".", "Username", JOptionPane.PLAIN_MESSAGE);
+                    } while (username == null || username.length() == 0);
 
                     option.setMessage(username + " is playing as " + character.getText() + ".");
                     JDialog dialog = option.createDialog("Name");
