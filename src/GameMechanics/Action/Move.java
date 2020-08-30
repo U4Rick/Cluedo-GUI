@@ -20,7 +20,7 @@ public class Move {
 
     private final Player currentPlayer;
     private final Board board;
-    private int movementRange;
+    private final int movementRange;
     private String movementOutcome = "";
 
     /**
@@ -28,7 +28,7 @@ public class Move {
      *
      * @param currentPlayer Player that's moving
      * @param board         Board to move around on
-     * @param currentRoll
+     * @param currentRoll   Max distance able to move.
      */
     public Move(Player currentPlayer, Board board, int currentRoll) {
         this.currentPlayer = currentPlayer;
@@ -36,41 +36,6 @@ public class Move {
         this.movementRange = currentRoll;
     }
 
-    /**
-     * Handles user input and console output for movement.
-     * Calls necessary methods to control movement.
-     */
-    /*public void playerMovement() {
-        //roll dice
-        *//*movementRange = rollDice();*//*
-        //System.out.println("You rolled a " + movementRange);
-
-        //ask for tile to move to
-        hasMadeValidMove = false;
-        while (!hasMadeValidMove) {
-
-            System.out.println("Your position \nRow: " + currentPlayer.getTile().position.getY()
-                    + "\nCol: " + currentPlayer.getTile().position.getX());
-            System.out.println("\nEnter column to move to:");
-
-            int moveCol = -1;
-            int moveRow = -1;
-            Scanner scan = new Scanner(System.in);
-            if (scan.hasNextInt()) {
-                moveCol = scan.nextInt();
-                System.out.println("Enter row to move to:");    //repeats until valid inputs
-                if (scan.hasNextInt()) {
-                    moveRow = scan.nextInt();
-                }
-            }
-
-            if (moveRow < 25 && moveRow >= 0 && moveCol < 24 && moveCol >= 0) {
-                move(moveCol, moveRow); //check if requested tile is within board bounds
-            } else {
-                System.out.println("Invalid row/column, try again.");
-            }
-        }
-    }*/
     public String playerMovement(Position cellToMoveTo) {
         if (cellToMoveTo.getY() < 25 && cellToMoveTo.getY() >= 0 && cellToMoveTo.getX() < 24 && cellToMoveTo.getX() >= 0) {
             move(cellToMoveTo.getX(), cellToMoveTo.getY()); //check if requested tile is within board bounds
@@ -98,7 +63,7 @@ public class Move {
             movementOutcome  = ("Inaccessible Tile");
             return "Inaccessible Tile";
         }
-        Tile startTile = board.getTileAt(startPos);
+        Tile startTile = board.getTileAt(startPos); //FIXME this variable is not used but the statement has side effects.
         Tile endTile = board.getTileAt(endPos);
         if ((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)) {
             movementOutcome = ("Tile already has player on it");
@@ -134,17 +99,17 @@ public class Move {
         HashMap<Position, Node> pathing = new HashMap<>();
         Tile[][] tiles = board.board;
 
-        for (int y = 0; y < tiles.length; y++) {
+        for (Tile[] tile : tiles) {
             for (int x = 0; x < tiles[0].length; x++) {
-                if (!(tiles[y][x] instanceof InaccessibleTile) || (tiles[y][x] instanceof RoomTile)) {       //collects all accessible tiles of board
+                if (!(tile[x] instanceof InaccessibleTile) || (tile[x] instanceof RoomTile)) {       //collects all accessible tiles of board
                     Node node;
-                    if (tiles[y][x].getPosition().equals(start)) {
-                        node = new Node(tiles[y][x], 0);
+                    if (tile[x].getPosition().equals(start)) {
+                        node = new Node(tile[x], 0);
                     } else {
-                        node = new Node(tiles[y][x], 999);  //initialise distances from root
+                        node = new Node(tile[x], 999);  //initialise distances from root
                     }
                     fringe.offer(node);
-                    pathing.put(tiles[y][x].getPosition(), node);   //populate fringe and node map
+                    pathing.put(tile[x].getPosition(), node);   //populate fringe and node map
                 }
             }
         }
@@ -245,16 +210,4 @@ public class Move {
             }
         }
     }
-    /**
-     * Rolls two dice and returns the sum of them.
-     *
-     * @return Sum of two dice.
-     */
-    //replaced in game
-    /*private int rollDice() {
-        int dice1 = (int) (Math.random() * 6 + 1);
-        int dice2 = (int) (Math.random() * 6 + 1);
-        return dice1 + dice2;
-    }*/
-
 }

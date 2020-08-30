@@ -11,7 +11,6 @@ import java.util.Objects;
  */
 public class Hypothesis {
 
-    //GameMechanics.Action.Hypothesis Attributes
     private CharacterCard character;
     private WeaponCard weapon;
     private RoomCard room;
