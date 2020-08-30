@@ -170,24 +170,6 @@ public class Player {
      */
     public Sprite getPlayerIcon() { return playerIcon; }
 
-
-    /**
-     * Prints the players hand as text to the screen.
-     */
-    public void displayHand() {
-        StringBuilder handAsText = new StringBuilder();
-
-        handAsText.append("Your hand: ");
-        for (Card card : hand) {
-            handAsText.append(card.toString()).append(", ");
-        }
-        handAsText.delete(handAsText.length() - 2, handAsText.length() - 1);
-        handAsText.append("\n");
-
-        System.out.println(handAsText);
-    }
-
-
     @Override
     public String toString() {
         switch (character.getCharacter()) {
