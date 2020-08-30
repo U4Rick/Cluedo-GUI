@@ -174,8 +174,6 @@ public class Game extends GUI {
         cards.addAll(setupWeaponCards());
         cards.addAll(setupRoomCards());
         setUpWeapons();
-        System.out.println(solution.toString());
-
         dealCards(cards);
     }
 
