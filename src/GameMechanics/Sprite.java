@@ -7,15 +7,24 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-//TODO javadoc
-
+/**
+ * Sprite for a Character or a Weapon.
+ */
 public class Sprite {
+
     private Image icon;
     private Image activeIcon;
     public final int size = 18;
-    private Position pos;
+    private Position position;
 
-    public Sprite (String filename, Position pos, String type) {
+    /**
+     * Constructor for Sprite.
+     *
+     * @param filename Name of file to get icon from.
+     * @param position Initial position.
+     * @param type Distinguish between weapons and characters.
+     */
+    public Sprite (String filename, Position position, String type) {
         try {
             if (type.equals("c")) {
                 icon = ImageIO.read(new File("./assets/characterSprites/" + filename));
@@ -32,16 +41,42 @@ public class Sprite {
         }
         icon = icon.getScaledInstance(size, size, Image.SCALE_DEFAULT);
 
-        this.pos = pos;
+        this.position = position;
     }
 
-    public void updatePosition(Position p) { this.pos = p; }
-
-    public Position getPos() {
-        return pos;
+    /**
+     * Update position with passed position.
+     *
+     * @param position Position to update to.
+     */
+    public void updatePosition(Position position) {
+        this.position = position;
     }
 
-    public Image getIcon() { return icon; }
+    /**
+     * Getter for position.
+     *
+     * @return Current Position
+     */
+    public Position getPosition() {
+        return position;
+    }
 
-    public Image getActiveIcon() { return activeIcon; }
+    /**
+     * Getter for icon.
+     *
+     * @return icon.
+     */
+    public Image getIcon() {
+        return icon;
+    }
+
+    /**
+     * Getter for activeIcon.
+     *
+     * @return activeIcon.
+     */
+    public Image getActiveIcon() {
+        return activeIcon;
+    }
 }
