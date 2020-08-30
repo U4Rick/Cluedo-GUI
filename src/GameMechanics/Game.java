@@ -419,6 +419,6 @@ public class Game extends GUI {
      * @param args  ignored
      */
     public static void main(String[] args) {
-        Game game = new Game();
+        new Game();
     }
 }
