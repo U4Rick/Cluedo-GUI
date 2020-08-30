@@ -1,7 +1,7 @@
 package Cards;
 
 import java.util.Objects;
-//TODO add additional javadocs where needed
+
 /**
  * Weapon card for the game of Cluedo.
  */
@@ -11,22 +11,27 @@ public class WeaponCard implements Card {
 
     /**
      * Constructs a WeaponCard object that contains a weapon.
+     *
      * @param weapon the weapon represent.
      */
     public WeaponCard(WeaponEnum weapon) {
         this.weapon = weapon;
     }
 
-
-    public String getFileName() {
-        return this.toString() + ".png";
-    }
-
     /**
      * Possible weapons.
      */
     public enum WeaponEnum {
-        CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER
+        CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER;
+    }
+
+    /**
+     * Gets the filename of the card as a string.
+     *
+     * @return Filename of the card as a string.
+     */
+    public String getFileName() {
+        return this.toString() + ".png";
     }
 
     @Override

@@ -1,7 +1,6 @@
 package Cards;
 
 import java.util.Objects;
-//TODO add additional javadocs where needed
 
 /**
  * Character card for the game of Cluedo.
@@ -12,6 +11,7 @@ public class CharacterCard implements Card {
 
     /**
      * Initialise the CharacterCard.
+     *
      * @param character  Character to initialise as.
      */
     public CharacterCard(CharacterEnum character) {
@@ -25,12 +25,18 @@ public class CharacterCard implements Card {
         SCARLETT, MUSTARD, WHITE, GREEN, PEACOCK, PLUM
     }
 
+    /**
+     * Get the filename of this card as a string.
+     *
+     * @return Filename of this card as a string.
+     */
     public String getFileName() {
         return this.toString().replaceAll("\\s", "") + ".png";
     }
 
     /**
      * Get the character associated with this card.
+     *
      * @return  the character
      */
     public CharacterEnum getCharacter() {

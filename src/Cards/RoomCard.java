@@ -1,7 +1,6 @@
 package Cards;
 
 import java.util.Objects;
-//TODO add additional javadocs where needed
 
 /**
  * Room card for the game of Cluedo.
@@ -12,14 +11,11 @@ public class RoomCard implements Card {
 
     /**
      * Constructs a RoomCard object that contains a room.
+     *
      * @param room the room to represent.
      */
     public RoomCard(RoomEnum room) {
         this.room = room;
-    }
-
-    public String getFileName() {
-        return this.toString().replaceAll("\\s", "") + ".png";
     }
 
     /**
@@ -29,7 +25,23 @@ public class RoomCard implements Card {
         KITCHEN, BALLROOM, CONSERVATORY, DININGROOM, BILLIARDROOM, LIBRARY, STUDY, HALL, LOUNGE
     }
 
-    public RoomEnum getRoom() { return room; }
+    /**
+     * Gets the filename of the card as a string.
+     *
+     * @return Filename of the card as a string.
+     */
+    public String getFileName() {
+        return this.toString().replaceAll("\\s", "") + ".png";
+    }
+
+    /**
+     * Getter for the room.
+     *
+     * @return room.
+     */
+    public RoomEnum getRoom() {
+        return room;
+    }
 
     @Override
     public boolean equals(Object o) {
