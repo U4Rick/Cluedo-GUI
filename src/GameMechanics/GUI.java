@@ -192,6 +192,7 @@ public abstract class GUI {
         movementSubMenu.add(new JMenuItem("Diagonal moves are disallowed."));
         movementSubMenu.add(new JMenuItem("Players may enter rooms via entrances only."));
         movementSubMenu.add(new JMenuItem("Entering a room ends the move."));
+        movementSubMenu.add(new JMenuItem("To leave a room, click the exit you wish to leave from first."));
         movementSubMenu.add(new JMenuItem("No two pieces may occupy the same square."));
 
         //Suggestion submenu

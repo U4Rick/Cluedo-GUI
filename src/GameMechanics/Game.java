@@ -52,7 +52,7 @@ public class Game extends GUI {
 
     @Override
     protected boolean compareToSolution(Hypothesis hypothesis) {
-        return hypothesis == solution;
+        return hypothesis.equals(solution);
     }
 
     @Override
@@ -174,7 +174,6 @@ public class Game extends GUI {
         cards.addAll(setupWeaponCards());
         cards.addAll(setupRoomCards());
         setUpWeapons();
-
         dealCards(cards);
     }
 
