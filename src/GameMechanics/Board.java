@@ -7,8 +7,6 @@ import Tiles.*;
 import java.util.ArrayList;
 import java.util.Map;
 
-//TODO finish javadocs
-
 /**
  *  The board which the game is played on.
  *  Contains the 2D array of tiles that make up the board,
@@ -89,6 +87,11 @@ public class Board {
         return entrances;
     }
 
+    /**
+     * Getter for roomTiles.
+     *
+     * @return roomTiles.
+     */
     public Map<RoomCard.RoomEnum, ArrayList<Position>> getRoomTiles() {
         return roomTiles;
     }
