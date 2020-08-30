@@ -368,43 +368,43 @@ public abstract class GUI {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!dice.isEnabled() && !currentPlayerMoveEnded) {
+                if (!dice.isEnabled() && !currentPlayerMoveEnded) {     //allowing mouse click movement
                     Tile currTile = currentPlayer.getTile();
                     String outcome = processPlayerTurn(getPositionAtClick(e.getX(), e.getY()));
                     if (outcome.equals("")) {
-                        if (currentPlayer.isInRoom() && ((!(currTile instanceof RoomTile)))) {
+                        if (currentPlayer.isInRoom() && ((!(currTile instanceof RoomTile)))) {  //logic for a normal movement
                             placePlayerInRoom(currentPlayer, currentPlayer.roomPlayerIsIn());
                             if (currentPlayer.hasNotMadeFalseAccusation()) {
                                 accuseButton.setEnabled(true);
-                                suggestButton.setEnabled(true);
+                                suggestButton.setEnabled(true); //update actions for when player enters room
                             }
                         }
                         redraw();
 
                         if (currTile instanceof RoomTile && currentPlayer.getTile() instanceof EntranceTile) {
-                            boardPanel.addMouseListener(new MouseListener() {
+                            boardPanel.addMouseListener(new MouseListener() {   //allow for entrance selection room exit
 
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
-                                    Tile currTile2 = currentPlayer.getTile();
-                                    if (currTile2 instanceof EntranceTile) {
+                                    Tile chosenEntrance = currentPlayer.getTile();
+                                    if (chosenEntrance instanceof EntranceTile) {   //if they have chosen an entrance allow next movement
                                         if (!currentPlayer.isMadeClick()) {
                                             String outcome = processPlayerTurn(getPositionAtClick(e.getX(), e.getY()));
                                             if (outcome.equals("")) {
                                                 redraw();
-                                                nextButton.setEnabled(true);
+                                                nextButton.setEnabled(true);    //ending the turn setup
                                                 redraw();
                                                 currentPlayerMoveEnded = false;
                                                 currentPlayer.setMadeClick(true);
                                             }
                                         } else {
-                                            appendToLog(outcome, log);
+                                            appendToLog(outcome, log);  //print out the problem
                                         }
                                     }
                                 }
 
                                 @Override
-                                public void mousePressed(MouseEvent e) {
+                                public void mousePressed(MouseEvent e) {        //unused but needed for mouselistener
                                 }
                                 @Override
                                 public void mouseReleased(MouseEvent e) {
@@ -417,7 +417,7 @@ public abstract class GUI {
                                 }
                             });
                         }
-                        nextButton.setEnabled(true);
+                        nextButton.setEnabled(true);        //if no second move option setup end of turn
                         redraw();
                         currentPlayerMoveEnded = true;
                     } else {
@@ -427,17 +427,14 @@ public abstract class GUI {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {    //more unused but necessary implementation
             }
-
             @Override
             public void mouseReleased(MouseEvent e) {
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
             }
