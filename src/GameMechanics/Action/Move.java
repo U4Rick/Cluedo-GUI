@@ -8,9 +8,6 @@ import Tiles.*;
 
 import java.util.*;
 
-//TODO clean up code
-//TODO is validMovement can be converted back to boolean, Strings were used elsewhere
-
 /**
  * Move players around the board and check the validity of those moves.
  */
@@ -53,7 +50,7 @@ public class Move {
      * @param endY   Ending y position
      * @return true if valid move, false if invalid move.
      */
-    public String isValidMovement(int startX, int startY, int endX, int endY) {
+    public boolean isValidMovement(int startX, int startY, int endX, int endY) {
 
         Position startPos = new Position(startX, startY);
         Position endPos = new Position(endX, endY);
@@ -61,28 +58,28 @@ public class Move {
         //if endTile == inaccessible
         if (board.getTileAt(endPos) instanceof InaccessibleTile) {
             movementOutcome  = ("Inaccessible Tile");
-            return "Inaccessible Tile";
+            return false;
         }
-        Tile startTile = board.getTileAt(startPos); //FIXME this variable is not used but the statement has side effects.
+        Tile startTile = board.getTileAt(startPos); //this variable is not used but the statement has side effects.
         Tile endTile = board.getTileAt(endPos);
         if ((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)) {
             movementOutcome = ("Tile already has player on it");
-            return "Tile already has player on it";//else if endPos already has player && endPos is not entranceTile
+            return false;//else if endPos already has player && endPos is not entranceTile
         }
 
 
         if (Math.abs((startX - endX) + (startY - endY)) > this.movementRange) {
             movementOutcome = ("You can not move that far!");
-            return "You can not move that far!";
+            return false;
         }
 
         if (!pathfinding(board, startPos, endPos)) {
             movementOutcome = ("No valid path to that tile, try again.");
-            return "No valid path to that tile, try again.";
+            return false;
         }
 
         hasMadeValidMove = true;
-        return "";
+        return true;
     }
 
     /**
@@ -195,7 +192,7 @@ public class Move {
         } else {
             int playerX = currentPlayer.getTile().position.getX();    //current X
             int playerY = currentPlayer.getTile().position.getY();    //current Y
-            if (isValidMovement(playerX, playerY, x, y).equals("")) {
+            if (isValidMovement(playerX, playerY, x, y)) {
                 currentPlayer.setTile(endTile);
                 endTile.setPlayerOnThisTile(currentPlayer);
                 startTile.setPlayerOnThisTile(null);
