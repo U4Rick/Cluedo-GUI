@@ -149,6 +149,11 @@ public class Player {
         return false;
     }
 
+    /**
+     * Return the room that the player is in.
+     *
+     * @return RoomEnum if the player is in a room, otherwise Null.
+     */
     public RoomCard.RoomEnum roomPlayerIsIn() {
         for (RoomCard.RoomEnum room : board.getEntrances().keySet()) {
             if (board.getEntrances().get(room).contains(tile.getPosition())) {
@@ -158,6 +163,11 @@ public class Player {
         return null;
     }
 
+    /**
+     * Getter for playerIcon.
+     *
+     * @return Sprite representing the player.
+     */
     public Sprite getPlayerIcon() { return playerIcon; }
 
 
@@ -198,10 +208,20 @@ public class Player {
         }
     }
 
+    /**
+     * Getter for username.
+     *
+     * @return Username of player.
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Getter for hand.
+     *
+     * @return Hand of player.
+     */
     public List<Card> getHand() {
         return hand;
     }
