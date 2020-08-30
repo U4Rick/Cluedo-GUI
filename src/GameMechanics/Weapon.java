@@ -3,8 +3,6 @@ package GameMechanics;
 import Cards.WeaponCard;
 import Tiles.Tile;
 
-//TODO weapon and tile fields don't do anything but might be needed if we update weapon position on suggestion? Otherwise safe to delete.
-
 /**
  * Representation of a weapon for the game of Cluedo.
  */
@@ -31,6 +29,24 @@ public class Weapon {
      */
     public Sprite getIcon() {
         return icon;
+    }
+
+    /**
+     * Getter for weapon.
+     *
+     * @return Weapon.
+     */
+    public WeaponCard getWeapon() {
+        return weapon;
+    }
+
+    /**
+     * Getter for tile.
+     *
+     * @return Tile.
+     */
+    public Tile getTile() {
+        return tile;
     }
 
     /**

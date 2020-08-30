@@ -233,6 +233,26 @@ public class Game extends GUI {
         }
     }
 
+    @Override
+    protected String weaponTeleport(Weapon weapon, Position position) {
+        Tile pos = board.getTileAt(position);
+        RoomEnum room;
+        if (pos instanceof RoomTile) {
+            room = ((RoomTile) pos).room;
+        } else if (pos instanceof EntranceTile) {
+            room = ((EntranceTile) pos).getRoom();
+        }
+        else { throw new InputMismatchException(); }
+        if (board.getRoomTiles().get(room).contains(weapon.getTile().getPosition())) {
+            return (weapon.getWeapon().toString() + " is already in the room.");
+        }
+        else {
+            weapon.getTile().setPlayerOnThisTile(null);
+            placeWeaponInRoom(weapon, room);
+            return (weapon.getWeapon().toString() + " moved to suggested room.");
+        }
+    }
+
     /**
      *
      */
@@ -262,6 +282,29 @@ public class Game extends GUI {
         Tile location;
         while (true) {
             ArrayList<Position> tiles = board.getRoomTiles().get(room.getRoom());
+            location = board.getTileAt(tiles.get((int) (Math.random() * tiles.size())));
+            if(location instanceof RoomTile) {
+                if (location.getPlayerOnThisTile() == null && ((RoomTile) location).getWeaponOnThisTile() == null) {
+                    break;
+                }
+            }
+        }
+        ((RoomTile) location).setWeaponOnThisTile(weapon);
+        weapon.setTile(location);
+    }
+
+
+    //TODO added overloaded method for weapon teleport. Should refactor uses of the original method above to this one.
+    /**
+     *
+     * @param weapon
+     * @param room
+     */
+    private void placeWeaponInRoom(Weapon weapon, RoomEnum room) {
+
+        Tile location;
+        while (true) {
+            ArrayList<Position> tiles = board.getRoomTiles().get(room);
             location = board.getTileAt(tiles.get((int) (Math.random() * tiles.size())));
             if(location instanceof RoomTile) {
                 if (location.getPlayerOnThisTile() == null && ((RoomTile) location).getWeaponOnThisTile() == null) {

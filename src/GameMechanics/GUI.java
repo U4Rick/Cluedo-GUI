@@ -619,6 +619,16 @@ public abstract class GUI {
                     break;
                 }
             }
+
+            //Teleport the suggested weapon to the suggested room.
+            for (Weapon weapon : getWeaponObjects()) {
+                if (weapon.getWeapon().toString().equals(weapons.getSelectedItem())) {
+                    appendToLog(weaponTeleport(weapon, currentPlayer.getTile().position), log);
+                    redraw();
+                    break;
+                }
+            }
+
             int index = players.indexOf(currentPlayer);
             for (int i = 0; i < players.size() - 1; i++) {
                 //Roll over to index 0
@@ -978,6 +988,15 @@ public abstract class GUI {
      * @return Returns the outcome, either they moved or were already there.
      */
     protected abstract String playerTeleport(Player p, Position position);
+
+    /**
+     * Moves a weapon to a new position.
+     *
+     * @param weapon Weapon to move.
+     * @param position Position to move to.
+     * @return Returns the outcome, either they moved or were already there.
+     */
+    protected abstract String weaponTeleport(Weapon weapon, Position position);
 
     /**
      * Place player in a random tile within a given room.
