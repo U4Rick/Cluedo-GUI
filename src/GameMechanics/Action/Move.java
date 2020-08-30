@@ -125,14 +125,6 @@ public class Move {
                 visited.add(node);  //visit nearest fringe tile
 
                 if (node.getTile().getPosition().equals(goal)) {
-                    ArrayList<Node> temp = new ArrayList<>();
-                    for (Node node1 : visited) {
-                        if (node1.getDistance() >= 999) {   //collects the path at the end
-                            temp.add(node1);
-                        }
-                    }
-                    visited.removeAll(temp);    //todo all of this chunk is for debugging/tracking the path. Might use later?
-
                     return node.getDistance() <= movementRange; //check if reached end correctly
                 }
 
