@@ -6,32 +6,57 @@ import Tiles.Tile;
 import java.util.HashMap;
 import java.util.Objects;
 
-//TODO javadoc
-
+/**
+ * Node representation of a tile, used for Djikstra's Algorithm.
+ */
 public class Node implements Comparable<Node> {
 
     private Tile tile;
     private int distance;
 
+    /**
+     * Constructor for a Node.
+     *
+     * @param tile Tile of Node.
+     * @param distance Distance to this Node.
+     */
     public Node(Tile tile, int distance) {
         this.tile = tile;
         this.distance = distance;
     }
 
-
+    /**
+     * Getter for tile.
+     *
+     * @return tile.
+     */
     public Tile getTile() {
         return tile;
     }
 
+    /**
+     * Setter for tile.
+     *
+     * @param tile Tile to set to.
+     */
     public void setTile(Tile tile) {
         this.tile = tile;
     }
 
-
+    /**
+     * Getter for distance.
+     *
+     * @return distance.
+     */
     public int getDistance() {
         return distance;
     }
 
+    /**
+     * Setter for distance.
+     *
+     * @param distance Int value to set distance to.
+     */
     public void setDistance(int distance) {
         this.distance = distance;
     }
@@ -64,6 +89,13 @@ public class Node implements Comparable<Node> {
                 '}';
     }
 
+    /**
+     * Get all neighbouring nodes of this Node.
+     *
+     * @param node Node to get neighbours of.
+     * @param path Map of nodes and their positions on the board.
+     * @return Array of all neighbouring Nodes.
+     */
     public Node[] getNeighbours(Node node, HashMap<Position, Node> path) {
         Position pos = node.getTile().position;
         Node[] neigh = new Node[4];

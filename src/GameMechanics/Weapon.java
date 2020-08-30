@@ -8,7 +8,7 @@ import Tiles.Tile;
  */
 public class Weapon {
 
-    private WeaponCard weapon;
+    private final WeaponCard weapon;
     private Tile tile;
     private final Sprite icon;
 
