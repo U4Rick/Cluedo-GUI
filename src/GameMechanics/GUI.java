@@ -181,23 +181,46 @@ public abstract class GUI {
     private void buildGameBoard() {
         currentPlayer = getCurrentPlayer();
 
+        //Menu bar
         JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Menu");
-        //TODO Rules menu
-        menuBar.add(menu);
+        JMenu rulesMenu = new JMenu("Rules");
+        menuBar.add(rulesMenu);
 
-        JMenuItem menuItem = new JMenuItem("A text-only menu item");
-        menu.add(menuItem);
-        menu.addSeparator();
+        //Movement submenu
+        JMenu movementSubMenu = new JMenu("Movement");
+        movementSubMenu.add(new JMenuItem("Players may move their pieces UP TO their rolled value, to any hallway tile or room entrance tile."));
+        movementSubMenu.add(new JMenuItem("Diagonal moves are disallowed."));
+        movementSubMenu.add(new JMenuItem("Players may enter rooms via entrances only."));
+        movementSubMenu.add(new JMenuItem("Entering a room ends the move."));
+        movementSubMenu.add(new JMenuItem("No two pieces may occupy the same square."));
 
-        JMenu submenu = new JMenu("Rules");
-        menuItem = new JMenuItem("Don't do drugs");
-        submenu.add(menuItem);
-        menuItem = new JMenuItem("Wear clothes when in public");
-        submenu.add(menuItem);
+        //Suggestion submenu
+        JMenu suggestionSubMenu = new JMenu("Suggestions");
+        suggestionSubMenu.add(new JMenuItem("A player who ends their turn moving into a room MAY make a suggestion."));
+        suggestionSubMenu.add(new JMenuItem("A suggestion comprises of the current room, a weapon, and a character."));
+        suggestionSubMenu.add(new JMenuItem("The suggested weapon and character are moved to the suggested room"));
 
-        menu.add(submenu);
+        //Refuting submenu
+        JMenu refutingSubMenu = new JMenu("Refuting");
+        refutingSubMenu.add(new JMenuItem("If a player can refute, they MUST refute."));
+        refutingSubMenu.add(new JMenuItem("If a player has multiple options to refute, they may chose any ONE."));
+        refutingSubMenu.add(new JMenuItem("If no player can refute, the suggestion is available as an accusation."));
 
+        //Accusation submenu
+        JMenu accusationSubMenu = new JMenu("Accusations");
+        accusationSubMenu.add(new JMenuItem("An accusation may be made INSTEAD of a suggestion, OR immediately after an unrefuted suggestion."));
+        accusationSubMenu.add(new JMenuItem("An accusation succeeds if it exactly matches the solution, then that player wins the game."));
+        accusationSubMenu.add(new JMenuItem("If the accusation fails, that player may no longer make suggestions OR accusations."));
+        accusationSubMenu.add(new JMenuItem("A player who has made a false accusation refutes as normal."));
+
+        //Add submenus to rule menu
+        rulesMenu.add(movementSubMenu);
+        rulesMenu.addSeparator();
+        rulesMenu.add(suggestionSubMenu);
+        rulesMenu.addSeparator();
+        rulesMenu.add(refutingSubMenu);
+        rulesMenu.addSeparator();
+        rulesMenu.add(accusationSubMenu);
 
         JPanel logPanel = new JPanel();
         logPanel.setPreferredSize(new Dimension(300, 500));
