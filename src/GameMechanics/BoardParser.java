@@ -6,8 +6,6 @@ import Tiles.*;
 
 import java.util.*;
 
-//TODO finish javdocs
-
 /**
  * Parses an ascii board to create a functional game board for Cluedo.
  */
@@ -73,11 +71,12 @@ public class BoardParser {
     }
 
     /**
+     * Create a new room tile based off of the passed token and board position.
      *
-     * @param token
-     * @param x
-     * @param y
-     * @return
+     * @param token Identifying characters to parse.
+     * @param x X position on board.
+     * @param y Y position on board.
+     * @return Tile
      */
     private Tile parseRoom(String token, int x, int y) {
         Position position = new Position(x, y);
