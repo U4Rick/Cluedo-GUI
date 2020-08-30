@@ -9,8 +9,6 @@ import Tiles.Tile;
 
 import java.util.*;
 
-//TODO finish javadocs
-//TODO dispose of redundant methods
 
 /**
  * Holds the information unique to each player.
@@ -22,32 +20,11 @@ public class Player {
     private boolean madeFalseAccusation = false;
     private boolean madeClick = false;
 
-    public void setMadeClick(boolean madeClick) {
-        this.madeClick = madeClick;
-    }
-
-    public boolean isMadeClick() {
-        return madeClick;
-    }
-
-    private String username;
+    private final String username;
     private final List<Card> hand;
     private final Board board;
 
-    private Sprite playerIcon;
-
-    /**
-     * Initialises the player.
-     * @param character Card of the character the player is playing as
-     * @param tile      The tile the player starts on
-     * @param board     The board of the game
-     */
-    public Player(CharacterCard character, Tile tile, Board board) {
-        this.character = character;
-        this.tile = tile;
-        this.board = board;
-        hand = new ArrayList<>();
-    }
+    private final Sprite playerIcon;
 
     /**
      * Initialises the player.
@@ -62,6 +39,24 @@ public class Player {
         this.username = username;
         this.playerIcon = new Sprite(this.getCharacter().getFileName(), tile.position, "c");
         hand = new ArrayList<>();
+    }
+
+    /**
+     * Setter for madeClick field.
+     *
+     * @param madeClick Boolean to set madeClick as.
+     */
+    public void setMadeClick(boolean madeClick) {
+        this.madeClick = madeClick;
+    }
+
+    /**
+     * Getter for boolean field madeClick.
+     *
+     * @return Boolean value of madeClick.
+     */
+    public boolean isMadeClick() {
+        return madeClick;
     }
 
     /**
@@ -165,14 +160,6 @@ public class Player {
 
     public Sprite getPlayerIcon() { return playerIcon; }
 
-    /**
-     * A player can only hypothesise if they landed on a room entrance, and they have not made a false accusation.
-     *
-     * @return True if they can make hypothesis, otherwise false.
-     */
-    public boolean canHypothesise() {
-        return isInRoom() && hasNotMadeFalseAccusation();
-    }
 
     /**
      * Prints the players hand as text to the screen.
