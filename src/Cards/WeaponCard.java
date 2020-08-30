@@ -22,7 +22,7 @@ public class WeaponCard implements Card {
      * Possible weapons.
      */
     public enum WeaponEnum {
-        CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER;
+        CANDLESTICK, LEADPIPE, DAGGER, REVOLVER, ROPE, SPANNER
     }
 
     /**
