@@ -13,8 +13,6 @@ import java.util.*;
  */
 public class Move {
 
-    private boolean hasMadeValidMove = false;
-
     private final Player currentPlayer;
     private final Board board;
     private final int movementRange;
@@ -60,7 +58,6 @@ public class Move {
             movementOutcome  = ("Inaccessible Tile");
             return false;
         }
-        Tile startTile = board.getTileAt(startPos); //this variable is not used but the statement has side effects.
         Tile endTile = board.getTileAt(endPos);
         if ((endTile.getPlayerOnThisTile() != null) && !(board.getTileAt(endPos) instanceof EntranceTile)) {
             movementOutcome = ("Tile already has player on it");
@@ -78,7 +75,6 @@ public class Move {
             return false;
         }
 
-        hasMadeValidMove = true;
         return true;
     }
 
