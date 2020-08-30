@@ -264,34 +264,12 @@ public class Game extends GUI {
             RoomCard room = rooms.get((int) (Math.random() * rooms.size()));
             rooms.remove(room);
             Weapon weapon = new Weapon(w);
-            placeWeaponInRoom(weapon, room);
+            placeWeaponInRoom(weapon, room.getRoom());
             weapons.add(weapon);
         }
     }
 
-    /**
-     *
-     * @param weapon
-     * @param room
-     */
-    private void placeWeaponInRoom(Weapon weapon, RoomCard room) {
 
-        Tile location;
-        while (true) {
-            ArrayList<Position> tiles = board.getRoomTiles().get(room.getRoom());
-            location = board.getTileAt(tiles.get((int) (Math.random() * tiles.size())));
-            if(location instanceof RoomTile) {
-                if (location.getPlayerOnThisTile() == null && ((RoomTile) location).getWeaponOnThisTile() == null) {
-                    break;
-                }
-            }
-        }
-        ((RoomTile) location).setWeaponOnThisTile(weapon);
-        weapon.setTile(location);
-    }
-
-
-    //TODO added overloaded method for weapon teleport. Should refactor uses of the original method above to this one.
     /**
      *
      * @param weapon
