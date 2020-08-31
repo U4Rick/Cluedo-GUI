@@ -15,6 +15,7 @@ import Game.Tiles.*;
 import java.util.*;
 
 import static Game.Cards.CharacterCard.*;
+import static Game.Cards.CharacterCard.CharacterEnum.*;
 import static Game.Cards.RoomCard.*;
 import static Game.Cards.WeaponCard.*;
 
@@ -24,8 +25,6 @@ import static Game.Cards.WeaponCard.*;
  * classes in running the game via game logic
  */
 public class Game extends GUI {
-    //TODO clean up redundant methods, and reorganize useful ones.
-    //TODO correct javadocs of surviving methods where needed
 
     private Hypothesis solution;
     private Player currentPlayer;
@@ -132,27 +131,27 @@ public class Game extends GUI {
         CharacterCard card;
         switch (characterName) {
             case "Plum":
-                card = new CharacterCard(CharacterEnum.PLUM);
+                card = new CharacterCard(PLUM);
                 break;
 
             case "Peacock":
-                card = new CharacterCard(CharacterEnum.PEACOCK);
+                card = new CharacterCard(PEACOCK);
                 break;
 
             case "Mustard":
-                card = new CharacterCard(CharacterEnum.MUSTARD);
+                card = new CharacterCard(MUSTARD);
                 break;
 
             case "Scarlett":
-                card = new CharacterCard(CharacterEnum.SCARLETT);
+                card = new CharacterCard(SCARLETT);
                 break;
 
             case "White":
-                card = new CharacterCard(CharacterEnum.WHITE);
+                card = new CharacterCard(WHITE);
                 break;
 
             case "Green":
-                card = new CharacterCard(CharacterEnum.GREEN);
+                card = new CharacterCard(GREEN);
                 break;
 
             default:
@@ -255,7 +254,7 @@ public class Game extends GUI {
     }
 
     /**
-     *
+     * Create all weapons and place them in random rooms.
      */
     private void setUpWeapons() {
         ArrayList<RoomCard> rooms = new ArrayList<>();
@@ -275,9 +274,10 @@ public class Game extends GUI {
 
 
     /**
+     * Move the passed Weapon into a random tile within the passed Room.
      *
-     * @param weapon
-     * @param room
+     * @param weapon Weapon to place.
+     * @param room Room to place in.
      */
     private void placeWeaponInRoom(Weapon weapon, RoomEnum room) {
 
@@ -295,6 +295,12 @@ public class Game extends GUI {
         weapon.setTile(location);
     }
 
+    /**
+     * Move the passed Player into a random tile within the passed Room.
+     *
+     * @param player Player to place.
+     * @param room Room to place in.
+     */
     protected void placePlayerInRoom(Player player, RoomEnum room) {
 
         Tile location;

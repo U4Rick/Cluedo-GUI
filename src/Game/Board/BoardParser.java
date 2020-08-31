@@ -6,6 +6,9 @@ import Game.Tiles.*;
 
 import java.util.*;
 
+import static Game.Cards.CharacterCard.CharacterEnum.*;
+import static Game.Cards.RoomCard.RoomEnum.*;
+
 /**
  * Parses an ascii board to create a functional game board for Cluedo.
  */
@@ -82,59 +85,59 @@ public class BoardParser {
         Position position = new Position(x, y);
         switch (token) {
             case "kt":
-                if (!rooms.containsKey(RoomCard.RoomEnum.KITCHEN)) {
-                    rooms.put(RoomCard.RoomEnum.KITCHEN, new ArrayList<>());
+                if (!rooms.containsKey(KITCHEN)) {
+                    rooms.put(KITCHEN, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.KITCHEN).add(position);
-                return new RoomTile(RoomCard.RoomEnum.KITCHEN, position);
+                rooms.get(KITCHEN).add(position);
+                return new RoomTile(KITCHEN, position);
             case "br":
-                if (!rooms.containsKey(RoomCard.RoomEnum.BALLROOM)) {
-                    rooms.put(RoomCard.RoomEnum.BALLROOM, new ArrayList<>());
+                if (!rooms.containsKey(BALLROOM)) {
+                    rooms.put(BALLROOM, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.BALLROOM).add(position);
-                return new RoomTile(RoomCard.RoomEnum.BALLROOM, position);
+                rooms.get(BALLROOM).add(position);
+                return new RoomTile(BALLROOM, position);
             case "ct":
-                if (!rooms.containsKey(RoomCard.RoomEnum.CONSERVATORY)) {
-                    rooms.put(RoomCard.RoomEnum.CONSERVATORY, new ArrayList<>());
+                if (!rooms.containsKey(CONSERVATORY)) {
+                    rooms.put(CONSERVATORY, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.CONSERVATORY).add(position);
-                return new RoomTile(RoomCard.RoomEnum.CONSERVATORY, position);
+                rooms.get(CONSERVATORY).add(position);
+                return new RoomTile(CONSERVATORY, position);
             case "bl":
-                if (!rooms.containsKey(RoomCard.RoomEnum.BILLIARDROOM)) {
-                    rooms.put(RoomCard.RoomEnum.BILLIARDROOM, new ArrayList<>());
+                if (!rooms.containsKey(BILLIARDROOM)) {
+                    rooms.put(BILLIARDROOM, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.BILLIARDROOM).add(position);
-                return new RoomTile(RoomCard.RoomEnum.BILLIARDROOM, position);
+                rooms.get(BILLIARDROOM).add(position);
+                return new RoomTile(BILLIARDROOM, position);
             case "lb":
-                if (!rooms.containsKey(RoomCard.RoomEnum.LIBRARY)) {
-                    rooms.put(RoomCard.RoomEnum.LIBRARY, new ArrayList<>());
+                if (!rooms.containsKey(LIBRARY)) {
+                    rooms.put(LIBRARY, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.LIBRARY).add(position);
-                return new RoomTile(RoomCard.RoomEnum.LIBRARY, position);
+                rooms.get(LIBRARY).add(position);
+                return new RoomTile(LIBRARY, position);
             case "st":
-                if (!rooms.containsKey(RoomCard.RoomEnum.STUDY)) {
-                    rooms.put(RoomCard.RoomEnum.STUDY, new ArrayList<>());
+                if (!rooms.containsKey(STUDY)) {
+                    rooms.put(STUDY, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.STUDY).add(position);
-                return new RoomTile(RoomCard.RoomEnum.STUDY, position);
+                rooms.get(STUDY).add(position);
+                return new RoomTile(STUDY, position);
             case "hl":
-                if (!rooms.containsKey(RoomCard.RoomEnum.HALL)) {
-                    rooms.put(RoomCard.RoomEnum.HALL, new ArrayList<>());
+                if (!rooms.containsKey(HALL)) {
+                    rooms.put(HALL, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.HALL).add(position);
-                return new RoomTile(RoomCard.RoomEnum.HALL, position);
+                rooms.get(HALL).add(position);
+                return new RoomTile(HALL, position);
             case "lg":
-                if (!rooms.containsKey(RoomCard.RoomEnum.LOUNGE)) {
-                    rooms.put(RoomCard.RoomEnum.LOUNGE, new ArrayList<>());
+                if (!rooms.containsKey(LOUNGE)) {
+                    rooms.put(LOUNGE, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.LOUNGE).add(position);
-                return new RoomTile(RoomCard.RoomEnum.LOUNGE, position);
+                rooms.get(LOUNGE).add(position);
+                return new RoomTile(LOUNGE, position);
             case "dr":
-                if (!rooms.containsKey(RoomCard.RoomEnum.DININGROOM)) {
-                    rooms.put(RoomCard.RoomEnum.DININGROOM, new ArrayList<>());
+                if (!rooms.containsKey(DININGROOM)) {
+                    rooms.put(DININGROOM, new ArrayList<>());
                 }
-                rooms.get(RoomCard.RoomEnum.DININGROOM).add(position);
-                return new RoomTile(RoomCard.RoomEnum.DININGROOM, position);
+                rooms.get(DININGROOM).add(position);
+                return new RoomTile(DININGROOM, position);
         }
         return null;
     }
@@ -153,76 +156,76 @@ public class BoardParser {
         Position position = new Position(x, y);
         switch (token) {
             case "KT":
-                if (!entrances.containsKey(RoomCard.RoomEnum.KITCHEN)) {
-                    entrances.put(RoomCard.RoomEnum.KITCHEN, new ArrayList<>());
+                if (!entrances.containsKey(KITCHEN)) {
+                    entrances.put(KITCHEN, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.KITCHEN).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.KITCHEN, position);
+                entrances.get(KITCHEN).add(position);
+                return new EntranceTile(KITCHEN, position);
             case "BR":
-                if (!entrances.containsKey(RoomCard.RoomEnum.BALLROOM)) {
-                    entrances.put(RoomCard.RoomEnum.BALLROOM, new ArrayList<>());
+                if (!entrances.containsKey(BALLROOM)) {
+                    entrances.put(BALLROOM, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.BALLROOM).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.BALLROOM, position);
+                entrances.get(BALLROOM).add(position);
+                return new EntranceTile(BALLROOM, position);
             case "CT":
-                if (!entrances.containsKey(RoomCard.RoomEnum.CONSERVATORY)) {
-                    entrances.put(RoomCard.RoomEnum.CONSERVATORY, new ArrayList<>());
+                if (!entrances.containsKey(CONSERVATORY)) {
+                    entrances.put(CONSERVATORY, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.CONSERVATORY).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.CONSERVATORY, position);
+                entrances.get(CONSERVATORY).add(position);
+                return new EntranceTile(CONSERVATORY, position);
             case "BL":
-                if (!entrances.containsKey(RoomCard.RoomEnum.BILLIARDROOM)) {
-                    entrances.put(RoomCard.RoomEnum.BILLIARDROOM, new ArrayList<>());
+                if (!entrances.containsKey(BILLIARDROOM)) {
+                    entrances.put(BILLIARDROOM, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.BILLIARDROOM).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.BILLIARDROOM, position);
+                entrances.get(BILLIARDROOM).add(position);
+                return new EntranceTile(BILLIARDROOM, position);
             case "LB":
-                if (!entrances.containsKey(RoomCard.RoomEnum.LIBRARY)) {
-                    entrances.put(RoomCard.RoomEnum.LIBRARY, new ArrayList<>());
+                if (!entrances.containsKey(LIBRARY)) {
+                    entrances.put(LIBRARY, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.LIBRARY).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.LIBRARY, position);
+                entrances.get(LIBRARY).add(position);
+                return new EntranceTile(LIBRARY, position);
             case "ST":
-                if (!entrances.containsKey(RoomCard.RoomEnum.STUDY)) {
-                    entrances.put(RoomCard.RoomEnum.STUDY, new ArrayList<>());
+                if (!entrances.containsKey(STUDY)) {
+                    entrances.put(STUDY, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.STUDY).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.STUDY, position);
+                entrances.get(STUDY).add(position);
+                return new EntranceTile(STUDY, position);
             case "HL":
-                if (!entrances.containsKey(RoomCard.RoomEnum.HALL)) {
-                    entrances.put(RoomCard.RoomEnum.HALL, new ArrayList<>());
+                if (!entrances.containsKey(HALL)) {
+                    entrances.put(HALL, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.HALL).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.HALL, position);
+                entrances.get(HALL).add(position);
+                return new EntranceTile(HALL, position);
             case "LG":
-                if (!entrances.containsKey(RoomCard.RoomEnum.LOUNGE)) {
-                    entrances.put(RoomCard.RoomEnum.LOUNGE, new ArrayList<>());
+                if (!entrances.containsKey(LOUNGE)) {
+                    entrances.put(LOUNGE, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.LOUNGE).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.LOUNGE, position);
+                entrances.get(LOUNGE).add(position);
+                return new EntranceTile(LOUNGE, position);
             case "DR":
-                if (!entrances.containsKey(RoomCard.RoomEnum.DININGROOM)) {
-                    entrances.put(RoomCard.RoomEnum.DININGROOM, new ArrayList<>());
+                if (!entrances.containsKey(DININGROOM)) {
+                    entrances.put(DININGROOM, new ArrayList<>());
                 }
-                entrances.get(RoomCard.RoomEnum.DININGROOM).add(position);
-                return new EntranceTile(RoomCard.RoomEnum.DININGROOM, position);
+                entrances.get(DININGROOM).add(position);
+                return new EntranceTile(DININGROOM, position);
             case "MU":
-                startingTiles.put(CharacterCard.CharacterEnum.MUSTARD, position);
+                startingTiles.put(MUSTARD, position);
                 return new HallwayTile(position);
             case "WH":
-                startingTiles.put(CharacterCard.CharacterEnum.WHITE, position);
+                startingTiles.put(WHITE, position);
                 return new HallwayTile(position);
             case "GR":
-                startingTiles.put(CharacterCard.CharacterEnum.GREEN, position);
+                startingTiles.put(GREEN, position);
                 return new HallwayTile(position);
             case "PC":
-                startingTiles.put(CharacterCard.CharacterEnum.PEACOCK, position);
+                startingTiles.put(PEACOCK, position);
                 return new HallwayTile(position);
             case "PL":
-                startingTiles.put(CharacterCard.CharacterEnum.PLUM, position);
+                startingTiles.put(PLUM, position);
                 return new HallwayTile(position);
             case "SC":
-                startingTiles.put(CharacterCard.CharacterEnum.SCARLETT, position);
+                startingTiles.put(SCARLETT, position);
                 return new HallwayTile(position);
             default:
                 throw new InputMismatchException("No viable character value found.");
