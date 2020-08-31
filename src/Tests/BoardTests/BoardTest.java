@@ -3,23 +3,25 @@ package Tests.BoardTests;
 import Game.Board.Board;
 import Game.Tiles.Position;
 import Game.Tiles.Tile;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-class BoardTest {
+
+public class BoardTest {
 
     Board board = new Board();
 
     @Test
-    void getTileAt() {
+    public void getTileAt() {
         Position position = new Position(2, 2);
         assertEquals(board.getTileAt(position), board.getTileAt(position));
         assertNotEquals(board.getTileAt(position), new Tile(new Position(2, 3)));
     }
 
     @Test
-    void testToString() {
+    public void testToString() {
         String boardText =
                         "0 |~~|~~|~~|~~|~~|~~|~~|~~|~~|__|~~|~~|~~|~~|__|~~|~~|~~|~~|~~|~~|~~|~~|~~|\n" +
                         "1 |  |  |  |  |  |  |~~|__|__|__|  |  |  |  |__|__|__|~~|  |  |  |  |  |  |\n" +

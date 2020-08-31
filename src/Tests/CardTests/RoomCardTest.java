@@ -1,27 +1,29 @@
 package Tests.CardTests;
 
 import Game.Cards.RoomCard;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
 import static Game.Cards.RoomCard.RoomEnum.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-class RoomCardTest {
+
+public class RoomCardTest {
 
     private final RoomCard card = new RoomCard(KITCHEN);
 
     @Test
-    void getFileName() {
+    public void getFileName() {
         assertEquals(card.getFileName(), "Kitchen.png");
     }
 
     @Test
-    void getRoom() {
+    public void getRoom() {
         assertEquals(card.getRoom(), KITCHEN);
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         RoomCard same = new RoomCard(KITCHEN);
         RoomCard different = new RoomCard(BALLROOM);
 
@@ -30,7 +32,7 @@ class RoomCardTest {
     }
 
     @Test
-    void testToString() {
+    public void testToString() {
         assertEquals(card.toString(), "Kitchen");
     }
 }

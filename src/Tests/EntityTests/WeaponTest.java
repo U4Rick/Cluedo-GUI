@@ -2,29 +2,30 @@ package Tests.EntityTests;
 
 import Game.Cards.WeaponCard;
 import Game.Entities.Weapon;
-import Game.Tiles.Position;
-import Game.Tiles.Tile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
+
 
 import static Game.Cards.WeaponCard.WeaponEnum.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-class WeaponTest {
+
+public class WeaponTest {
 
     Weapon weapon = new Weapon(new WeaponCard(CANDLESTICK));
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
     }
 
     @Test
-    void getIcon() {
+    public void getIcon() {
         assertNotNull(weapon.getIcon());
     }
 
     @Test
-    void getWeapon() {
+    public void getWeapon() {
         assertEquals(weapon.getWeapon(), new WeaponCard(CANDLESTICK));
     }
 }

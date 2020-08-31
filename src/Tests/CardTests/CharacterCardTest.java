@@ -1,27 +1,28 @@
 package Tests.CardTests;
 
 import Game.Cards.CharacterCard;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static Game.Cards.CharacterCard.CharacterEnum.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-class CharacterCardTest {
+public class CharacterCardTest {
 
     private final CharacterCard card = new CharacterCard(SCARLETT);
 
     @Test
-    void getFileName() {
+    public void getFileName() {
         assertEquals(card.getFileName(), "MissScarlett.png");
     }
 
     @Test
-    void getCharacter() {
+    public void getCharacter() {
         assertEquals(card.getCharacter(), SCARLETT);
     }
 
     @Test
-    void testEquals() {
+    public void testEquals() {
         CharacterCard same = new CharacterCard(SCARLETT);
         CharacterCard different = new CharacterCard(PLUM);
 
@@ -30,7 +31,7 @@ class CharacterCardTest {
     }
 
     @Test
-    void testToString() {
+    public void testToString() {
         assertEquals(card.toString(), "Miss Scarlett");
     }
 }

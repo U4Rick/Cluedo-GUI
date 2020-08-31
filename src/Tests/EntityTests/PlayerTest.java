@@ -8,39 +8,39 @@ import Game.Cards.WeaponCard;
 import Game.Entities.Player;
 import Game.Tiles.Position;
 import Game.Tiles.Tile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import static Game.Cards.CharacterCard.CharacterEnum.SCARLETT;
 import static Game.Cards.RoomCard.RoomEnum.*;
 import static Game.Cards.WeaponCard.WeaponEnum.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class PlayerTest {
+public class PlayerTest {
 
     Player player;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         player = new Player(new CharacterCard(SCARLETT), new Tile(new Position(4, 20)), new Board(), "test");
     }
 
     @Test
-    void addCardToHand() {
+    public void addCardToHand() {
         int startSize = player.getHand().size();
         player.addCardToHand(new CharacterCard(SCARLETT));
         assertEquals(player.getHand().size(), startSize + 1);
     }
 
     @Test
-    void madeFalseAccusation() {
+    public void madeFalseAccusation() {
         assertTrue(player.hasNotMadeFalseAccusation());
         player.madeFalseAccusation();
         assertFalse(player.hasNotMadeFalseAccusation());
     }
 
     @Test
-    void getRefutableCards() {
+    public void getRefutableCards() {
         //setup cards
         CharacterCard characterCard = new CharacterCard(SCARLETT);
         WeaponCard weaponCard = new WeaponCard(CANDLESTICK);
@@ -60,21 +60,21 @@ class PlayerTest {
     }
 
     @Test
-    void isInRoom() {
+    public void isInRoom() {
         assertFalse(player.isInRoom());
         player.setTile(new Tile(new Position(6, 19)));
         assertTrue(player.isInRoom());
     }
 
     @Test
-    void roomPlayerIsIn() {
+    public void roomPlayerIsIn() {
         assertNull(player.roomPlayerIsIn());
         player.setTile(new Tile(new Position(6, 19)));
         assertEquals(player.roomPlayerIsIn(), LOUNGE);
     }
 
     @Test
-    void testToString() {
+    public void testToString() {
         assertEquals(player.toString(), "SC");
     }
 }

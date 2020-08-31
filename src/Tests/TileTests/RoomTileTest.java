@@ -4,27 +4,28 @@ import Game.Cards.WeaponCard;
 import Game.Entities.Weapon;
 import Game.Tiles.Position;
 import Game.Tiles.RoomTile;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static Game.Cards.RoomCard.RoomEnum.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-class RoomTileTest {
+public class RoomTileTest {
 
     RoomTile roomTile = new RoomTile(BALLROOM, new Position(0, 0));
 
     @Test
-    void getRoom() {
+    public void getRoom() {
         assertEquals(roomTile.getRoom(), BALLROOM);
     }
 
     @Test
-    void getWeaponOnThisTile() {
+    public void getWeaponOnThisTile() {
         assertNull(roomTile.getWeaponOnThisTile());
     }
 
     @Test
-    void setWeaponOnThisTile() {
+    public void setWeaponOnThisTile() {
         Weapon weapon = new Weapon(new WeaponCard(WeaponCard.WeaponEnum.CANDLESTICK));
         roomTile.setWeaponOnThisTile(weapon);
         assertEquals(roomTile.getWeaponOnThisTile(), weapon);

@@ -5,29 +5,30 @@ import Game.Board.Board;
 import Game.Entities.Player;
 import Game.Tiles.Position;
 import Game.Tiles.Tile;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static Game.Cards.CharacterCard.CharacterEnum.SCARLETT;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-class TileTest {
+public class TileTest {
 
     Tile tile = new Tile(new Position(0, 0));
 
     @Test
-    void getPlayerOnThisTile() {
+    public void getPlayerOnThisTile() {
         assertNull(tile.getPlayerOnThisTile());
     }
 
     @Test
-    void setPlayerOnThisTile() {
+    public void setPlayerOnThisTile() {
         Player player = new Player(new CharacterCard(SCARLETT), tile, new Board(), "test");
         tile.setPlayerOnThisTile(player);
         assertEquals(tile.getPlayerOnThisTile(), player);
     }
 
     @Test
-    void getPosition() {
+    public void getPosition() {
         assertEquals(tile.getPosition(), new Position(0, 0));
     }
 }
