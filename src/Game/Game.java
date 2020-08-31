@@ -39,9 +39,10 @@ public class Game extends GUI {
 
     /**
      * Creates new instance of game.
-     * Run initialise methods and then run the game.
      */
-    public Game() { }
+    public Game() {
+
+    }
 
     @Override
     protected void createGame() {
