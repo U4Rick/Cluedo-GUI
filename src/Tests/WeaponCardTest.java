@@ -5,11 +5,12 @@ import Cards.WeaponCard.WeaponEnum;
 import GameMechanics.Weapon;
 import org.junit.jupiter.api.Test;
 
+import static Cards.WeaponCard.WeaponEnum.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponCardTest {
 
-    private final WeaponCard card = new WeaponCard(WeaponEnum.CANDLESTICK);
+    private final WeaponCard card = new WeaponCard(CANDLESTICK);
 
     @Test
     void getFileName() {
@@ -18,8 +19,8 @@ class WeaponCardTest {
 
     @Test
     void testEquals() {
-        WeaponCard same = new WeaponCard(WeaponEnum.CANDLESTICK);
-        WeaponCard different = new WeaponCard(WeaponEnum.DAGGER);
+        WeaponCard same = new WeaponCard(CANDLESTICK);
+        WeaponCard different = new WeaponCard(DAGGER);
 
         assertEquals(card, same);
         assertNotEquals(card, different);

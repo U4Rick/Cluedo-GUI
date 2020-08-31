@@ -2,12 +2,12 @@ package Tests;
 
 import Cards.CharacterCard;
 
-import static Cards.CharacterCard.CharacterEnum;
+import static Cards.CharacterCard.CharacterEnum.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterCardTest {
 
-    private final CharacterCard card = new CharacterCard(CharacterEnum.SCARLETT);
+    private final CharacterCard card = new CharacterCard(SCARLETT);
 
     @org.junit.jupiter.api.Test
     void getFileName() {
@@ -16,13 +16,13 @@ class CharacterCardTest {
 
     @org.junit.jupiter.api.Test
     void getCharacter() {
-        assertEquals(card.getCharacter(), CharacterEnum.SCARLETT);
+        assertEquals(card.getCharacter(), SCARLETT);
     }
 
     @org.junit.jupiter.api.Test
     void testEquals() {
-        CharacterCard same = new CharacterCard(CharacterEnum.SCARLETT);
-        CharacterCard different = new CharacterCard(CharacterEnum.PLUM);
+        CharacterCard same = new CharacterCard(SCARLETT);
+        CharacterCard different = new CharacterCard(PLUM);
 
         assertEquals(card, same);
         assertNotEquals(card, different);
