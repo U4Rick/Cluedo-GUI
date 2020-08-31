@@ -1,9 +1,7 @@
 package Game.Board;
 
-import Game.Tiles.Position;
 import Game.Tiles.Tile;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -87,32 +85,6 @@ public class Node implements Comparable<Node> {
                 "tile=" + tile +
                 ", distanceToRoot=" + distance +
                 '}';
-    }
-
-    /**
-     * Get all neighbouring nodes of this Node.
-     *
-     * @param node Node to get neighbours of.
-     * @param path Map of nodes and their positions on the board.
-     * @return Array of all neighbouring Nodes.
-     */
-    public Node[] getNeighbours(Node node, HashMap<Position, Node> path) {
-        Position pos = node.getTile().position;
-        Node[] neigh = new Node[4];
-
-        //UP
-        if (path.containsKey(pos.add(0, -1))) neigh[0] = path.get(pos.add(0, -1));
-
-        //RIGHT
-        if (path.containsKey(pos.add(1, 0))) neigh[1] = path.get(pos.add(1, 0));
-
-        //DOWN
-        if (path.containsKey(pos.add(0, 1))) neigh[2] = path.get(pos.add(0, 1));
-
-        //LEFT
-        if (path.containsKey(pos.add(-1, 0))) neigh[3] = path.get(pos.add(-1, 0));
-
-        return neigh;
     }
 }
 
