@@ -1,12 +1,15 @@
-package GameMechanics;
+package Game;
 
-import Cards.Card;
-import Cards.RoomCard;
-import GameMechanics.Action.Hypothesis;
-import Tiles.EntranceTile;
-import Tiles.Position;
-import Tiles.RoomTile;
-import Tiles.Tile;
+import Game.Cards.Card;
+import Game.Cards.RoomCard;
+import Game.Actions.Hypothesis;
+import Game.Entities.Player;
+import Game.Entities.Sprite;
+import Game.Entities.Weapon;
+import Game.Tiles.EntranceTile;
+import Game.Tiles.Position;
+import Game.Tiles.RoomTile;
+import Game.Tiles.Tile;
 
 import javax.swing.*;
 import java.awt.*;

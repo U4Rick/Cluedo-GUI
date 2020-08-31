@@ -1,7 +1,7 @@
-package Tiles;
+package Game.Tiles;
 
-import Cards.RoomCard;
-import GameMechanics.Weapon;
+import Game.Cards.RoomCard;
+import Game.Entities.Weapon;
 
 /**
  * Textual placeholder for room tiles (which are inaccessible by direct player movement).

@@ -1,4 +1,4 @@
-package Cards;
+package Game.Cards;
 
 /**
  * Interface for card.

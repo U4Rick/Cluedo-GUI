@@ -1,7 +1,7 @@
-package Tiles;
+package Game.Tiles;
 
 /**
- * Hallway Tiles, can only have one player on tile, way to move
+ * Hallway GameMechanics.Tiles, can only have one player on tile, way to move
  * around the board.
  */
 public class HallwayTile extends AccessibleTile {

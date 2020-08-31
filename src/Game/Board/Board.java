@@ -1,8 +1,8 @@
-package GameMechanics;
+package Game.Board;
 
-import Cards.CharacterCard;
-import Cards.RoomCard;
-import Tiles.*;
+import Game.Cards.CharacterCard;
+import Game.Cards.RoomCard;
+import Game.Tiles.*;
 
 import java.util.ArrayList;
 import java.util.Map;

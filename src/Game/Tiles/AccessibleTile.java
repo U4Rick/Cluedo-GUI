@@ -1,7 +1,7 @@
-package Tiles;
+package Game.Tiles;
 
 /**
- * Tiles that can be accessed by the player in some form.
+ * GameMechanics.Tiles that can be accessed by the player in some form.
  */
 public class AccessibleTile extends Tile {
 

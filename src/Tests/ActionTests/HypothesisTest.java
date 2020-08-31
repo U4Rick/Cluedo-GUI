@@ -1,14 +1,14 @@
-package Tests.GameMechanicsTests;
+package Tests.ActionTests;
 
-import Cards.CharacterCard;
-import Cards.RoomCard;
-import Cards.WeaponCard;
-import GameMechanics.Action.Hypothesis;
+import Game.Cards.CharacterCard;
+import Game.Cards.RoomCard;
+import Game.Cards.WeaponCard;
+import Game.Actions.Hypothesis;
 import org.junit.jupiter.api.Test;
 
-import static Cards.CharacterCard.CharacterEnum.*;
-import static Cards.RoomCard.RoomEnum.*;
-import static Cards.WeaponCard.WeaponEnum.*;
+import static Game.Cards.CharacterCard.CharacterEnum.*;
+import static Game.Cards.RoomCard.RoomEnum.*;
+import static Game.Cards.WeaponCard.WeaponEnum.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

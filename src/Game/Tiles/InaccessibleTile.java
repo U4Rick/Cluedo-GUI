@@ -1,7 +1,7 @@
-package Tiles;
+package Game.Tiles;
 
 /**
- * Tiles around the board that cannot be accessed by the player but are necessary
+ * GameMechanics.Tiles around the board that cannot be accessed by the player but are necessary
  * for the board layout.
  */
 public class InaccessibleTile extends Tile {

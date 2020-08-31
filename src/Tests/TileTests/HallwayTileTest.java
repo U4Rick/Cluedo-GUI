@@ -1,14 +1,13 @@
 package Tests.TileTests;
 
-import Cards.CharacterCard;
-import Cards.CharacterCard.CharacterEnum;
-import GameMechanics.Board;
-import GameMechanics.Player;
-import Tiles.HallwayTile;
-import Tiles.Position;
+import Game.Cards.CharacterCard;
+import Game.Board.Board;
+import Game.Entities.Player;
+import Game.Tiles.HallwayTile;
+import Game.Tiles.Position;
 import org.junit.jupiter.api.Test;
 
-import static Cards.CharacterCard.CharacterEnum.*;
+import static Game.Cards.CharacterCard.CharacterEnum.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HallwayTileTest {

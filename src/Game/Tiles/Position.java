@@ -1,4 +1,4 @@
-package Tiles;
+package Game.Tiles;
 
 import java.util.Objects;
 

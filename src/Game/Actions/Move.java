@@ -1,10 +1,10 @@
-package GameMechanics.Action;
+package Game.Actions;
 
-import Cards.RoomCard;
-import GameMechanics.Board;
-import GameMechanics.Node;
-import GameMechanics.Player;
-import Tiles.*;
+import Game.Cards.RoomCard;
+import Game.Board.Board;
+import Game.Board.Node;
+import Game.Entities.Player;
+import Game.Tiles.*;
 
 import java.util.*;
 

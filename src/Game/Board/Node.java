@@ -1,7 +1,7 @@
-package GameMechanics;
+package Game.Board;
 
-import Tiles.Position;
-import Tiles.Tile;
+import Game.Tiles.Position;
+import Game.Tiles.Tile;
 
 import java.util.HashMap;
 import java.util.Objects;

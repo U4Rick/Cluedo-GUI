@@ -1,6 +1,6 @@
-package GameMechanics;
+package Game.Entities;
 
-import Tiles.Position;
+import Game.Tiles.Position;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

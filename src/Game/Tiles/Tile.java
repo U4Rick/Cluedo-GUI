@@ -1,9 +1,9 @@
-package Tiles;
+package Game.Tiles;
 
-import GameMechanics.Player;
+import Game.Entities.Player;
 
 /**
- * Tiles which represent areas on the board grid.
+ * GameMechanics.Tiles which represent areas on the board grid.
  */
 public class Tile {
 

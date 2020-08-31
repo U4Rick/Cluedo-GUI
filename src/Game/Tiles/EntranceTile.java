@@ -1,6 +1,6 @@
-package Tiles;
+package Game.Tiles;
 
-import static Cards.RoomCard.*;
+import static Game.Cards.RoomCard.*;
 
 /**
  * Entrance tiles, allows multiple players to be on and

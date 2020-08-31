@@ -1,11 +1,12 @@
-package GameMechanics;
+package Game.Entities;
 
-import Cards.Card;
-import Cards.CharacterCard;
-import Cards.RoomCard;
-import GameMechanics.Action.Hypothesis;
-import Tiles.Position;
-import Tiles.Tile;
+import Game.Cards.Card;
+import Game.Cards.CharacterCard;
+import Game.Cards.RoomCard;
+import Game.Actions.Hypothesis;
+import Game.Board.Board;
+import Game.Tiles.Position;
+import Game.Tiles.Tile;
 
 import java.util.*;
 

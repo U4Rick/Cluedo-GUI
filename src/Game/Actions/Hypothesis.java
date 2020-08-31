@@ -1,8 +1,8 @@
-package GameMechanics.Action;
+package Game.Actions;
 
-import Cards.CharacterCard;
-import Cards.RoomCard;
-import Cards.WeaponCard;
+import Game.Cards.CharacterCard;
+import Game.Cards.RoomCard;
+import Game.Cards.WeaponCard;
 
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
-package GameMechanics;
+package Game.Entities;
 
-import Cards.WeaponCard;
-import Tiles.Tile;
+import Game.Cards.WeaponCard;
+import Game.Tiles.Tile;
 
 /**
  * Representation of a weapon for the game of Cluedo.

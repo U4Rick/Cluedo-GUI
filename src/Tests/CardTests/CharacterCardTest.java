@@ -1,9 +1,9 @@
 package Tests.CardTests;
 
-import Cards.CharacterCard;
+import Game.Cards.CharacterCard;
 import org.junit.jupiter.api.Test;
 
-import static Cards.CharacterCard.CharacterEnum.*;
+import static Game.Cards.CharacterCard.CharacterEnum.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterCardTest {

@@ -1,6 +1,6 @@
 package Tests.TileTests;
 
-import Tiles.Position;
+import Game.Tiles.Position;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

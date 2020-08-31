@@ -1,18 +1,22 @@
-package GameMechanics;
+package Game;
 
-import Cards.Card;
-import Cards.CharacterCard;
-import Cards.RoomCard;
-import Cards.WeaponCard;
-import GameMechanics.Action.Hypothesis;
-import GameMechanics.Action.Move;
-import Tiles.*;
+import Game.Cards.Card;
+import Game.Cards.CharacterCard;
+import Game.Cards.RoomCard;
+import Game.Cards.WeaponCard;
+import Game.Actions.Hypothesis;
+import Game.Actions.Move;
+import Game.Board.Board;
+import Game.Entities.Player;
+import Game.Entities.Sprite;
+import Game.Entities.Weapon;
+import Game.Tiles.*;
 
 import java.util.*;
 
-import static Cards.CharacterCard.*;
-import static Cards.RoomCard.*;
-import static Cards.WeaponCard.*;
+import static Game.Cards.CharacterCard.*;
+import static Game.Cards.RoomCard.*;
+import static Game.Cards.WeaponCard.*;
 
 /**
  * Main class for Cluedo.

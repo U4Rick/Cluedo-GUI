@@ -1,12 +1,12 @@
 package Tests.TileTests;
 
-import Cards.WeaponCard;
-import GameMechanics.Weapon;
-import Tiles.Position;
-import Tiles.RoomTile;
+import Game.Cards.WeaponCard;
+import Game.Entities.Weapon;
+import Game.Tiles.Position;
+import Game.Tiles.RoomTile;
 import org.junit.jupiter.api.Test;
 
-import static Cards.RoomCard.RoomEnum.*;
+import static Game.Cards.RoomCard.RoomEnum.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTileTest {

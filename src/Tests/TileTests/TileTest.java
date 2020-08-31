@@ -1,15 +1,13 @@
 package Tests.TileTests;
 
-import Cards.CharacterCard;
-import Cards.WeaponCard;
-import GameMechanics.Board;
-import GameMechanics.Player;
-import GameMechanics.Weapon;
-import Tiles.Position;
-import Tiles.Tile;
+import Game.Cards.CharacterCard;
+import Game.Board.Board;
+import Game.Entities.Player;
+import Game.Tiles.Position;
+import Game.Tiles.Tile;
 import org.junit.jupiter.api.Test;
 
-import static Cards.CharacterCard.CharacterEnum.SCARLETT;
+import static Game.Cards.CharacterCard.CharacterEnum.SCARLETT;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileTest {

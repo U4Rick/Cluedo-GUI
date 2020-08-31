@@ -1,11 +1,9 @@
 package Tests.CardTests;
 
-import Cards.WeaponCard;
-import Cards.WeaponCard.WeaponEnum;
-import GameMechanics.Weapon;
+import Game.Cards.WeaponCard;
 import org.junit.jupiter.api.Test;
 
-import static Cards.WeaponCard.WeaponEnum.*;
+import static Game.Cards.WeaponCard.WeaponEnum.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponCardTest {
