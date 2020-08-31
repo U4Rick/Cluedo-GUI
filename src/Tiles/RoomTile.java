@@ -3,8 +3,6 @@ package Tiles;
 import Cards.RoomCard;
 import GameMechanics.Weapon;
 
-//TODO finish javadocs
-
 /**
  * Textual placeholder for room tiles (which are inaccessible by direct player movement).
  */
@@ -13,12 +11,9 @@ public class RoomTile extends InaccessibleTile {
     public RoomCard.RoomEnum room;
     protected Weapon weaponOnThisTile;
 
-    public RoomCard.RoomEnum getRoom() {
-        return room;
-    }
-
     /**
      * Creates the tile at given position.
+     *
      * @param pos   Position of the tile.
      */
     public RoomTile(RoomCard.RoomEnum room, Position pos) {
@@ -27,9 +22,32 @@ public class RoomTile extends InaccessibleTile {
         weaponOnThisTile = null;
     }
 
-    public Weapon getWeaponOnThisTile() { return weaponOnThisTile; }
+    /**
+     * Getter for room.
+     *
+     * @return room.
+     */
+    public RoomCard.RoomEnum getRoom() {
+        return room;
+    }
 
-    public void setWeaponOnThisTile(Weapon weaponOnThisTile) { this.weaponOnThisTile = weaponOnThisTile; }
+    /**
+     * Getter for weaponOnThisTile.
+     *
+     * @return weaponOnThisTile
+     */
+    public Weapon getWeaponOnThisTile() {
+        return weaponOnThisTile;
+    }
+
+    /**
+     * Setter for weaponOnThisTile.
+     *
+     * @param weaponOnThisTile Weapon to set weaponOnThisTile to.
+     */
+    public void setWeaponOnThisTile(Weapon weaponOnThisTile) {
+        this.weaponOnThisTile = weaponOnThisTile;
+    }
 
     @Override
     public String toString() {

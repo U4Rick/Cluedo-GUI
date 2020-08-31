@@ -2,8 +2,6 @@ package Tiles;
 
 import GameMechanics.Player;
 
-//TODO dispose of redundant methods
-
 /**
  * Tiles which represent areas on the board grid.
  */
@@ -11,15 +9,6 @@ public class Tile {
 
     protected Player playerOnThisTile;
     public final Position position;
-    public int distanceFromGoal;
-
-    public int getDistanceFromGoal() {
-        return distanceFromGoal;
-    }
-
-    public void setDistanceFromGoal(int distanceFromGoal) {
-        this.distanceFromGoal = distanceFromGoal;
-    }
 
     /**
      * Creates a tile at position given.
