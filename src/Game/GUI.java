@@ -17,8 +17,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-//TODO finish javadocs
-//TODO comment inner code so it's readable
 
 /**
  * The GUI for the Cluedo game.
@@ -37,7 +35,7 @@ public abstract class GUI {
 
     private Player currentPlayer;
     private JPanel cardPanel;
-    private boolean checkBool;
+    private boolean successfulRefuteMade;
     private JRadioButton selectedCard;
     private JButton suggestButton;
     private JButton accuseButton;
@@ -71,8 +69,7 @@ public abstract class GUI {
      * called to setup the main game area.
      */
     private void buildCharacterSelectWindow() {
-
-        //TODO change these to checkboxes?
+        //Create radio buttons for each character and store them for access
         ArrayList<JRadioButton> characters = new ArrayList<>();
         characters.add(new JRadioButton("Peacock"));
         characters.add(new JRadioButton("Mustard"));
@@ -87,6 +84,8 @@ public abstract class GUI {
         submit.addActionListener(e -> {
             createGame();
             int count = 0;
+            //For each character, check if user has selected it, and if true, run an inputDialog for username input
+            //Using the input, if it's valid create a new player based on the character and username.
             for (JRadioButton character : characters) {
                 if (character.isSelected()) {
                     count++;
@@ -226,60 +225,58 @@ public abstract class GUI {
         rulesMenu.addSeparator();
         rulesMenu.add(accusationSubMenu);
 
+        JPanel upperPanel = new JPanel();
+
+        //Create and fill a JPanel for the chat/game log. This is uneditable, but player can add to it via the
+        //chatBox JTextField.
         JPanel logPanel = new JPanel();
         logPanel.setPreferredSize(new Dimension(300, 500));
         logPanel.setLayout(new BorderLayout());
+
         log = new JEditorPane();
         log.setPreferredSize(new Dimension(290, 450));
         log.setEditable(false);
-        log.setText("Text log begins here.");
+        log.setText("A new game of Cluedo begins!");
+
         JScrollPane logPane = new JScrollPane(log);
         logPane.setPreferredSize(new Dimension(290, 450));
         logPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         logPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        logPanel.add(logPane, BorderLayout.PAGE_START);
         appendToLog(currentPlayer.getCharacter().toString() + " begins their turn.", log);
-
 
         JTextField chatBox = new JTextField();
         chatBox.setText("");
-        logPanel.add(chatBox, BorderLayout.CENTER);
 
         JButton okButton = new JButton("OK!");
         okButton.setPreferredSize(new Dimension(60, 40));
+        //add contents of the chatBox, if any, to the log, then empty the chatBox.
         okButton.addActionListener(e -> {
             if (chatBox.getText().length() != 0) {
                 appendToLog(currentPlayer.getUsername() + ": " + chatBox.getText(), log);
                 chatBox.setText("");
             }
         });
+
+        logPanel.add(logPane, BorderLayout.PAGE_START);
+        logPanel.add(chatBox, BorderLayout.CENTER);
         logPanel.add(okButton, BorderLayout.LINE_END);
 
-        JPanel upperPanel = new JPanel();
-
+        //Create the board JPanel and dice JButton, add the dice to board with insets so it's in the right place.
         Panel boardPanel = new Panel(new ImageIcon("./assets/cluedo_board.jpg").getImage());
 
-        JButton nextButton = new JButton("Next!");
-        nextButton.setEnabled(false);
-
-
         JButton dice = new JButton("Roll");
-        dice.addActionListener(e -> {
-            appendToLog(rollDice(), log);
-            dice.setEnabled(false);
-        });
         dice.setPreferredSize(new Dimension(80, 30));
 
         boardPanel.setLayout(new GridBagLayout());
         GridBagConstraints diceInsets = new GridBagConstraints();
 
-        diceInsets.insets = new Insets(255, 235, 215, 215);
+        diceInsets.insets = new Insets(255, 235, 215, 215); //This adds padding to the button on
+                                                                                //placement so it sits right.
         boardPanel.add(dice, diceInsets);
 
         upperPanel.setLayout(new BorderLayout());
         upperPanel.add(boardPanel, BorderLayout.CENTER);
         upperPanel.add(logPanel, BorderLayout.LINE_END);
-
 
         JPanel infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(800, 150));
@@ -291,12 +288,18 @@ public abstract class GUI {
 
         JLabel userNameLabel = new JLabel(currentPlayer.getUsername());
 
+        //Create JButtons for progress of the game. All buttons are disabled by default as they should only be active
+        //under certain circumstances.
         suggestButton = new JButton("Suggest!");
         suggestButton.setEnabled(false);
+        //On click, the button will call the method to build a window for suggesting.
         suggestButton.addActionListener(e -> buildSuggestWindow());
 
         accuseButton = new JButton("Accuse!");
         accuseButton.setEnabled(false);
+        //On click, if the player can make an accusation, the method to build the window for accusations will be called,
+        //otherwise a JDialog will be produced informing the user that they cannot accuse and the button will be
+        //disabled.
         accuseButton.addActionListener(e -> {
             if (unrefutedSuggestions.size() == 0) {
                 JOptionPane option = new JOptionPane();
@@ -314,6 +317,11 @@ public abstract class GUI {
             }
         });
 
+        JButton nextButton = new JButton("Next!");
+        nextButton.setEnabled(false);
+        //On click, the button will change all the values and call the methods necessary to proceed to the next player
+        //turn, including switching players, updating the card panel to the new player's cards, disabling buttons, and
+        //redrawing the graphics pane.
         nextButton.addActionListener(e -> {
             dice.setEnabled(true);
             playerUpdate();
@@ -330,6 +338,12 @@ public abstract class GUI {
             currentPlayerMoveEnded = false;
             currentPlayer.setMadeClick(false);
             redraw();
+        });
+
+        //On click, the rollDice() method is called, which generates the player's roll, and the dice button is disabled.
+        dice.addActionListener(e -> {
+            appendToLog(rollDice(), log);
+            dice.setEnabled(false);
         });
 
         componentPanel.setLayout(new GridBagLayout());
@@ -367,8 +381,8 @@ public abstract class GUI {
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, upperPanel, infoPanel);
         mainPane.setEnabled(false);
 
+        //On click of the board panel, the players move is calculated and executed if valid.
         boardPanel.addMouseListener(new MouseListener() {
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!dice.isEnabled() && !currentPlayerMoveEnded) {     //allowing mouse click movement
@@ -386,7 +400,6 @@ public abstract class GUI {
 
                         if (currTile instanceof RoomTile && currentPlayer.getTile() instanceof EntranceTile) {
                             boardPanel.addMouseListener(new MouseListener() {   //allow for entrance selection room exit
-
                                 @Override
                                 public void mouseClicked(MouseEvent e) {
                                     Tile chosenEntrance = currentPlayer.getTile();
@@ -405,7 +418,6 @@ public abstract class GUI {
                                         }
                                     }
                                 }
-
                                 @Override
                                 public void mousePressed(MouseEvent e) {        //unused but needed for mouselistener
                                 }
@@ -443,7 +455,6 @@ public abstract class GUI {
             }
         });
 
-
         gameWindow = new JFrame();
         selectWindow.setVisible(false);
 
@@ -451,6 +462,7 @@ public abstract class GUI {
         gameWindow.getContentPane().add(mainPane);
         gameWindow.setJMenuBar(menuBar);
 
+        //If the user tries to close the window, create a JOptionPane to double check they really want to do that.
         gameWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -462,6 +474,7 @@ public abstract class GUI {
             }
         });
 
+        //Let the window exist.
         gameWindow.setResizable(false);
         gameWindow.pack();
         gameWindow.setLocationRelativeTo(null);
@@ -485,9 +498,10 @@ public abstract class GUI {
         }
         accusationsList.setPreferredSize(new Dimension(200, 400));
 
-
         JButton okButton = new JButton("OK!");
         okButton.setPreferredSize(new Dimension(80, 40));
+        //On click, if the user has selected an accusation, the game produces a JDialog and may close depending on both
+        //the outcome of the accusation and the game circumstances (e.g current number of players still playing).
         okButton.addActionListener(e -> {
             if (accusationsList.getSelectedIndex() >= 0) {
                 if (compareToSolution(unrefutedSuggestions.get(accusationsList.getSelectedIndex()))) {
@@ -536,6 +550,7 @@ public abstract class GUI {
         accuseWindow.add(accusationsList, BorderLayout.CENTER);
         accuseWindow.add(okButton, BorderLayout.PAGE_END);
 
+        //If the user closes the window without accusing, disable the accusation button so they can't try again.
         accuseWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -544,6 +559,7 @@ public abstract class GUI {
             }
         });
 
+        //Let the window exist.
         accuseWindow.pack();
         accuseWindow.setLocationRelativeTo(null);
         accuseWindow.setVisible(true);
@@ -564,6 +580,7 @@ public abstract class GUI {
      * refuted or all players have had an opportunity to refute unsuccessfully.
      */
     private void buildSuggestWindow() {
+        //Gather information to put into the JComboBoxes.
         Tile playerTile = currentPlayer.getTile();
         RoomCard room;
         if (playerTile instanceof EntranceTile) {
@@ -589,6 +606,8 @@ public abstract class GUI {
         JComboBox<String> weapons = new JComboBox<>(weaponArray);
 
         JButton cancelButton = new JButton("Cancel");
+        //On click, check the user wants to close the window, and if true, disable the suggest button and close the
+        //window.
         cancelButton.addActionListener(e -> {
             JOptionPane option = new JOptionPane();
             option.setOptionType(JOptionPane.YES_NO_OPTION);
@@ -602,9 +621,13 @@ public abstract class GUI {
                 suggestWindow.setVisible(false);
             }
         });
+
         JButton okayButton = new JButton("OK");
+        //On click, process the suggestion and run the refute loop.
         okayButton.addActionListener(e -> {
             Hypothesis suggestion = playerSuggest(room, (String) characters.getSelectedItem(), (String) weapons.getSelectedItem());
+
+            //Teleport the suggested player to the suggested room.
             for (Player p : players) {
                 if (p.getCharacter().toString().equals(characters.getSelectedItem())) {
                     appendToLog(playerTeleport(p, currentPlayer.getTile().position), log);
@@ -622,6 +645,8 @@ public abstract class GUI {
                 }
             }
 
+            //For each player, build the refute window, allowing them to refute, and then process the outcome of said
+            //refute. Break the loop if a player manages to refute.
             int index = players.indexOf(currentPlayer);
             for (int i = 0; i < players.size() - 1; i++) {
                 //Roll over to index 0
@@ -630,16 +655,18 @@ public abstract class GUI {
                 } else {
                     index++;
                 }
+
                 buildRefuteWindow(players.get(index), suggestion);
-                if (checkBool) {
+                if (successfulRefuteMade) {
                     appendToLog(players.get(index).getCharacter().toString() + " refuted with " + selectedCard.getText(), log);
                     break;
                 }
             }
-            if (!checkBool) {
+
+            if (!successfulRefuteMade) {
                 unrefutedSuggestions.add(suggestion);
             } else {
-                checkBool = false;
+                successfulRefuteMade = false;
             }
             suggestWindow.setVisible(false);
             suggestButton.setEnabled(false);
@@ -673,7 +700,7 @@ public abstract class GUI {
         constraints.gridx++;
         suggestWindow.add(okayButton, constraints);
 
-
+        //Let the window exist.
         suggestWindow.pack();
         suggestWindow.setLocationRelativeTo(null);
         suggestWindow.setVisible(true);
@@ -739,10 +766,11 @@ public abstract class GUI {
         }
 
         JButton goButton = new JButton("GO");
+        //On click, process the refute.
         goButton.addActionListener(e -> {
             refuteWindow.setVisible(false);
             if (choices.getButtonCount() > 0) {
-                checkBool = true;
+                successfulRefuteMade = true;
                 for (JRadioButton j : radioButtons) {
                     if (j.isSelected()) {
                         selectedCard = j;
