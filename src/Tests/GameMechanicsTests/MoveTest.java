@@ -1,4 +1,4 @@
-package Tests;
+package Tests.GameMechanicsTests;
 
 import Cards.CharacterCard;
 import GameMechanics.Action.Move;
@@ -28,13 +28,13 @@ class MoveTest {
     }
 
     @Test
-    void validMove() {
+    void validMove_Actioned() {
         move.move(7, 20);
         assertEquals((board.getTileAt(new Position(7, 20)).toString()), "SC");
     }
 
     @Test
-    void inValidMove() {
+    void invalidMove_NotActioned() {
         move.move(7, 10);
         assertNotEquals((board.getTileAt(new Position(7, 10)).toString()), "SC");
     }

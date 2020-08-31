@@ -1,4 +1,4 @@
-package Tests;
+package Tests.CardTests;
 
 import Cards.WeaponCard;
 import Cards.WeaponCard.WeaponEnum;

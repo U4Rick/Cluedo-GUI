@@ -1,4 +1,4 @@
-package Tests;
+package Tests.CardTests;
 
 import Cards.CharacterCard;
 import org.junit.jupiter.api.Test;

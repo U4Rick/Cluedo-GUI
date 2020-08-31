@@ -1,4 +1,4 @@
-package Tests;
+package Tests.GameMechanicsTests;
 
 import Cards.CharacterCard;
 import Cards.RoomCard;
